@@ -2,12 +2,10 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-    // Using [SerializeField] to make a private field available in editor
-    
     [SerializeField] private Camera firstPersonCamera;
     [SerializeField] private float rotationSpeed = 75f;
-    [SerializeField] private float walkingSpeed = 10f;
-    [SerializeField] private float runningSpeed = 70f;
+    [SerializeField] private float walkingSpeed = 6f;
+    [SerializeField] private float runningSpeed = 12f;
     [SerializeField] private float gravity = -9.81f;
     [SerializeField] private float jumpForce = 6f;
 
@@ -20,7 +18,7 @@ public class PlayerController : MonoBehaviour
         _controller = GetComponent<CharacterController>();
         if (firstPersonCamera == null)
             firstPersonCamera = GetComponentInChildren<Camera>();
-        
+
         Cursor.lockState = CursorLockMode.Locked;
     }
 
@@ -29,35 +27,61 @@ public class PlayerController : MonoBehaviour
         Movement();
         Rotation();
         
-        //Apply gravity
         if (!_controller.isGrounded)
-            _velocity.y += gravity * Time.deltaTime; 
+            _velocity.y += gravity * Time.deltaTime;
         
+        else if (_velocity.y < 0)
+            _velocity.y = -2f; //player grounding
         
+
         _controller.Move(_velocity * Time.deltaTime);
     }
 
     private void Movement()
     {
+        Vector2 inputDirection = new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"));
+        bool isMoving = inputDirection.magnitude > 0;
+        bool isRunning = Input.GetKey(KeyCode.LeftShift) && inputDirection.y > 0;
+        float currentSpeed = isRunning ? runningSpeed : walkingSpeed;
+
         if (_controller.isGrounded)
         {
-            Vector2 inputDirection = new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical")).normalized;
-            Vector3 moveDirection = Quaternion.Euler(0, firstPersonCamera.transform.eulerAngles.y, 0) * new Vector3(inputDirection.x, 0, inputDirection.y);
-            float deltaTimeSpeed = (Input.GetKey(KeyCode.LeftShift) ? runningSpeed : walkingSpeed) * Time.deltaTime;
-            Vector3 movement = moveDirection * deltaTimeSpeed; 
-            _controller.Move(movement);
-            
-            //JUMP!
+            if (isMoving)
+            {
+                Vector3 moveDirection = Quaternion.Euler(0, firstPersonCamera.transform.eulerAngles.y, 0) 
+                                        * new Vector3(inputDirection.x, 0, inputDirection.y).normalized;
+                
+                Vector3 movement = moveDirection * currentSpeed;
+                _velocity.x = movement.x;
+                _velocity.z = movement.z;
+            }
+            else
+            {
+                //Cancellation of horizontal movement during a jump from a standing position
+                _velocity.x = 0;
+                _velocity.z = 0;
+            }
+
+           
             if (Input.GetKeyDown(KeyCode.Space))
+            {
                 _velocity.y = jumpForce;
+    
+                if (isMoving)
+                {
+                    float jumpModifier = isRunning ? 0.5f : 0.3f;
+                    float addedSpeed = currentSpeed * jumpModifier;
+                    _velocity += firstPersonCamera.transform.forward * addedSpeed;
+                }
+            }
         }
         else
         {
-            //TODO Make the player move by inertia from the previous movement before jumping
-             _velocity.x = 0;
-             _velocity.z = 0;
+            //gravity action while the player is in the air
+            _velocity.y += gravity * Time.deltaTime;
         }
     }
+
 
     private void Rotation()
     {
