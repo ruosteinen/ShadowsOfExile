@@ -23,24 +23,36 @@ public class PlayerController : MonoBehaviour
 
         
         if (playerCamera == null)
-        {
             playerCamera = Camera.main;
+    }
+
+    public void ToggleCursorLock(bool isLocked)
+    {
+        if (isLocked)
+        {
+            Cursor.lockState = CursorLockMode.Locked;
+            Cursor.visible = false;
+        }
+        else
+        {
+            Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = true;
         }
     }
 
+    
+    
     private void Update()
     {
         Movement();
         Rotation();
 
         if (!_controller.isGrounded)
-        {
             _velocity.y += gravity * Time.deltaTime;
-        }
+        
         else if (_velocity.y < 0)
-        {
             _velocity.y = -2f;
-        }
+        
         
         _controller.Move(_velocity * Time.deltaTime);
     }
@@ -53,6 +65,8 @@ public class PlayerController : MonoBehaviour
 
         if (_controller.isGrounded)
         {
+            _velocity.y = -2f;
+
             if (isMoving)
             {
                 if (isRunning)
@@ -63,6 +77,7 @@ public class PlayerController : MonoBehaviour
                 }
                 else
                 {
+                    // Use walking speed if not running
                     _currentRunSpeed = walkingSpeed;
                 }
 
@@ -77,21 +92,16 @@ public class PlayerController : MonoBehaviour
                 _velocity.x = 0;
                 _velocity.z = 0;
                 if (!isRunning) // Reset running speed if not moving and not holding run
-                {
                     _currentRunSpeed = 0;
-                }
+                
             }
-
+            
             if (Input.GetKeyDown(KeyCode.Space))
-            {
                 _velocity.y = jumpForce; // Apply jump force
-            }
+            
         }
-        else
-        {
-            // Apply gravity when in air
-            _velocity.y += gravity * Time.deltaTime;
-        }
+        
+        _velocity.y += gravity * Time.deltaTime;
     }
 
     private void Rotation()
