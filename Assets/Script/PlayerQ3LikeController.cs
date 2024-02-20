@@ -12,8 +12,8 @@ public class PlayerQ3LikeController : MonoBehaviour
     public Transform playerView; // Camera
     
     [SerializeField]private float playerViewYOffset = 0.6f; // The height at which the camera is bound to
-    [SerializeField]private float xMouseSensitivity = 30.0f;
-    [SerializeField]private float yMouseSensitivity = 30.0f;
+    public float xMouseSensitivity;
+    public float yMouseSensitivity;
 
     
     [SerializeField]private float gravity = 20.0f;
@@ -57,11 +57,9 @@ public class PlayerQ3LikeController : MonoBehaviour
     // Player commands, stores wish commands that the player asks for (Forward, Right)
     private Directions _dirs;
     
-    
     private void Start()
     {
         // Hide the cursor
-     
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
 
@@ -74,19 +72,18 @@ public class PlayerQ3LikeController : MonoBehaviour
 
         // Put the camera inside the capsule collider
         Vector3 currentPosition = transform.position;
-        
-        playerView.position = new Vector3(currentPosition.x, 
-            currentPosition.y + playerViewYOffset,
-            currentPosition.z);
-        
+        playerView.position = new Vector3(currentPosition.x, currentPosition.y + playerViewYOffset, currentPosition.z);
         _controller = GetComponent<CharacterController>();
+    
+        float sensitivity = PlayerPrefs.GetFloat("MouseSensitivity");
+        xMouseSensitivity = sensitivity;
+        yMouseSensitivity = sensitivity;
     }
     
     private void Update()
     {
         if (PauseMenuSingleton.Instance.IsPaused)
         {
-            
             return;
         }
         
@@ -147,6 +144,21 @@ public class PlayerQ3LikeController : MonoBehaviour
         playerView.position = new Vector3(currentPosition.x, 
             currentPosition.y + playerViewYOffset,
             currentPosition.z);
+        
+        
+        HandleInput();
+    }
+    
+    
+    private void HandleInput()
+    {
+        _rotX -= Input.GetAxisRaw("Mouse Y") * xMouseSensitivity * 0.02f;
+        _rotY += Input.GetAxisRaw("Mouse X") * yMouseSensitivity * 0.02f;
+
+        _rotX = Mathf.Clamp(_rotX, -90, 90);
+
+        transform.rotation = Quaternion.Euler(0, _rotY, 0);
+        playerView.rotation = Quaternion.Euler(_rotX, _rotY, 0);
     }
     
     

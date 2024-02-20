@@ -56,6 +56,11 @@ public class PauseMenuSingleton : MonoBehaviour
         Cursor.visible = false;
     }
     
+    public void LoadSettingsMenu()
+    {
+        Time.timeScale = 1f; //Resuming game time
+        SceneManager.LoadScene("SettingsMenu");
+    }
     public void LoadMenu()
     {
         Time.timeScale = 1f; //Resuming game time
