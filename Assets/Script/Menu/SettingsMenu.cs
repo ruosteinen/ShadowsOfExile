@@ -3,30 +3,31 @@ using UnityEngine;
 using UnityEngine.Audio;
 using TMPro;
 using UnityEngine.UI;
-using UnityEngine.SceneManagement;
 
 public class SettingsMenu : MonoBehaviour
 {
-    public AudioMixer audioMixer;
-    public Dropdown resolutionDropdown;
-    public Dropdown qualityDropdown;
-    public Button fullscreenButton;
-    public TextMeshProUGUI fullscreenButtonText;
-    public Slider mouseSensitivitySlider;
-    Resolution[] resolutions;
+    [SerializeField] private GameObject settingsPanel;
+    [SerializeField] private GameObject mainMenuPanel;
+    [SerializeField] private AudioMixer audioMixer;
+    [SerializeField] private Dropdown resolutionDropdown;
+    [SerializeField] private Dropdown qualityDropdown;
+    [SerializeField] private Button fullscreenButton;
+    [SerializeField] private TextMeshProUGUI fullscreenButtonText;
+    [SerializeField] private Slider mouseSensitivitySlider;
+    private Resolution[] _resolutions;
 
     void Start()
     {
         resolutionDropdown.ClearOptions();
         List<string> options = new List<string>();
-        resolutions = Screen.resolutions;
+        _resolutions = Screen.resolutions;
         int currentResolutionIndex = 0;
 
-        for (int i = 0; i < resolutions.Length; i++)
+        for (int i = 0; i < _resolutions.Length; i++)
         {
-            string option = resolutions[i].width + "x" + resolutions[i].height + " " + resolutions[i].refreshRate + "Hz";
+            string option = _resolutions[i].width + "x" + _resolutions[i].height + " " + _resolutions[i].refreshRateRatio+ "Hz";
             options.Add(option);
-            if (resolutions[i].width == Screen.currentResolution.width && resolutions[i].height == Screen.currentResolution.height)
+            if (_resolutions[i].width == Screen.currentResolution.width && _resolutions[i].height == Screen.currentResolution.height)
             {
                 currentResolutionIndex = i;
             }
@@ -45,7 +46,7 @@ public class SettingsMenu : MonoBehaviour
     }
 
 
-    public void SetMouseSensitivity(float sensitivity)
+    private void SetMouseSensitivity(float sensitivity)
     {
         PlayerPrefs.SetFloat("MouseSensitivity", sensitivity);
         PlayerPrefs.Save();
@@ -53,7 +54,7 @@ public class SettingsMenu : MonoBehaviour
 
     public void SetResolution(int resolutionIndex)
     {
-        Resolution resolution = resolutions[resolutionIndex];
+        Resolution resolution = _resolutions[resolutionIndex];
         Screen.SetResolution(resolution.width, resolution.height, Screen.fullScreen);
         //SaveSettings();
     }
@@ -73,7 +74,8 @@ public class SettingsMenu : MonoBehaviour
 
     public void ExitSettings()
     {
-        SceneManager.LoadScene("MainMenu");
+        settingsPanel.SetActive(false);
+        mainMenuPanel.SetActive(true); 
     }
 
     public void SaveSettings()
@@ -83,13 +85,18 @@ public class SettingsMenu : MonoBehaviour
         PlayerPrefs.SetInt("FullscreenPreference", System.Convert.ToInt32(Screen.fullScreen));
     }
 
-    public void LoadSettings(int currentResolutionIndex)
+    private void LoadSettings(int currentResolutionIndex)
     {
-        qualityDropdown.value = PlayerPrefs.GetInt("QualitySettingPreference", 3);
+        int highQualityIndex = 0;
+        
+        qualityDropdown.value = PlayerPrefs.GetInt("QualitySettingPreference", highQualityIndex);
+        
         resolutionDropdown.value = PlayerPrefs.GetInt("ResolutionPreference", currentResolutionIndex);
         Screen.fullScreen = System.Convert.ToBoolean(PlayerPrefs.GetInt("FullscreenPreference", System.Convert.ToInt32(Screen.fullScreen)));
-        
+
         UpdateFullscreenButtonText();
+        
+        QualitySettings.SetQualityLevel(qualityDropdown.value, true);
     }
 
     private void UpdateFullscreenButtonText()

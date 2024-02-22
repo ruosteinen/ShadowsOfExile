@@ -9,7 +9,10 @@ struct Directions
 
 public class PlayerQ3LikeController : MonoBehaviour
 {
-    public Transform playerView; // Camera
+    public Transform firstPersonView;// Camera
+    public Transform thirdPersonView; 
+    private Transform _currentView;
+    
     
     [SerializeField]private float playerViewYOffset = 0.6f; // The height at which the camera is bound to
     public float xMouseSensitivity;
@@ -59,20 +62,25 @@ public class PlayerQ3LikeController : MonoBehaviour
     
     private void Start()
     {
+        
+        _currentView = firstPersonView;
+        firstPersonView.gameObject.SetActive(true);
+        thirdPersonView.gameObject.SetActive(false);
+        
         // Hide the cursor
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
 
-        if (playerView == null)
+        if (firstPersonView  == null)
         {
             Camera mainCamera = Camera.main;
             if (mainCamera != null)
-                playerView = mainCamera.gameObject.transform;
+                firstPersonView = mainCamera.gameObject.transform;
         }
 
         // Put the camera inside the capsule collider
         Vector3 currentPosition = transform.position;
-        playerView.position = new Vector3(currentPosition.x, currentPosition.y + playerViewYOffset, currentPosition.z);
+        firstPersonView.position = new Vector3(currentPosition.x, currentPosition.y + playerViewYOffset, currentPosition.z);
         _controller = GetComponent<CharacterController>();
     
         float sensitivity = PlayerPrefs.GetFloat("MouseSensitivity");
@@ -85,6 +93,12 @@ public class PlayerQ3LikeController : MonoBehaviour
         if (PauseMenuSingleton.Instance.IsPaused)
         {
             return;
+        }
+        
+        if (!PauseMenuSingleton.Instance.IsPaused)
+        {
+            xMouseSensitivity = PlayerPrefs.GetFloat("MouseSensitivity");
+            yMouseSensitivity = PlayerPrefs.GetFloat("MouseSensitivity");
         }
         
         //FPS calculation
@@ -114,7 +128,7 @@ public class PlayerQ3LikeController : MonoBehaviour
             _rotX = 90;
 
         transform.rotation = Quaternion.Euler(0, _rotY, 0); // Rotates body
-        playerView.rotation = Quaternion.Euler(_rotX, _rotY, 0); // Rotates camera
+        firstPersonView.rotation = Quaternion.Euler(_rotX, _rotY, 0); // Rotates camera
 
         
         QueueJump();
@@ -131,19 +145,25 @@ public class PlayerQ3LikeController : MonoBehaviour
         udp.y = 0.0f;
         if(udp.magnitude > _playerTopVelocity)
             _playerTopVelocity = udp.magnitude;
-
-        //Need to move the camera after the player has been moved because otherwise the camera will clip the player if going fast enough and will always be 1 frame behind.
-        // Set the camera's position to the transform
         
-        /*playerView.position = new Vector3(
-            transform.position.x,
-            transform.position.y + playerViewYOffset,
-            transform.position.z);*/
         
         Vector3 currentPosition = transform.position;
-        playerView.position = new Vector3(currentPosition.x, 
+        firstPersonView.position = new Vector3(currentPosition.x, 
             currentPosition.y + playerViewYOffset,
             currentPosition.z);
+        
+        
+        if (Input.GetKeyDown(KeyCode.C)) {
+            if (_currentView == firstPersonView) {
+                firstPersonView.gameObject.SetActive(false);
+                thirdPersonView.gameObject.SetActive(true);
+                _currentView = thirdPersonView;
+            } else {
+                thirdPersonView.gameObject.SetActive(false);
+                firstPersonView.gameObject.SetActive(true);
+                _currentView = firstPersonView;
+            }
+        }
         
         
         HandleInput();
@@ -158,7 +178,7 @@ public class PlayerQ3LikeController : MonoBehaviour
         _rotX = Mathf.Clamp(_rotX, -90, 90);
 
         transform.rotation = Quaternion.Euler(0, _rotY, 0);
-        playerView.rotation = Quaternion.Euler(_rotX, _rotY, 0);
+        firstPersonView.rotation = Quaternion.Euler(_rotX, _rotY, 0);
     }
     
     

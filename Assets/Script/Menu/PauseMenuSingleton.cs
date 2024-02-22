@@ -5,7 +5,9 @@ public class PauseMenuSingleton : MonoBehaviour
 {
     public static PauseMenuSingleton Instance { get; private set; }
 
-    public GameObject pauseMenuUI;
+    public GameObject pauseMenuPanel;
+    public GameObject settingsPanel;
+
     private bool _isPaused;  //false by default
 
     public bool IsPaused
@@ -36,7 +38,7 @@ public class PauseMenuSingleton : MonoBehaviour
 
     public void Pause()
     {
-        pauseMenuUI.SetActive(true);
+        pauseMenuPanel.SetActive(true);
         Time.timeScale = 0f; //Stop game time
         IsPaused = true;
         
@@ -47,7 +49,8 @@ public class PauseMenuSingleton : MonoBehaviour
     
     public void Resume()
     {
-        pauseMenuUI.SetActive(false);
+        pauseMenuPanel.SetActive(false);
+        settingsPanel.SetActive(false);///////
         Time.timeScale = 1f; //Resuming game time
         IsPaused = false;
         
@@ -58,8 +61,10 @@ public class PauseMenuSingleton : MonoBehaviour
     
     public void LoadSettingsMenu()
     {
-        Time.timeScale = 1f; //Resuming game time
-        SceneManager.LoadScene("SettingsMenu");
+        //Time.timeScale = 1f; //Resuming game time
+        //SceneManager.LoadScene("SettingsMenu");
+        pauseMenuPanel.SetActive(false); 
+        settingsPanel.SetActive(true);
     }
     public void LoadMenu()
     {
