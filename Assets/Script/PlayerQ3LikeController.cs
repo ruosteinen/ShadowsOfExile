@@ -19,7 +19,7 @@ public class PlayerQ3LikeController : MonoBehaviour
     public float yMouseSensitivity;
 
     
-    [SerializeField]private float gravity = 20.0f;
+    public float gravity = 20.0f;
     [SerializeField]private float groundFriction = 6;
     [SerializeField]private float speedOnGround = 7.0f;
     [SerializeField]private float runAcceleration = 14.0f;
