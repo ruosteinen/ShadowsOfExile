@@ -32,6 +32,21 @@ public class PlayerQ3LikeController : MonoBehaviour
     [SerializeField]private float jumpSpeed = 8.0f;              //The speed at which the character's up axis gains when hitting jump
     [SerializeField]private bool holdJumpToBhop;                 //Enables bhop when the jump button is pressed
     
+    
+    //Running
+    [SerializeField]private float stamina = 5f;
+    [SerializeField]private float maxStamina = 6f;
+    [SerializeField]private float staminaDrainRate = 0.9f;
+    [SerializeField]private float staminaRecoveryRate = 0.8f;
+    [SerializeField]private float runMultiplier = 2f;
+    public Armor armor;
+    private bool _isRunning; 
+    
+    
+    
+    
+    
+    
     public GUIStyle style;
 
     //FPS
@@ -80,12 +95,15 @@ public class PlayerQ3LikeController : MonoBehaviour
 
         // Put the camera inside the capsule collider
         Vector3 currentPosition = transform.position;
-        firstPersonView.position = new Vector3(currentPosition.x, currentPosition.y + playerViewYOffset, currentPosition.z);
+        _currentView.position = new Vector3(currentPosition.x, currentPosition.y + playerViewYOffset, currentPosition.z);
         _controller = GetComponent<CharacterController>();
     
         float sensitivity = PlayerPrefs.GetFloat("MouseSensitivity");
         xMouseSensitivity = sensitivity;
         yMouseSensitivity = sensitivity;
+        
+        armor = GetComponent<Armor>();
+        
     }
     
     private void Update()
@@ -122,13 +140,16 @@ public class PlayerQ3LikeController : MonoBehaviour
         _rotY += Input.GetAxisRaw("Mouse X") * yMouseSensitivity * 0.02f;
 
         // Clamp the X rotation
-        if(_rotX < -90)
+        /*if(_rotX < -90)
             _rotX = -90;
         else if(_rotX > 90)
-            _rotX = 90;
+            _rotX = 90;*/
 
+        _rotX = Mathf.Clamp(_rotX, -90, 90);
+        
+        
         transform.rotation = Quaternion.Euler(0, _rotY, 0); // Rotates body
-        firstPersonView.rotation = Quaternion.Euler(_rotX, _rotY, 0); // Rotates camera
+        _currentView.rotation = Quaternion.Euler(_rotX, _rotY, 0); // Rotates camera
 
         
         QueueJump();
@@ -148,7 +169,7 @@ public class PlayerQ3LikeController : MonoBehaviour
         
         
         Vector3 currentPosition = transform.position;
-        firstPersonView.position = new Vector3(currentPosition.x, 
+        _currentView.position = new Vector3(currentPosition.x, 
             currentPosition.y + playerViewYOffset,
             currentPosition.z);
         
@@ -166,6 +187,26 @@ public class PlayerQ3LikeController : MonoBehaviour
         }
         
         
+        
+        if (_controller.isGrounded && stamina > 1 && Input.GetKey(KeyCode.LeftShift))
+        {
+            _isRunning = true;
+            stamina -= staminaDrainRate * Time.deltaTime * (1 + armor.weight / 20);
+            Debug.Log(armor.weight);
+            Debug.Log(stamina);
+        }
+        else
+        {
+            _isRunning = false;
+            if (stamina < maxStamina)
+            {
+                float recoveryMultiplier = 1 / (1 + armor.weight / 20);
+                stamina += staminaRecoveryRate * recoveryMultiplier * Time.deltaTime;
+            }
+        }
+
+        stamina = Mathf.Clamp(stamina, 0, maxStamina);
+        
         HandleInput();
     }
     
@@ -178,7 +219,7 @@ public class PlayerQ3LikeController : MonoBehaviour
         _rotX = Mathf.Clamp(_rotX, -90, 90);
 
         transform.rotation = Quaternion.Euler(0, _rotY, 0);
-        firstPersonView.rotation = Quaternion.Euler(_rotX, _rotY, 0);
+        _currentView.rotation = Quaternion.Euler(_rotX, _rotY, 0);
     }
     
     
@@ -307,10 +348,15 @@ public class PlayerQ3LikeController : MonoBehaviour
         wishdir = new Vector3(_dirs.ToRight, 0, _dirs.ToForward);
         wishdir = transform.TransformDirection(wishdir);
         wishdir.Normalize();
+        
         _moveDirectionNorm = wishdir;
-
+        
         float wishspeed = wishdir.magnitude;
-        wishspeed *= speedOnGround;
+        
+        if (_isRunning)
+            wishspeed *= runMultiplier * speedOnGround;
+        else
+            wishspeed *= speedOnGround;
 
         Accelerate(wishdir, wishspeed, runAcceleration);
 
@@ -357,6 +403,7 @@ public class PlayerQ3LikeController : MonoBehaviour
         if(speed > 0)
             newSpeed /= speed;
 
+        
         _playerVelocity.x *= newSpeed;
         _playerVelocity.z *= newSpeed;
     }

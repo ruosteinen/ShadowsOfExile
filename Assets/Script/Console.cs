@@ -4,7 +4,7 @@ public class Console : MonoBehaviour
 {
     public TMP_InputField consoleInputField;
     public PlayerQ3LikeController playerController;
-
+    
     void Start()
     {
         if (consoleInputField == null)
@@ -46,6 +46,21 @@ public class Console : MonoBehaviour
                         if (playerController != null)
                         {
                             playerController.gravity = value;
+                        }
+                    }
+                    else
+                    {
+                        Debug.LogError("Command not found.");
+                    }
+                    break;
+                
+                case "armor_weight":
+                    if (parts.Length > 1 && float.TryParse(parts[1], out value))
+                    {
+                        if (playerController.armor != null)
+                        {
+                            playerController.armor.weight = value;
+                            Debug.Log("IDI NAKHUI!!!!!!!!!!");
                         }
                     }
                     else
