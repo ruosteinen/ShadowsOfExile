@@ -41,13 +41,24 @@ public class PlayerQ3LikeController : MonoBehaviour
     [SerializeField]private float runMultiplier = 2f;
     public Armor armor;
     private bool _isRunning; 
-    
-    
-    
-    
-    
-    
     public GUIStyle style;
+    
+    
+    public LayerMask whatIsWall;
+    private bool _isWallRight, _isWallLeft;
+    private bool _isWallRunning;
+    public float maxWallRunCameraTilt;
+
+
+
+    //[SerializeField] private float wallStickForce;
+    //[SerializeField] private float wallMoveForce;
+    
+    
+    private float _jumpReleaseTime,_jumpPressTime;
+
+    private bool _windSpellInUse;
+    
 
     //FPS
     public float fpsDisplayRate = 4.0f; // 4 updates per sec
@@ -140,11 +151,6 @@ public class PlayerQ3LikeController : MonoBehaviour
         _rotY += Input.GetAxisRaw("Mouse X") * yMouseSensitivity * 0.02f;
 
         // Clamp the X rotation
-        /*if(_rotX < -90)
-            _rotX = -90;
-        else if(_rotX > 90)
-            _rotX = 90;*/
-
         _rotX = Mathf.Clamp(_rotX, -90, 90);
         
         
@@ -187,13 +193,10 @@ public class PlayerQ3LikeController : MonoBehaviour
         }
         
         
-        
         if (_controller.isGrounded && stamina > 1 && Input.GetKey(KeyCode.LeftShift))
         {
             _isRunning = true;
             stamina -= staminaDrainRate * Time.deltaTime * (1 + armor.weight / 20);
-            Debug.Log(armor.weight);
-            Debug.Log(stamina);
         }
         else
         {
@@ -208,6 +211,32 @@ public class PlayerQ3LikeController : MonoBehaviour
         stamina = Mathf.Clamp(stamina, 0, maxStamina);
         
         HandleInput();
+
+        CheckForWall();
+        WallRunInput();
+        
+        if (_windSpellInUse)
+        {
+            WindSpellJump();  
+        }
+
+        if (Input.GetKeyDown(KeyCode.Alpha1))
+        {
+            _windSpellInUse = !_windSpellInUse;
+        }
+        
+
+        if (_isWallRunning)
+        {
+
+            float tiltDirection = _isWallRight ? 1 : -1;
+            float targetTilt = maxWallRunCameraTilt * tiltDirection;
+            
+            _currentView.localRotation =
+                Quaternion.Lerp(_currentView.localRotation, Quaternion.Euler(0, 0, targetTilt),225f);
+
+            WallJump();
+        }
     }
     
     
@@ -363,10 +392,15 @@ public class PlayerQ3LikeController : MonoBehaviour
         // Reset the gravity velocity
         _playerVelocity.y = -gravity * Time.deltaTime;
 
-        if(_wishJump)
+        if(_wishJump && !_windSpellInUse)
         {
             _playerVelocity.y = jumpSpeed;
             _wishJump = false;
+        }
+
+        if (_windSpellInUse)
+        {
+            WindSpellJump();
         }
     }
 
@@ -428,6 +462,93 @@ public class PlayerQ3LikeController : MonoBehaviour
         _playerVelocity.x += accelSpeed * wishdir.x;
         _playerVelocity.z += accelSpeed * wishdir.z;
     }
+    
+    
+    private void WallRunInput() //make sure to call in Update()
+    {
+        //Wallrun
+        if (_isWallRight) StartWallRun();
+        if (_isWallLeft) StartWallRun();
+    }
+    private void StartWallRun()
+    {
+        gravity = 0;
+        _playerVelocity.y = 0;
+        
+        if(!_controller.isGrounded)
+            _isWallRunning = true;
+    }
+    private void StopWallRun()
+    {
+        _isWallRunning = false;
+        gravity = 20f;
+    }
+
+
+    private void WallJump()
+    {
+        
+        if (Input.GetButtonDown("Jump"))
+        {
+            _jumpPressTime = Time.time;
+        }
+
+        if (Input.GetButtonUp("Jump"))
+        {
+            
+            float cameraRotationY = _currentView.eulerAngles.y;
+            _jumpReleaseTime = Time.time;
+            
+            float jumpDuration = _jumpReleaseTime - _jumpPressTime;
+            float maxJumpDistance = 20f;
+            float minJumpDuration = 0.5f;
+            float jumpDistance = Mathf.Min(jumpDuration * maxJumpDistance / minJumpDuration, maxJumpDistance);
+        
+            
+            float wallNormal = _isWallRight ? jumpDistance : -jumpDistance;
+            float wallAngle =  cameraRotationY < 180 ? wallNormal : -wallNormal;
+
+
+            _playerVelocity.y = jumpSpeed;
+            _playerVelocity.z = wallAngle;
+        }
+        else
+            _playerVelocity.y = 0;
+    }
+
+    private void WindSpellJump()
+    {
+        if (Input.GetButtonDown("Jump"))
+        {
+            _jumpPressTime = Time.time;
+        }
+
+        if (Input.GetButtonUp("Jump"))
+        {
+           
+            _jumpReleaseTime = Time.time;
+            
+            float jumpDuration = _jumpReleaseTime - _jumpPressTime;
+            float maxJumpDistance = 20f;
+            float minJumpDuration = 0.5f;
+            float jumpDistance = Mathf.Min(jumpDuration * maxJumpDistance / minJumpDuration, maxJumpDistance); 
+            
+            
+            _playerVelocity.y = jumpDistance;
+            
+            Debug.Log("dadadada");
+        }
+    }
+    
+    
+    private void CheckForWall() //make sure to call in Update()
+    {
+        _isWallRight = Physics.Raycast(transform.position, _currentView.right, 1f, whatIsWall);
+        _isWallLeft = Physics.Raycast(transform.position, -_currentView.right, 1f, whatIsWall);
+
+        //leave wall run
+        if (!_isWallLeft && !_isWallRight) StopWallRun();
+    }
 
     private void OnGUI()
     {
@@ -436,5 +557,6 @@ public class PlayerQ3LikeController : MonoBehaviour
         ups.y = 0;
         GUI.Label(new Rect(0, 15, 400, 100), "Speed: " + Mathf.Round(ups.magnitude * 100) / 100, style);
         GUI.Label(new Rect(0, 30, 400, 100), "Top Speed: " + Mathf.Round(_playerTopVelocity * 100) / 100 , style);
+        GUI.Label(new Rect(0, 45, 400, 100), "Stamina: " + stamina , style);
     }
 }
