@@ -4,7 +4,6 @@ public class Console : MonoBehaviour
 {
     public TMP_InputField consoleInputField;
     public PlayerQ3LikeController playerController;
-    
     void Start()
     {
         if (consoleInputField == null)
@@ -45,7 +44,9 @@ public class Console : MonoBehaviour
                     {
                         if (playerController != null)
                         {
-                            playerController.gravity = value;
+                            playerController.useCustomGravity = true;
+                            playerController.customGravity = value;
+                            Debug.Log("new gravity");
                         }
                     }
                     else

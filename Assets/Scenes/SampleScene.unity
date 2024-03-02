@@ -3867,12 +3867,10 @@ GameObject:
   - component: {fileID: 1254087702}
   - component: {fileID: 1254087701}
   - component: {fileID: 1254087700}
-  - component: {fileID: 1254087699}
   - component: {fileID: 1254087704}
   - component: {fileID: 1254087703}
   - component: {fileID: 1254087705}
   - component: {fileID: 1254087706}
-  - component: {fileID: 1254087707}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -3880,29 +3878,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!136 &1254087699
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1254087698}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 0
-  serializedVersion: 2
-  m_Radius: 0.5
-  m_Height: 2
-  m_Direction: 1
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!23 &1254087700
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -3988,6 +3963,7 @@ MonoBehaviour:
   xMouseSensitivity: 30
   yMouseSensitivity: 30
   gravity: 20
+  defaultGravity: 20
   groundFriction: 6
   speedOnGround: 7
   runAcceleration: 14
@@ -4076,6 +4052,8 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 8
   maxWallRunCameraTilt: 15
+  useCustomGravity: 0
+  customGravity: 0
   fpsDisplayRate: 4
 --- !u!143 &1254087704
 CharacterController:
@@ -4134,33 +4112,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   weight: 15
---- !u!54 &1254087707
-Rigidbody:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1254087698}
-  serializedVersion: 4
-  m_Mass: 1
-  m_Drag: 0
-  m_AngularDrag: 0.05
-  m_CenterOfMass: {x: 0, y: 0, z: 0}
-  m_InertiaTensor: {x: 1, y: 1, z: 1}
-  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ImplicitCom: 1
-  m_ImplicitTensor: 1
-  m_UseGravity: 1
-  m_IsKinematic: 0
-  m_Interpolate: 0
-  m_Constraints: 0
-  m_CollisionDetection: 0
 --- !u!1 &1307422485
 GameObject:
   m_ObjectHideFlags: 0
@@ -4335,7 +4286,7 @@ Transform:
   m_GameObject: {fileID: 1328696155}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 5.4863, y: 1.5382, z: 1.56}
+  m_LocalPosition: {x: 5.4863, y: 1.5382, z: -0.53}
   m_LocalScale: {x: 8.972718, y: 2.9764125, z: 3}
   m_ConstrainProportionsScale: 0
   m_Children: []
