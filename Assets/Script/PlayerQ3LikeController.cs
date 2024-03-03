@@ -58,7 +58,7 @@ public class PlayerQ3LikeController : MonoBehaviour
     
     private float _jumpReleaseTime,_jumpPressTime;
     private bool _windSpellInUse;
-    
+    private bool _previousUseCustomGravity;
 
     //FPS
     public float fpsDisplayRate = 4.0f; // 4 updates per sec
@@ -215,10 +215,12 @@ public class PlayerQ3LikeController : MonoBehaviour
         CheckForWall();
         WallRunInput();
         
+        
         if (_windSpellInUse)
         {
-            WindSpellJump();  
+            WindSpellJump();
         }
+        
 
         if (Input.GetKeyDown(KeyCode.Alpha1))
         {
@@ -237,12 +239,8 @@ public class PlayerQ3LikeController : MonoBehaviour
                 _currentView.localRotation =
                     Quaternion.Lerp(_currentView.localRotation, Quaternion.Euler(0, 0, targetTilt), 225f);
             }
-            WallJump();
-        }
-        
-        if (_isWallRunning)
-        {
             gravity = 0f;
+            WallJump();
         }
         else
         {
@@ -404,16 +402,18 @@ public class PlayerQ3LikeController : MonoBehaviour
         // Reset the gravity velocity
         _playerVelocity.y = -gravity * Time.deltaTime;
 
-        if(_wishJump && !_windSpellInUse)
+        if (!_windSpellInUse)
         {
-            _playerVelocity.y = jumpSpeed;
-            _wishJump = false;
+            if (_wishJump)
+            {
+                _playerVelocity.y = jumpSpeed;
+                _wishJump = false;
+            }
         }
-
-        /*if (_windSpellInUse)
+        else
         {
             WindSpellJump();
-        }*/
+        }
     }
 
     
@@ -494,6 +494,7 @@ public class PlayerQ3LikeController : MonoBehaviour
         _isWallRunning = false;
     }
     
+
     private void WallJump()
     {
         if (Input.GetButtonDown("Jump"))
@@ -503,24 +504,18 @@ public class PlayerQ3LikeController : MonoBehaviour
 
         if (Input.GetButtonUp("Jump"))
         {
-            Vector3 cameraForward = _currentView.forward; 
-            cameraForward.y = 0; //Ignore the Y component to keep the direction on the horizontal plane
-
-            float cameraRotationX = _currentView.eulerAngles.x;
-            float jumpHeight = CalculateJumpHeight(cameraRotationX);
-
             _jumpReleaseTime = Time.time;
-        
-            float jumpDuration = _jumpReleaseTime - _jumpPressTime;
-            float maxJumpDistance = 20f;
-            float minJumpDuration = 0.5f;
-            float jumpDistance = Mathf.Min(jumpDuration * maxJumpDistance / minJumpDuration, maxJumpDistance);
 
-            //The velocity vector for the bounce from the wall using the camera direction
-            Vector3 wallJumpVelocity = cameraForward.normalized * jumpDistance;
-        
-            _playerVelocity = wallJumpVelocity;
-            _playerVelocity.y = jumpSpeed + jumpHeight; //Add a vertical component for a height-aware jump
+            Vector3 jumpDirection = _currentView.forward;
+            float jumpHeight = CalculateJumpHeight(_currentView.eulerAngles.x);
+            float jumpDuration = _jumpReleaseTime - _jumpPressTime;
+            float maxJumpDistance = 3f;
+            float minJumpDuration = 0.5f;
+            float jumpDistance = Mathf.Min(jumpDuration * maxJumpDistance / minJumpDuration, maxJumpDistance); 
+            
+            _playerVelocity = jumpDirection * jumpSpeed * jumpDistance ;
+            _playerVelocity.y = jumpHeight; 
+            
         }
         else
         {
@@ -528,9 +523,10 @@ public class PlayerQ3LikeController : MonoBehaviour
         }
     }
 
+
     private float CalculateJumpHeight(float cameraRotationX)
     {
-        float maxHeight = 1f;
+        float maxHeight = 3f;
         float minHeight = 0f;
         float maxCameraAngle = 90f; //Maximum camera tilt angle (up)
         float minCameraAngle = -90f; //Minimum camera angle (downward)
