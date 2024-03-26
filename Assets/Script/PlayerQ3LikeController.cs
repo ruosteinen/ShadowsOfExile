@@ -10,14 +10,14 @@ struct Directions
 public class PlayerQ3LikeController : MonoBehaviour
 {
     public Transform firstPersonView;// Camera
-    public Transform thirdPersonView; 
+    public Transform thirdPersonView;
     private Transform _currentView;
-    
-    
+
+
     [SerializeField]private float playerViewYOffset = 0.6f; // The height at which the camera is bound to
     public float xMouseSensitivity;
     public float yMouseSensitivity;
-    
+
     public float gravity;
 
     [SerializeField] private float defaultGravity = 20f;
@@ -32,7 +32,7 @@ public class PlayerQ3LikeController : MonoBehaviour
     [SerializeField]private float sideStrafeSpeed = 1.0f;         //What the max speed to generate when side strafing
     [SerializeField]private float jumpSpeed = 8.0f;              //The speed at which the character's up axis gains when hitting jump
     [SerializeField]private bool holdJumpToBhop;                //Enables bhop when the jump button is pressed
-    
+
     //Running
     [SerializeField]private float stamina = 5f;
     [SerializeField]private float maxStamina = 6f;
@@ -40,9 +40,9 @@ public class PlayerQ3LikeController : MonoBehaviour
     [SerializeField]private float staminaRecoveryRate = 0.8f;
     [SerializeField]private float runMultiplier = 2f;
     public Armor armor;
-    private bool _isRunning; 
+    private bool _isRunning;
     public GUIStyle style;
-    
+
     public LayerMask whatIsWall;
     private bool _isWallRight, _isWallLeft,_isWallBack,_isWallFront;
     private bool _isWallRunning;
@@ -52,7 +52,7 @@ public class PlayerQ3LikeController : MonoBehaviour
 
     public bool useCustomGravity;
     public float customGravity;
-    
+
     private float _jumpReleaseTime,_jumpPressTime;
     private bool _windSpellInUse;
     private bool _previousUseCustomGravity;
@@ -84,11 +84,11 @@ public class PlayerQ3LikeController : MonoBehaviour
     private Directions _dirs;
     private void Start()
     {
-        
+
         _currentView = firstPersonView;
         firstPersonView.gameObject.SetActive(true);
         thirdPersonView.gameObject.SetActive(false);
-        
+
         // Hide the cursor
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
@@ -104,14 +104,14 @@ public class PlayerQ3LikeController : MonoBehaviour
         Vector3 currentPosition = transform.position;
         _currentView.position = new Vector3(currentPosition.x, currentPosition.y + playerViewYOffset, currentPosition.z);
         _controller = GetComponent<CharacterController>();
-    
+
         float sensitivity = PlayerPrefs.GetFloat("MouseSensitivity");
         xMouseSensitivity = sensitivity;
         yMouseSensitivity = sensitivity;
-        
+
         armor = GetComponent<Armor>();
     }
-    
+
     private void Update()
     {
         if (!PauseMenuSingleton.Instance.IsPaused)
@@ -134,23 +134,13 @@ public class PlayerQ3LikeController : MonoBehaviour
             _frameCount = 0;
             _dt -= 1.0f / fpsDisplayRate;
         }
-        
+
         //Cursor locking
         if (Cursor.lockState != CursorLockMode.Locked)
             if (Input.GetButtonDown("Fire1")) Cursor.lockState = CursorLockMode.Locked;
-        
-        _rotX -= Input.GetAxisRaw("Mouse Y") * xMouseSensitivity * 0.02f;
-        _rotY += Input.GetAxisRaw("Mouse X") * yMouseSensitivity * 0.02f;
-
-        // Clamp the X rotation
-        _rotX = Mathf.Clamp(_rotX, -90, 90);
-        
-        
-        transform.rotation = Quaternion.Euler(0, _rotY, 0); // Rotates body
-        _currentView.rotation = Quaternion.Euler(_rotX, _rotY, 0); // Rotates camera
 
         QueueJump();
-        
+
         if(_controller.isGrounded) GroundMove();
         else if(!_controller.isGrounded) AirMove();
 
@@ -161,13 +151,13 @@ public class PlayerQ3LikeController : MonoBehaviour
         Vector3 udp = _playerVelocity;
         udp.y = 0.0f;
         if(udp.magnitude > _playerTopVelocity) _playerTopVelocity = udp.magnitude;
-        
+
         Vector3 currentPosition = transform.position;
-        _currentView.position = new Vector3(currentPosition.x, 
+        _currentView.position = new Vector3(currentPosition.x,
             currentPosition.y + playerViewYOffset,
             currentPosition.z);
-        
-        
+
+
         if (Input.GetKeyDown(KeyCode.C)) {
             if (_currentView == firstPersonView) {
                 firstPersonView.gameObject.SetActive(false);
@@ -179,8 +169,8 @@ public class PlayerQ3LikeController : MonoBehaviour
                 _currentView = firstPersonView;
             }
         }
-        
-        
+
+
         if (_controller.isGrounded && stamina > 1 && Input.GetKey(KeyCode.LeftShift) && _windSpellInUse)
         {
             _isRunning = true;
@@ -197,9 +187,9 @@ public class PlayerQ3LikeController : MonoBehaviour
         }
 
         stamina = Mathf.Clamp(stamina, 0, maxStamina);
-        
+
         HandleInput();
-        
+
         if (_windSpellInUse)
         {
             CheckForWall();
@@ -207,10 +197,10 @@ public class PlayerQ3LikeController : MonoBehaviour
         }
 
         if (_windSpellInUse) WindSpellJump();
-        
+
         //Button 1
         if (Input.GetKeyDown(KeyCode.Alpha1)) _windSpellInUse = !_windSpellInUse;
-        
+
         if (_isWallRunning)
         {
             if (_isWallRight || _isWallLeft)
@@ -231,7 +221,7 @@ public class PlayerQ3LikeController : MonoBehaviour
             else gravity = defaultGravity;
         }
     }
-    
+
     private void HandleInput()
     {
         _rotX -= Input.GetAxisRaw("Mouse Y") * xMouseSensitivity * 0.02f;
@@ -242,13 +232,13 @@ public class PlayerQ3LikeController : MonoBehaviour
         transform.rotation = Quaternion.Euler(0, _rotY, 0);
         _currentView.rotation = Quaternion.Euler(_rotX, _rotY, 0);
     }
-    
+
     private void SetMovementDir()
     {
         _dirs.ToForward = Input.GetAxisRaw("Vertical");
         _dirs.ToRight = Input.GetAxisRaw("Horizontal");
     }
-    
+
      //Queues the next jump just like in Q3
      private void QueueJump()
     {
@@ -268,7 +258,7 @@ public class PlayerQ3LikeController : MonoBehaviour
         Vector3 wishdir;
         //float wishvel = airAcceleration;
         float accel;
-        
+
         SetMovementDir();
 
         wishdir =  new Vector3(_dirs.ToRight, 0, _dirs.ToForward);
@@ -279,25 +269,25 @@ public class PlayerQ3LikeController : MonoBehaviour
 
         wishdir.Normalize();
         _moveDirectionNorm = wishdir;
-        
+
         float wishspeed2 = wishspeed;
-        
+
         if (Vector3.Dot(_playerVelocity, wishdir) < 0) accel = airDecceleration;
         else accel = airAcceleration;
-        
+
         // If the player is ONLY strafing left or right
         if(_dirs.ToForward == 0 && _dirs.ToRight != 0)
         {
             if(wishspeed > sideStrafeSpeed)
                 wishspeed = sideStrafeSpeed;
-            
+
             accel = sideStrafeAcceleration;
         }
 
         Accelerate(wishdir, wishspeed, accel);
-        
+
         if(airControl > 0) AirControl(wishdir, wishspeed2);
-        
+
         // Apply gravity
         _playerVelocity.y -= gravity * Time.deltaTime;
     }
@@ -316,11 +306,11 @@ public class PlayerQ3LikeController : MonoBehaviour
 
         // Can't control movement if not moving forward or backward
         if(Mathf.Abs(_dirs.ToForward) < 0.001 || Mathf.Abs(wishspeed) < 0.001) return;
-        
+
         zSpeed = _playerVelocity.y;
         _playerVelocity.y = 0;
-        
-        
+
+
         speed = _playerVelocity.magnitude;
         _playerVelocity.Normalize();
 
@@ -343,8 +333,8 @@ public class PlayerQ3LikeController : MonoBehaviour
         _playerVelocity.y = zSpeed;
         _playerVelocity.z *= speed;
     }
-    
-    
+
+
     //Called every frame when the engine detects that the player is on the ground
     private void GroundMove()
     {
@@ -353,17 +343,17 @@ public class PlayerQ3LikeController : MonoBehaviour
         // Do not apply friction if the player is queueing up the next jump
         if (!_wishJump) ApplyFriction(1.0f);
         else ApplyFriction(0);
-        
+
         SetMovementDir();
 
         wishdir = new Vector3(_dirs.ToRight, 0, _dirs.ToForward);
         wishdir = transform.TransformDirection(wishdir);
         wishdir.Normalize();
-        
+
         _moveDirectionNorm = wishdir;
-        
+
         float wishspeed = wishdir.magnitude;
-        
+
         if (_isRunning) wishspeed *= runMultiplier * speedOnGround;
         else wishspeed *= speedOnGround;
 
@@ -383,14 +373,14 @@ public class PlayerQ3LikeController : MonoBehaviour
         else WindSpellJump();
     }
 
-    
+
      //Applies friction to the player everywhere
     private void ApplyFriction(float t)
     {
         /*Any changes made to vec after this assignment
-         will not affect the original _playerVelocity vector, 
+         will not affect the original _playerVelocity vector,
          since vec is a separate copy of vec*/
-        
+
         Vector3 vec = _playerVelocity;
         float speed;
         float newSpeed;
@@ -401,7 +391,7 @@ public class PlayerQ3LikeController : MonoBehaviour
         speed = vec.magnitude;
         drop = 0.0f;
 
-        //Only if the player is on the ground 
+        //Only if the player is on the ground
         if(_controller.isGrounded)
         {
             control = speed < runDeacceleration ? runDeacceleration : speed;
@@ -410,10 +400,10 @@ public class PlayerQ3LikeController : MonoBehaviour
 
         newSpeed = speed - drop;
         _playerFriction = newSpeed;
-        
+
         if(newSpeed < 0) newSpeed = 0;
         if(speed > 0) newSpeed /= speed;
-        
+
         _playerVelocity.x *= newSpeed;
         _playerVelocity.z *= newSpeed;
     }
@@ -426,18 +416,18 @@ public class PlayerQ3LikeController : MonoBehaviour
 
         currentSpeed = Vector3.Dot(_playerVelocity, wishdir);
         addSpeed = wishspeed - currentSpeed;
-        
+
         if(addSpeed <= 0) return;
-        
+
         accelSpeed = accel * Time.deltaTime * wishspeed;
-        
+
         if(accelSpeed > addSpeed) accelSpeed = addSpeed;
 
         _playerVelocity.x += accelSpeed * wishdir.x;
         _playerVelocity.z += accelSpeed * wishdir.z;
     }
-    
-    
+
+
     private void WallRunInput() //make sure to call in Update()
     {
         //Wallrun
@@ -452,11 +442,11 @@ public class PlayerQ3LikeController : MonoBehaviour
         _isWallRunning = true;
     }
     private void StopWallRun() => _isWallRunning = false;
-    
+
     private void WallJump()
     {
         if (Input.GetButtonDown("Jump")) _jumpPressTime = Time.time;
-        
+
         if (Input.GetButtonUp("Jump"))
         {
             _jumpReleaseTime = Time.time;
@@ -466,11 +456,11 @@ public class PlayerQ3LikeController : MonoBehaviour
             float jumpDuration = _jumpReleaseTime - _jumpPressTime;
             float maxJumpDistance = 3f;
             float minJumpDuration = 0.5f;
-            float jumpDistance = Mathf.Min(jumpDuration * maxJumpDistance / minJumpDuration, maxJumpDistance); 
-            
+            float jumpDistance = Mathf.Min(jumpDuration * maxJumpDistance / minJumpDuration, maxJumpDistance);
+
             _playerVelocity = jumpDirection * jumpSpeed * jumpDistance ;
-            _playerVelocity.y = jumpHeight; 
-            
+            _playerVelocity.y = jumpHeight;
+
         }
         else _playerVelocity.y = 0;
     }
@@ -485,37 +475,33 @@ public class PlayerQ3LikeController : MonoBehaviour
 
         //We normalize the camera angle to the range [0, 1]
         float normalizedAngle = (cameraRotationX - minCameraAngle) / (maxCameraAngle - minCameraAngle);
-    
+
         //We apply a quadratic function to create a dependence of the jump height on the slope angle
         float jumpHeight = minHeight + (maxHeight - minHeight) * Mathf.Pow(normalizedAngle, 2);
 
         return jumpHeight;
     }
 
-    
+
 
     private void WindSpellJump()
     {
         if (Input.GetButtonDown("Jump")) _jumpPressTime = Time.time;
-        
+
         if (Input.GetButtonUp("Jump"))
         {
             _jumpReleaseTime = Time.time;
-            
+
             float maxJumpDistance = 20f;
             float minJumpDuration = 0.5f;
-            
+
             float jumpDuration = _jumpReleaseTime - _jumpPressTime;
-            float jumpDistance = Mathf.Min(jumpDuration * maxJumpDistance / minJumpDuration, maxJumpDistance); 
-            
-            // Отобразить индикатор
-            Vector3 start = transform.position;
-            Vector3 end = transform.position + transform.up * jumpDistance;
-            // Применить прыжок к персонажу
+            float jumpDistance = Mathf.Min(jumpDuration * maxJumpDistance / minJumpDuration, maxJumpDistance);
+
             _playerVelocity.y = jumpDistance;
         }
     }
-    
+
     private void CheckForWall() //make sure to call in Update()
     {
         _isWallRight = Physics.Raycast(transform.position, _currentView.right, 1f, whatIsWall);
@@ -523,7 +509,7 @@ public class PlayerQ3LikeController : MonoBehaviour
         _isWallBack = Physics.Raycast(transform.position, -_currentView.forward, 1f, whatIsWall);
         _isWallFront = Physics.Raycast(transform.position, _currentView.forward, 1f, whatIsWall);
 
-        //leave wall run    
+        //leave wall run
         if (!_isWallLeft && !_isWallRight && !_isWallBack && !_isWallFront)StopWallRun();
     }
 
