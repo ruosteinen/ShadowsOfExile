@@ -41,29 +41,29 @@ public class PauseMenuSingleton : MonoBehaviour
         pauseMenuPanel.SetActive(true);
         Time.timeScale = 0f; //Stop game time
         IsPaused = true;
-        
+
         //Unlocking the cursor
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
     }
-    
+
     public void Resume()
     {
         pauseMenuPanel.SetActive(false);
         settingsPanel.SetActive(false);///////
         Time.timeScale = 1f; //Resuming game time
         IsPaused = false;
-        
+
         //Cursor lock
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
     }
-    
+
     public void LoadSettingsMenu()
     {
         //Time.timeScale = 1f; //Resuming game time
         //SceneManager.LoadScene("SettingsMenu");
-        pauseMenuPanel.SetActive(false); 
+        pauseMenuPanel.SetActive(false);
         settingsPanel.SetActive(true);
     }
     public void LoadMenu()

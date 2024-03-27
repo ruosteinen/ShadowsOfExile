@@ -27,20 +27,18 @@ public class SettingsMenu : MonoBehaviour
         {
             string option = _resolutions[i].width + "x" + _resolutions[i].height + " " + _resolutions[i].refreshRateRatio+ "Hz";
             options.Add(option);
+
             if (_resolutions[i].width == Screen.currentResolution.width && _resolutions[i].height == Screen.currentResolution.height)
-            {
-                currentResolutionIndex = i;
-            }
+              currentResolutionIndex = i;
         }
 
         resolutionDropdown.AddOptions(options);
         resolutionDropdown.value = currentResolutionIndex;
         resolutionDropdown.RefreshShownValue();
         LoadSettings(currentResolutionIndex);
-        
+
         fullscreenButtonText.text = "Fullscreen";
-        
-        
+
         mouseSensitivitySlider.value = PlayerPrefs.GetFloat("MouseSensitivity", 50f);
         mouseSensitivitySlider.onValueChanged.AddListener(SetMouseSensitivity);
     }
@@ -56,51 +54,60 @@ public class SettingsMenu : MonoBehaviour
     {
         Resolution resolution = _resolutions[resolutionIndex];
         Screen.SetResolution(resolution.width, resolution.height, Screen.fullScreen);
-        //SaveSettings();
     }
 
-    public void SetQuality(int qualityIndex)
-    {
-        QualitySettings.SetQualityLevel(qualityIndex, true); 
-        //SaveSettings();
-    }
+    public void SetQuality(int qualityIndex) => QualitySettings.SetQualityLevel(qualityIndex, true);
 
     public void ToggleFullscreenMode()
     {
         Screen.fullScreen = !Screen.fullScreen;
         UpdateFullscreenButtonText();
-        //SaveSettings();
     }
 
     public void ExitSettings()
     {
         settingsPanel.SetActive(false);
-        mainMenuPanel.SetActive(true); 
+        mainMenuPanel.SetActive(true);
     }
 
+    /*
     public void SaveSettings()
     {
         PlayerPrefs.SetInt("QualitySettingPreference", qualityDropdown.value);
         PlayerPrefs.SetInt("ResolutionPreference", resolutionDropdown.value);
         PlayerPrefs.SetInt("FullscreenPreference", System.Convert.ToInt32(Screen.fullScreen));
     }
+    */
+
+    public void SetDefaultSettings()
+       {
+           int highestQualityIndex = QualitySettings.names.Length - 1;
+           qualityDropdown.value = highestQualityIndex;
+           SetQuality(highestQualityIndex);
+
+           mouseSensitivitySlider.value = 100f;
+
+           int highestResolutionIndex = _resolutions.Length - 1;
+           resolutionDropdown.value = highestResolutionIndex;
+           SetResolution(highestResolutionIndex);
+
+           Screen.fullScreen = true;
+           fullscreenButtonText.text = "Fullscreen";
+       }
 
     private void LoadSettings(int currentResolutionIndex)
     {
         int highQualityIndex = 0;
-        
+
         qualityDropdown.value = PlayerPrefs.GetInt("QualitySettingPreference", highQualityIndex);
-        
+
         resolutionDropdown.value = PlayerPrefs.GetInt("ResolutionPreference", currentResolutionIndex);
         Screen.fullScreen = System.Convert.ToBoolean(PlayerPrefs.GetInt("FullscreenPreference", System.Convert.ToInt32(Screen.fullScreen)));
 
         UpdateFullscreenButtonText();
-        
+
         QualitySettings.SetQualityLevel(qualityDropdown.value, true);
     }
 
-    private void UpdateFullscreenButtonText()
-    {
-        fullscreenButtonText.text = Screen.fullScreen ? "Windowed" : "Fullscreen";
-    }
+    private void UpdateFullscreenButtonText() => fullscreenButtonText.text = Screen.fullScreen ? "Windowed" : "Fullscreen";
 }
