@@ -9,19 +9,22 @@ struct Directions
 
 public class PlayerQ3LikeController : MonoBehaviour
 {
-    public Transform firstPersonView;// Camera
+    // Camera
+    public Transform firstPersonView;
     public Transform thirdPersonView;
     private Transform _currentView;
-
-
     [SerializeField]private float playerViewYOffset = 0.6f; // The height at which the camera is bound to
+
     public float xMouseSensitivity;
     public float yMouseSensitivity;
 
     public float gravity;
-
+    public bool useCustomGravity;
+    public float customGravity;
+    private bool _previousUseCustomGravity;
     [SerializeField] private float defaultGravity = 20f;
     [SerializeField]private float groundFriction = 6;
+
     [SerializeField]private float speedOnGround = 7.0f;
     [SerializeField]private float runAcceleration = 14.0f;
     [SerializeField]private float runDeacceleration = 10.0f;
@@ -33,55 +36,49 @@ public class PlayerQ3LikeController : MonoBehaviour
     [SerializeField]private float jumpSpeed = 8.0f;              //The speed at which the character's up axis gains when hitting jump
     [SerializeField]private bool holdJumpToBhop;                //Enables bhop when the jump button is pressed
 
-    //Running
-    [SerializeField]private float stamina = 5f;
-    [SerializeField]private float maxStamina = 6f;
-    [SerializeField]private float staminaDrainRate = 0.9f;
-    [SerializeField]private float staminaRecoveryRate = 0.8f;
-    [SerializeField]private float runMultiplier = 2f;
-    public Armor armor;
-    private bool _isRunning;
-    public GUIStyle style;
+    // Q3: players can queue the next jump just before he hits the ground
+    private bool _wishJump; //false by default
 
+    //Running
+    private bool _isRunning;
+    [SerializeField]private float mana = 5f;
+    [SerializeField]private float maxMana = 6f;
+    [SerializeField]private float manaDrainRate = 0.9f;
+    [SerializeField]private float manaRecoveryRate = 0.8f;
+    [SerializeField]private float runMultiplier = 2f;
+
+    public Armor armor;
+    private Console _console;
+    public GUIStyle style;
+    private CharacterController _controller;
+
+    //Wall handler
     public LayerMask whatIsWall;
     private bool _isWallRight, _isWallLeft,_isWallBack,_isWallFront;
     private bool _isWallRunning;
     public float maxWallRunCameraTilt;
-
-    private Console _console;
-
-    public bool useCustomGravity;
-    public float customGravity;
-
     private float _jumpReleaseTime,_jumpPressTime;
     private bool _windSpellInUse;
-    private bool _previousUseCustomGravity;
 
     //FPS
     public float fpsDisplayRate = 4.0f; // 4 updates per sec
-
     private int _frameCount; //0 by default
     private float _dt;      //0.0f by default
     private float _fps;    //0.0f by default
 
-    private CharacterController _controller;
-
     // Camera rotations
     private float _rotX; //0.0f by default
-    private float _rotY; //0.0f by default
 
+    private float _rotY; //0.0f by default
+    // Player commands, stores wish commands that the player asks for (Forward, Right)
+    private Directions _dirs;
     private Vector3 _moveDirectionNorm = Vector3.zero;
     private Vector3 _playerVelocity = Vector3.zero;
     private float _playerTopVelocity;//0.0f by default
 
-    // Q3: players can queue the next jump just before he hits the ground
-    private bool _wishJump; //false by default
-
     // Used to display real time fricton values
     private float _playerFriction;//0.0f by default
 
-    // Player commands, stores wish commands that the player asks for (Forward, Right)
-    private Directions _dirs;
     private void Start()
     {
 
@@ -119,11 +116,7 @@ public class PlayerQ3LikeController : MonoBehaviour
             xMouseSensitivity = PlayerPrefs.GetFloat("MouseSensitivity");
             yMouseSensitivity = PlayerPrefs.GetFloat("MouseSensitivity");
         }
-        else
-        {
-            return;
-        }
-
+        else return;
 
         //FPS calculation
         _frameCount++;
@@ -171,22 +164,22 @@ public class PlayerQ3LikeController : MonoBehaviour
         }
 
 
-        if (_controller.isGrounded && stamina > 1 && Input.GetKey(KeyCode.LeftShift) && _windSpellInUse)
+        if (_controller.isGrounded && mana > 1 && Input.GetKey(KeyCode.LeftShift) && _windSpellInUse)
         {
             _isRunning = true;
-            stamina -= staminaDrainRate * Time.deltaTime * (1 + armor.weight / 20);
+            mana -= manaDrainRate * Time.deltaTime * (1 + armor.weight / 20);
         }
         else
         {
             _isRunning = false;
-            if (stamina < maxStamina)
+            if (mana < maxMana)
             {
                 float recoveryMultiplier = 1 / (1 + armor.weight / 20);
-                stamina += staminaRecoveryRate * recoveryMultiplier * Time.deltaTime;
+                mana += manaRecoveryRate * recoveryMultiplier * Time.deltaTime;
             }
         }
 
-        stamina = Mathf.Clamp(stamina, 0, maxStamina);
+        mana = Mathf.Clamp(mana, 0, maxMana);
 
         HandleInput();
 
@@ -196,12 +189,11 @@ public class PlayerQ3LikeController : MonoBehaviour
             WallRunInput();
         }
 
-        if (_windSpellInUse) WindSpellJump();
+        if (_windSpellInUse && mana >= 2.5) WindSpellJump();
 
-        //Button 1
-        if (Input.GetKeyDown(KeyCode.Alpha1)) _windSpellInUse = !_windSpellInUse;
+        if (Input.GetKeyDown(KeyCode.Alpha1)) _windSpellInUse = !_windSpellInUse;  //Button 1
 
-        if (_isWallRunning)
+        if (_isWallRunning && _windSpellInUse)
         {
             if (_isWallRight || _isWallLeft)
             {
@@ -213,7 +205,7 @@ public class PlayerQ3LikeController : MonoBehaviour
                     Quaternion.Lerp(_currentView.localRotation, Quaternion.Euler(0, 0, targetTilt), 225f);
             }
             gravity = 0f;
-            WallJump();
+            if(mana >= 2.5 && _windSpellInUse)  WallJump();
         }
         else
         {
@@ -309,8 +301,6 @@ public class PlayerQ3LikeController : MonoBehaviour
 
         zSpeed = _playerVelocity.y;
         _playerVelocity.y = 0;
-
-
         speed = _playerVelocity.magnitude;
         _playerVelocity.Normalize();
 
@@ -324,7 +314,6 @@ public class PlayerQ3LikeController : MonoBehaviour
             _playerVelocity.x = _playerVelocity.x * speed + wishdir.x * k;
             _playerVelocity.y = _playerVelocity.y * speed + wishdir.y * k;
             _playerVelocity.z = _playerVelocity.z * speed + wishdir.z * k;
-
             _playerVelocity.Normalize();
             _moveDirectionNorm = _playerVelocity;
         }
@@ -349,9 +338,7 @@ public class PlayerQ3LikeController : MonoBehaviour
         wishdir = new Vector3(_dirs.ToRight, 0, _dirs.ToForward);
         wishdir = transform.TransformDirection(wishdir);
         wishdir.Normalize();
-
         _moveDirectionNorm = wishdir;
-
         float wishspeed = wishdir.magnitude;
 
         if (_isRunning) wishspeed *= runMultiplier * speedOnGround;
@@ -370,7 +357,8 @@ public class PlayerQ3LikeController : MonoBehaviour
                 _wishJump = false;
             }
         }
-        else WindSpellJump();
+        else
+          if(mana >= 2.5) WindSpellJump();
     }
 
 
@@ -430,24 +418,36 @@ public class PlayerQ3LikeController : MonoBehaviour
 
     private void WallRunInput() //make sure to call in Update()
     {
-        //Wallrun
         if (_isWallRight) StartWallRun();
         if (_isWallLeft) StartWallRun();
         if(_isWallBack) StartWallRun();
         if(_isWallFront) StartWallRun();
     }
+
     private void StartWallRun()
     {
-        _playerVelocity.y = 0;
-        _isWallRunning = true;
+        if(mana > 0.2f && _windSpellInUse)
+        {
+          _playerVelocity.y = 0;
+          _isWallRunning = true;
+          //WALL SUPER RUN EPTA
+          if(Input.GetKey(KeyCode.LeftShift)) _playerVelocity.x *= 1.005f; // MAKE A COFF FOR WALL SUPER RUN EPTA
+       }
+       else
+         _isWallRunning = false;
+
+       if(Input.GetKey(KeyCode.LeftShift) && _playerVelocity.x != 0)
+          mana -= manaDrainRate * 3f * Time.deltaTime * (1 + armor.weight / 20);
     }
+
     private void StopWallRun() => _isWallRunning = false;
 
     private void WallJump()
     {
-        if (Input.GetButtonDown("Jump")) _jumpPressTime = Time.time;
+        if (Input.GetButtonDown("Jump") && _windSpellInUse)
+            _jumpPressTime = Time.time;
 
-        if (Input.GetButtonUp("Jump"))
+        if (Input.GetButtonUp("Jump") && _windSpellInUse)
         {
             _jumpReleaseTime = Time.time;
 
@@ -458,13 +458,15 @@ public class PlayerQ3LikeController : MonoBehaviour
             float minJumpDuration = 0.5f;
             float jumpDistance = Mathf.Min(jumpDuration * maxJumpDistance / minJumpDuration, maxJumpDistance);
 
-            _playerVelocity = jumpDirection * jumpSpeed * jumpDistance ;
+            //Deduct mana based on jump duration
+            mana -= jumpDuration * manaDrainRate * 4 * Time.deltaTime;
+
+            _playerVelocity = jumpDirection * jumpSpeed * jumpDistance;
             _playerVelocity.y = jumpHeight;
-
         }
-        else _playerVelocity.y = 0;
+        //else
+            //_playerVelocity.y = 0;
     }
-
 
     private float CalculateJumpHeight(float cameraRotationX)
     {
@@ -473,33 +475,33 @@ public class PlayerQ3LikeController : MonoBehaviour
         float maxCameraAngle = 90f; //Maximum camera tilt angle (up)
         float minCameraAngle = -90f; //Minimum camera angle (downward)
 
-        //We normalize the camera angle to the range [0, 1]
+        //Normalize the camera angle to the range [0, 1]
         float normalizedAngle = (cameraRotationX - minCameraAngle) / (maxCameraAngle - minCameraAngle);
 
-        //We apply a quadratic function to create a dependence of the jump height on the slope angle
+        //Apply a quadratic function to create a dependence of the jump height on the slope angle
         float jumpHeight = minHeight + (maxHeight - minHeight) * Mathf.Pow(normalizedAngle, 2);
 
         return jumpHeight;
     }
 
-
-
     private void WindSpellJump()
     {
-        if (Input.GetButtonDown("Jump")) _jumpPressTime = Time.time;
+      if (Input.GetButtonDown("Jump"))
+          _jumpPressTime = Time.time;
 
-        if (Input.GetButtonUp("Jump"))
-        {
-            _jumpReleaseTime = Time.time;
+      if (Input.GetButtonUp("Jump"))
+      {
+          _jumpReleaseTime = Time.time;
 
-            float maxJumpDistance = 20f;
-            float minJumpDuration = 0.5f;
+          float maxJumpDistance = 20f;
+          float minJumpDuration = 0.5f;
+          float jumpDuration = _jumpReleaseTime - _jumpPressTime;
+          float jumpDistance = Mathf.Min(jumpDuration * maxJumpDistance / minJumpDuration, maxJumpDistance);
 
-            float jumpDuration = _jumpReleaseTime - _jumpPressTime;
-            float jumpDistance = Mathf.Min(jumpDuration * maxJumpDistance / minJumpDuration, maxJumpDistance);
-
-            _playerVelocity.y = jumpDistance;
-        }
+          // Deduct mana based on jump duration
+          mana -= jumpDuration * manaDrainRate * Time.deltaTime * 1000f; //TODO make mana drain rate coeff for wind spell jump
+          _playerVelocity.y = jumpDistance;
+      }
     }
 
     private void CheckForWall() //make sure to call in Update()
@@ -520,6 +522,6 @@ public class PlayerQ3LikeController : MonoBehaviour
         ups.y = 0;
         GUI.Label(new Rect(0, 15, 400, 100), "Speed: " + Mathf.Round(ups.magnitude * 100) / 100, style);
         GUI.Label(new Rect(0, 30, 400, 100), "Top Speed: " + Mathf.Round(_playerTopVelocity * 100) / 100 , style);
-        GUI.Label(new Rect(0, 45, 400, 100), "Stamina: " + stamina , style);
+        GUI.Label(new Rect(0, 45, 400, 100), "Mana: " + mana , style);
     }
 }

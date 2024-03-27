@@ -1,5 +1,6 @@
 using UnityEngine;
 using TMPro;
+
 public class Console : MonoBehaviour
 {
     public TMP_InputField consoleInputField;
@@ -30,7 +31,7 @@ public class Console : MonoBehaviour
 
     void ExecuteCommand(string commandInput)
     {
-        
+
         string[] parts = commandInput.Split(' ');
         if (parts.Length > 0)
         {
@@ -54,7 +55,7 @@ public class Console : MonoBehaviour
                         Debug.LogError("Command not found.");
                     }
                     break;
-                
+
                 case "armor_weight":
                     if (parts.Length > 1 && float.TryParse(parts[1], out value))
                     {
@@ -75,4 +76,4 @@ public class Console : MonoBehaviour
         consoleInputField.text = "";
         consoleInputField.gameObject.SetActive(false);
     }
-}   
+}
