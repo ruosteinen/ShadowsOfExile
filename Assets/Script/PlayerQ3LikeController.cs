@@ -78,6 +78,11 @@ public class PlayerQ3LikeController : MonoBehaviour
 
     // Used to display real time fricton values
     private float _playerFriction;//0.0f by default
+    
+    //Сoefficients
+    private float jumpPowerCoeff = 2.0f;
+    
+    
 
     private void Start()
     {
@@ -452,7 +457,7 @@ public class PlayerQ3LikeController : MonoBehaviour
 
     private void StopWallRun() => _isWallRunning = false;
 
-    private void WallJump()
+    /*private void WallJump()
     {
         if (Input.GetButtonDown("Jump") && _windSpellInUse)
             _jumpPressTime = Time.time;
@@ -469,15 +474,48 @@ public class PlayerQ3LikeController : MonoBehaviour
             float jumpDistance = Mathf.Min(jumpDuration * maxJumpDistance / minJumpDuration, maxJumpDistance);
 
             //Deduct mana based on jump duration
-            mana -= jumpDuration * manaDrainRate * 4 * Time.deltaTime;
+            mana -= jumpDuration * manaDrainRate * 4f;
 
             _playerVelocity = jumpDirection * jumpSpeed * jumpDistance;
             _playerVelocity.y = jumpHeight;
         }
         //else
             //_playerVelocity.y = 0;
-    }
+    }*/
+    
+    private void WallJump()
+    {
+        if (!_windSpellInUse) return;
 
+        if (Input.GetButtonDown("Jump"))
+        {
+            _jumpPressTime = Time.time;
+        }
+
+        if (Input.GetButtonUp("Jump"))
+        {
+            _jumpReleaseTime = Time.time;
+
+            Vector3 jumpDirection = _currentView.forward;
+            float jumpHeight = CalculateJumpHeight(_currentView.eulerAngles.x); 
+            
+            float jumpDuration = _jumpReleaseTime - _jumpPressTime;
+            
+            float maxJumpDistance = 3f;
+            float minJumpDuration = 0.5f;
+            
+            float jumpDistance = Mathf.Min(jumpDuration * maxJumpDistance / minJumpDuration, maxJumpDistance);
+            
+            float manaCost = jumpDuration * manaDrainRate * 4f;
+            
+            if (mana >= manaCost)
+            {
+                mana -= manaCost;
+                _playerVelocity = jumpDirection * jumpSpeed * jumpPowerCoeff * jumpDistance;
+                _playerVelocity.y = jumpHeight;
+            }
+        }
+    }
     private float CalculateJumpHeight(float cameraRotationX)
     {
         float maxHeight = 3f;
@@ -530,11 +568,13 @@ public class PlayerQ3LikeController : MonoBehaviour
         float jumpDistance = Mathf.Min(jumpDuration * maxJumpDistance / minJumpDuration, maxJumpDistance);
 
         // Calculate mana consumption based on actual jump duration
-        float manaCost = (jumpDistance / maxJumpDistance) * 2f;
-
-        // Deduct mana based on jump distance
-        mana -= manaCost;
-        _playerVelocity.y = jumpDistance;
+        float manaCost = jumpDistance / maxJumpDistance * 2f;
+        
+        if (mana >= manaCost)
+        {
+            mana -= manaCost;
+            _playerVelocity.y = jumpDistance;
+        }
     }
 }
 
@@ -557,5 +597,6 @@ public class PlayerQ3LikeController : MonoBehaviour
         GUI.Label(new Rect(0, 15, 400, 100), "Speed: " + Mathf.Round(ups.magnitude * 100) / 100, style);
         GUI.Label(new Rect(0, 30, 400, 100), "Top Speed: " + Mathf.Round(_playerTopVelocity * 100) / 100 , style);
         GUI.Label(new Rect(0, 45, 400, 100), "Mana: " + mana , style);
+        GUI.Label(new Rect(0, 60, 400, 100), "Jump Height:" + CalculateJumpHeight(_currentView.eulerAngles.x), style);
     }
 }
