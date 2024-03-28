@@ -199,7 +199,7 @@ public class PlayerQ3LikeController : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.Alpha1)) _windSpellInUse = !_windSpellInUse;  //Button 1
 
-        if (_isWallRunning && _windSpellInUse)
+        if (_isWallRunning && _windSpellInUse && !_controller.isGrounded)
         {
             if (_isWallRight || _isWallLeft)
             {
@@ -445,14 +445,22 @@ public class PlayerQ3LikeController : MonoBehaviour
         {
             _playerVelocity.y = 0;
             _isWallRunning = true;
-            //WALL SUPER RUN EPTA
-            if (Input.GetKey(KeyCode.LeftShift)) _playerVelocity.x *= 1.03f; //////PUT THIS VALUE INTO VARIABLE
-        }
-        else
-            _isWallRunning = false;
 
-        if (Input.GetKey(KeyCode.LeftShift) && _playerVelocity.x != 0)
-            mana -= manaDrainRate * 3f * Time.deltaTime * (1 + armor.weight / 20);
+            // Check if the player is moving forward or sideways
+            bool movingForward = Mathf.Abs(_dirs.ToForward) > 0.1f;
+            bool movingSideways = Mathf.Abs(_dirs.ToRight) > 0.1f;
+
+            if (movingForward || movingSideways) // Check if player is moving on the wall
+            {
+                //WALL SUPER RUN EPTA
+                if (Input.GetKey(KeyCode.LeftShift))
+                {
+                    _playerVelocity.x *= 1.03f; //////PUT THIS VALUE INTO VARIABLE
+                    mana -= manaDrainRate * 3f * Time.deltaTime * (1 + armor.weight / 20);
+                }
+            }
+            else _playerVelocity = Vector3.zero;
+        }else _isWallRunning = false;
     }
 
     private void StopWallRun() => _isWallRunning = false;
@@ -591,12 +599,13 @@ public class PlayerQ3LikeController : MonoBehaviour
 
     private void OnGUI()
     {
-        GUI.Label(new Rect(0, 0, 400, 100), "FPS: " + _fps, style);
         var ups = _controller.velocity;
         ups.y = 0;
+        string windSpell = _windSpellInUse ? "Wind Spell in use" : "Wind Spell not in use";
+        GUI.Label(new Rect(0, 0, 400, 100), "FPS: " + _fps, style);
         GUI.Label(new Rect(0, 15, 400, 100), "Speed: " + Mathf.Round(ups.magnitude * 100) / 100, style);
         GUI.Label(new Rect(0, 30, 400, 100), "Top Speed: " + Mathf.Round(_playerTopVelocity * 100) / 100 , style);
         GUI.Label(new Rect(0, 45, 400, 100), "Mana: " + mana , style);
-        GUI.Label(new Rect(0, 60, 400, 100), "Jump Height:" + CalculateJumpHeight(_currentView.eulerAngles.x), style);
+        GUI.Label(new Rect(0, 60, 400, 100), windSpell, style);
     }
 }
