@@ -8,3 +8,6 @@ It is possible to use this jump while in the air. The higher the jump, the more 
 Spell 2 - Wall Jump, the height of which depends on the direction of the camera view, and its strength depends on the length of time the "SPACE" key is pressed before releasing it. The higher and stronger the jump, the more mana is spent.
 
 Spell 3 - Wind Running, activated by pressing "W" and "Left Shift" keys together.
+
+André - 28/03/2024 - 16:14
+Commited a different approach on the controller for the player movement and camera.
