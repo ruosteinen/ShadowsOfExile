@@ -11,7 +11,7 @@ public class CameraController : MonoBehaviour
 
     private void Start()
     {
-        thirdPersonCamera.enabled = false; // Initially disable third person camera
+       thirdPersonCamera.enabled = false; // Initially disable third person camera
     }
 
     private void Update()

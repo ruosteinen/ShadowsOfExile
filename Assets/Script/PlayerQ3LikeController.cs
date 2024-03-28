@@ -116,6 +116,7 @@ public class PlayerQ3LikeController : MonoBehaviour
 
     private void Update()
     {
+        //To make mouse clicks work in the pause menu as well 
         if (!PauseMenuSingleton.Instance.IsPaused)
         {
             xMouseSensitivity = PlayerPrefs.GetFloat("MouseSensitivity");
