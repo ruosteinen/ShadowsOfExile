@@ -82,8 +82,6 @@ public class PlayerQ3LikeController : MonoBehaviour
     //Сoefficients
     private float jumpPowerCoeff = 2.0f;
     
-    
-
     private void Start()
     {
 
@@ -137,8 +135,8 @@ public class PlayerQ3LikeController : MonoBehaviour
         //Cursor locking
         if (Cursor.lockState != CursorLockMode.Locked)
             if (Input.GetButtonDown("Fire1")) Cursor.lockState = CursorLockMode.Locked;
-
-        QueueJump();
+        
+        if(!_windSpellInUse)QueueJump();
 
         if(_controller.isGrounded) GroundMove();
         else if(!_controller.isGrounded) AirMove();
@@ -169,11 +167,21 @@ public class PlayerQ3LikeController : MonoBehaviour
             }
         }
 
+        mana = Mathf.Clamp(mana, 0, maxMana);
 
-        if (_controller.isGrounded && mana > 1 && Input.GetKey(KeyCode.LeftShift) && _windSpellInUse)
+        if (_controller.isGrounded && Input.GetKey(KeyCode.LeftShift) && _windSpellInUse)
         {
-            _isRunning = true;
-            mana -= manaDrainRate * Time.deltaTime * (1 + armor.weight / 20);
+            float manaCost = manaDrainRate * Time.deltaTime * (1 + armor.weight / 20);
+            if (mana >= manaCost)
+            {
+                _isRunning = true;
+                mana -= manaCost;
+            }
+            else
+            {
+                _isRunning = false;
+                Debug.Log("Not enough mana for running");
+            }
         }
         else
         {
@@ -184,19 +192,10 @@ public class PlayerQ3LikeController : MonoBehaviour
                 mana += manaRecoveryRate * recoveryMultiplier * Time.deltaTime;
             }
         }
-
-        mana = Mathf.Clamp(mana, 0, maxMana);
-
+        
         HandleInput();
-        /*
-        if (_windSpellInUse)
-        {
-            CheckForWall();
-            WallRunInput();
-        }
-        */
 
-        if (_windSpellInUse && mana >= 2.5) WindSpellJump();
+        if (_windSpellInUse) WindSpellJump();
 
         if (Input.GetKeyDown(KeyCode.Alpha1)) _windSpellInUse = !_windSpellInUse;  //Button 1
 
@@ -212,7 +211,7 @@ public class PlayerQ3LikeController : MonoBehaviour
                     Quaternion.Lerp(_currentView.localRotation, Quaternion.Euler(0, 0, targetTilt), 225f);
             }
             gravity = 0f;
-            if(mana >= 2.5 && _windSpellInUse)  WallJump();
+            if(_windSpellInUse)  WallJump();
         }
         else
         {
@@ -373,8 +372,7 @@ public class PlayerQ3LikeController : MonoBehaviour
                 _wishJump = false;
             }
         }
-        else
-          if(mana >= 2.5) WindSpellJump();
+        else WindSpellJump();
     }
 
 
@@ -442,7 +440,9 @@ public class PlayerQ3LikeController : MonoBehaviour
 
     private void StartWallRun()
     {
-        if (mana > 0.2f && _windSpellInUse)
+        float manaCost = manaDrainRate * 3f * Time.deltaTime * (1 + armor.weight / 20);
+        
+        if (mana >= manaCost && _windSpellInUse)
         {
             _playerVelocity.y = 0;
             _isWallRunning = true;
@@ -457,15 +457,15 @@ public class PlayerQ3LikeController : MonoBehaviour
                 if (Input.GetKey(KeyCode.LeftShift))
                 {
                     _playerVelocity.x *= 1.03f; //////PUT THIS VALUE INTO VARIABLE
-                    mana -= manaDrainRate * 3f * Time.deltaTime * (1 + armor.weight / 20);
+                    mana -= manaCost;
                 }
             }
             else _playerVelocity = Vector3.zero;
         }else _isWallRunning = false;
+        
+        if(mana < manaCost) Debug.Log("Not enough mana to wall run");
     }
-
-    private void StopWallRun() => _isWallRunning = false;
-
+    
     /*private void WallJump()
     {
         if (Input.GetButtonDown("Jump") && _windSpellInUse)
@@ -519,9 +519,10 @@ public class PlayerQ3LikeController : MonoBehaviour
             
             if (mana >= manaCost)
             {
-                mana -= manaCost;
                 _playerVelocity = jumpDirection * jumpSpeed * jumpPowerCoeff * jumpDistance;
                 _playerVelocity.y = jumpHeight;
+                mana -= manaCost;
+                Debug.Log("Not enough mana for wall jump");
             }
         }
     }
@@ -540,27 +541,6 @@ public class PlayerQ3LikeController : MonoBehaviour
 
         return jumpHeight;
     }
-    /*
-    private void WindSpellJump()
-    {
-      if (Input.GetButtonDown("Jump"))
-          _jumpPressTime = Time.time;
-
-      if (Input.GetButtonUp("Jump"))
-      {
-          _jumpReleaseTime = Time.time;
-
-          float maxJumpDistance = 20f;
-          float minJumpDuration = 0.5f;
-          float jumpDuration = _jumpReleaseTime - _jumpPressTime;
-          float jumpDistance = Mathf.Min(jumpDuration * maxJumpDistance / minJumpDuration, maxJumpDistance);
-
-          // Deduct mana based on jump duration
-          mana -= (jumpDuration * manaDrainRate * 1000f) * Time.deltaTime; //TODO make mana drain rate coeff for wind spell jump
-          _playerVelocity.y = jumpDistance;
-      }
-    }
-    */
 
     private void WindSpellJump()
 {
@@ -578,12 +558,12 @@ public class PlayerQ3LikeController : MonoBehaviour
 
         // Calculate mana consumption based on actual jump duration
         float manaCost = jumpDistance / maxJumpDistance * 2f;
-        
+        //Debug.Log(manaCost);
         if (mana >= manaCost)
         {
-            mana -= manaCost;
             _playerVelocity.y = jumpDistance;
-        }
+            mana -= manaCost;
+        }else Debug.Log("Not enough mana for wind jump");
     }
 }
 
@@ -595,7 +575,7 @@ public class PlayerQ3LikeController : MonoBehaviour
         _isWallFront = Physics.Raycast(transform.position, _currentView.forward, 1f, whatIsWall);
 
         //leave wall run
-        if (!_isWallLeft && !_isWallRight && !_isWallBack && !_isWallFront)StopWallRun();
+        if (!_isWallLeft && !_isWallRight && !_isWallBack && !_isWallFront) _isWallRunning = false;
     }
 
     private void OnGUI()
