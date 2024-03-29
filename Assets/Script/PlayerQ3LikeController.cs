@@ -80,8 +80,11 @@ public class PlayerQ3LikeController : MonoBehaviour
     private float _playerFriction;//0.0f by default
     
     //Сoefficients
-    private float jumpPowerCoeff = 2.0f;
-    
+    private float _jumpPowerCoeff = 2f;
+    private float _wallJumpCostCoeff = 3f;
+    private float _wallRunCostCoeff = 3f;
+    private float _wallRunVelocityMultiplier = 1.03f;
+    private float _windJumpCostCoeff = 2f;
     private void Start()
     {
 
@@ -194,7 +197,9 @@ public class PlayerQ3LikeController : MonoBehaviour
         }
         
         HandleInput();
-
+        
+        if (_windSpellInUse) CheckForWall();
+        
         if (_windSpellInUse) WindSpellJump();
 
         if (Input.GetKeyDown(KeyCode.Alpha1)) _windSpellInUse = !_windSpellInUse;  //Button 1
@@ -224,12 +229,12 @@ public class PlayerQ3LikeController : MonoBehaviour
     {
       if (_windSpellInUse)
       {
-          CheckForWall();
+         // CheckForWall();
           WallRunInput();
       }
     }
 
-    private void HandleInput()
+            private void HandleInput()
     {
         _rotX -= Input.GetAxisRaw("Mouse Y") * xMouseSensitivity * 0.02f;
         _rotY += Input.GetAxisRaw("Mouse X") * yMouseSensitivity * 0.02f;
@@ -440,7 +445,7 @@ public class PlayerQ3LikeController : MonoBehaviour
 
     private void StartWallRun()
     {
-        float manaCost = manaDrainRate * 3f * Time.deltaTime * (1 + armor.weight / 20);
+        float manaCost = manaDrainRate * _wallRunCostCoeff * Time.deltaTime * (1 + armor.weight / 20);
         
         if (mana >= manaCost && _windSpellInUse)
         {
@@ -456,7 +461,7 @@ public class PlayerQ3LikeController : MonoBehaviour
                 //WALL SUPER RUN EPTA
                 if (Input.GetKey(KeyCode.LeftShift))
                 {
-                    _playerVelocity.x *= 1.03f; //////PUT THIS VALUE INTO VARIABLE
+                    _playerVelocity.x *= _wallRunVelocityMultiplier; //////PUT THIS VALUE INTO VARIABLE
                     mana -= manaCost;
                 }
             }
@@ -465,32 +470,6 @@ public class PlayerQ3LikeController : MonoBehaviour
         
         if(mana < manaCost) Debug.Log("Not enough mana to wall run");
     }
-    
-    /*private void WallJump()
-    {
-        if (Input.GetButtonDown("Jump") && _windSpellInUse)
-            _jumpPressTime = Time.time;
-
-        if (Input.GetButtonUp("Jump") && _windSpellInUse)
-        {
-            _jumpReleaseTime = Time.time;
-
-            Vector3 jumpDirection = _currentView.forward;
-            float jumpHeight = CalculateJumpHeight(_currentView.eulerAngles.x);
-            float jumpDuration = _jumpReleaseTime - _jumpPressTime;
-            float maxJumpDistance = 3f;
-            float minJumpDuration = 0.5f;
-            float jumpDistance = Mathf.Min(jumpDuration * maxJumpDistance / minJumpDuration, maxJumpDistance);
-
-            //Deduct mana based on jump duration
-            mana -= jumpDuration * manaDrainRate * 4f;
-
-            _playerVelocity = jumpDirection * jumpSpeed * jumpDistance;
-            _playerVelocity.y = jumpHeight;
-        }
-        //else
-            //_playerVelocity.y = 0;
-    }*/
     
     private void WallJump()
     {
@@ -515,11 +494,11 @@ public class PlayerQ3LikeController : MonoBehaviour
             
             float jumpDistance = Mathf.Min(jumpDuration * maxJumpDistance / minJumpDuration, maxJumpDistance);
             
-            float manaCost = jumpDuration * manaDrainRate * 4f;
+            float manaCost = jumpDuration * manaDrainRate * _wallJumpCostCoeff;
             
             if (mana >= manaCost)
             {
-                _playerVelocity = jumpDirection * jumpSpeed * jumpPowerCoeff * jumpDistance;
+                _playerVelocity = jumpDirection * jumpSpeed * _jumpPowerCoeff * jumpDistance;
                 _playerVelocity.y = jumpHeight;
                 mana -= manaCost;
                 Debug.Log("Not enough mana for wall jump");
@@ -544,6 +523,8 @@ public class PlayerQ3LikeController : MonoBehaviour
 
     private void WindSpellJump()
 {
+    if (_isWallRunning) return;
+    
     if (Input.GetButtonDown("Jump"))
         _jumpPressTime = Time.time;
 
@@ -557,7 +538,7 @@ public class PlayerQ3LikeController : MonoBehaviour
         float jumpDistance = Mathf.Min(jumpDuration * maxJumpDistance / minJumpDuration, maxJumpDistance);
 
         // Calculate mana consumption based on actual jump duration
-        float manaCost = jumpDistance / maxJumpDistance * 2f;
+        float manaCost = jumpDistance / maxJumpDistance *_windJumpCostCoeff;
         //Debug.Log(manaCost);
         if (mana >= manaCost)
         {
