@@ -80,11 +80,14 @@ public class PlayerQ3LikeController : MonoBehaviour
     private float _playerFriction;//0.0f by default
     
     //Сoefficients
-    private float _jumpPowerCoeff = 2f;
-    private float _wallJumpCostCoeff = 3f;
+    //private float _jumpPowerCoeff = 2f;
+    private float _wallJumpCostCoeff = 2.5f;
     private float _wallRunCostCoeff = 3f;
     private float _wallRunVelocityMultiplier = 1.03f;
     private float _windJumpCostCoeff = 2f;
+    
+    
+    private Vector3 _wallContactNormal;
     private void Start()
     {
 
@@ -473,7 +476,7 @@ public class PlayerQ3LikeController : MonoBehaviour
     
     private void WallJump()
     {
-        if (!_windSpellInUse) return;
+        if (!_isWallRunning) return;
 
         if (Input.GetButtonDown("Jump"))
         {
@@ -483,43 +486,42 @@ public class PlayerQ3LikeController : MonoBehaviour
         if (Input.GetButtonUp("Jump"))
         {
             _jumpReleaseTime = Time.time;
+            
+            //Zeroing out the stored velocity momentum in a collision with a wall
+            _playerVelocity = Vector3.zero;
+            float jumpForce = 50f;
+            float maxJumpDuration = 0.5f;
 
-            Vector3 jumpDirection = _currentView.forward;
-            float jumpHeight = CalculateJumpHeight(_currentView.eulerAngles.x); 
-            
             float jumpDuration = _jumpReleaseTime - _jumpPressTime;
-            
-            float maxJumpDistance = 3f;
-            float minJumpDuration = 0.5f;
-            
-            float jumpDistance = Mathf.Min(jumpDuration * maxJumpDistance / minJumpDuration, maxJumpDistance);
-            
-            float manaCost = jumpDuration * manaDrainRate * _wallJumpCostCoeff;
+            jumpDuration = Mathf.Clamp(jumpDuration, 0f, maxJumpDuration);
+
+            // Get the direction of the camera's forward vector
+            Vector3 cameraForward = Camera.main.transform.forward;
+
+            // Project the forward vector onto the horizontal plane (ignore vertical component)
+            Vector3 horizontalCameraForward = new Vector3(cameraForward.x, 0f, cameraForward.z).normalized;
+
+            // Calculate jump direction based on camera forward direction
+            Vector3 jumpDirection = horizontalCameraForward;
+
+            // Calculate jump height based on jump duration
+            float jumpHeight = (jumpDuration * jumpForce) / 2.5f;
+
+            // Calculate mana cost based on jump distance relative to max jump distance
+            float maxJumpDistance = 10f;
+            float jumpDistance = Mathf.Min(jumpHeight, maxJumpDistance);
+            float manaCost = jumpDistance / maxJumpDistance * _wallJumpCostCoeff;
             
             if (mana >= manaCost)
             {
-                _playerVelocity = jumpDirection * jumpSpeed * _jumpPowerCoeff * jumpDistance;
-                _playerVelocity.y = jumpHeight;
+                _playerVelocity = jumpDirection * jumpForce + Vector3.up * jumpHeight;
                 mana -= manaCost;
-                Debug.Log("Not enough mana for wall jump");
             }
+            else Debug.Log("Not enough mana for wall jump");
         }
     }
-    private float CalculateJumpHeight(float cameraRotationX)
-    {
-        float maxHeight = 3f;
-        float minHeight = 0f;
-        float maxCameraAngle = 90f; //Maximum camera tilt angle (up)
-        float minCameraAngle = -90f; //Minimum camera angle (downward)
 
-        //Normalize the camera angle to the range [0, 1]
-        float normalizedAngle = (cameraRotationX - minCameraAngle) / (maxCameraAngle - minCameraAngle);
 
-        //Apply a quadratic function to create a dependence of the jump height on the slope angle
-        float jumpHeight = minHeight + (maxHeight - minHeight) * Mathf.Pow(normalizedAngle, 2);
-
-        return jumpHeight;
-    }
 
     private void WindSpellJump()
 {
