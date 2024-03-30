@@ -118,6 +118,18 @@ public class PlayerQ3LikeController : MonoBehaviour
         armor = GetComponent<Armor>();
     }
 
+    
+    private void HandleInput()
+    {
+        _rotX -= Input.GetAxisRaw("Mouse Y") * xMouseSensitivity * 0.02f;
+        _rotY += Input.GetAxisRaw("Mouse X") * yMouseSensitivity * 0.02f;
+
+        _rotX = Mathf.Clamp(_rotX, -90, 90);
+
+        transform.rotation = Quaternion.Euler(0, _rotY, 0);
+        _currentView.rotation = Quaternion.Euler(_rotX, _rotY, 0);
+    }
+    
     private void Update()
     {
         //To make mouse clicks work in the pause menu as well 
@@ -128,6 +140,9 @@ public class PlayerQ3LikeController : MonoBehaviour
         }
         else return;
 
+        HandleInput();
+        
+        
         //FPS calculation
         _frameCount++;
         _dt += Time.deltaTime;
@@ -199,7 +214,7 @@ public class PlayerQ3LikeController : MonoBehaviour
             }
         }
         
-        HandleInput();
+        //HandleInput();
         
         if (_windSpellInUse) CheckForWall();
         
@@ -237,16 +252,7 @@ public class PlayerQ3LikeController : MonoBehaviour
       }
     }
 
-            private void HandleInput()
-    {
-        _rotX -= Input.GetAxisRaw("Mouse Y") * xMouseSensitivity * 0.02f;
-        _rotY += Input.GetAxisRaw("Mouse X") * yMouseSensitivity * 0.02f;
 
-        _rotX = Mathf.Clamp(_rotX, -90, 90);
-
-        transform.rotation = Quaternion.Euler(0, _rotY, 0);
-        _currentView.rotation = Quaternion.Euler(_rotX, _rotY, 0);
-    }
 
     private void SetMovementDir()
     {
@@ -520,8 +526,7 @@ public class PlayerQ3LikeController : MonoBehaviour
             else Debug.Log("Not enough mana for wall jump");
         }
     }
-
-
+    
 
     private void WindSpellJump()
 {
