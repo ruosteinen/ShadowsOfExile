@@ -59,7 +59,8 @@ public class PlayerQ3LikeController : MonoBehaviour
     public float maxWallRunCameraTilt;
     private float _jumpReleaseTime,_jumpPressTime;
     private bool _windSpellInUse;
-
+    private float maxWallSpeed = 35f;
+    
     //FPS
     public float fpsDisplayRate = 4.0f; // 4 updates per sec
     private int _frameCount; //0 by default
@@ -83,7 +84,7 @@ public class PlayerQ3LikeController : MonoBehaviour
     //private float _jumpPowerCoeff = 2f;
     private float _wallJumpCostCoeff = 2.5f;
     private float _wallRunCostCoeff = 3f;
-    private float _wallRunVelocityMultiplier = 1.03f;
+    private float _wallRunVelocityMultiplier = 350f;
     private float _windJumpCostCoeff = 2f;
     
     
@@ -216,9 +217,19 @@ public class PlayerQ3LikeController : MonoBehaviour
         
         //HandleInput();
         
-        if (_windSpellInUse) CheckForWall();
+        //if (_windSpellInUse) CheckForWall();
         
-        if (_windSpellInUse) WindSpellJump();
+        //if (_windSpellInUse) WindSpellJump();
+        
+        if (_windSpellInUse)
+        {
+            // CheckForWall();
+            CheckForWall();
+            WallRunInput();
+            WindSpellJump();   
+            
+        }
+        
 
         if (Input.GetKeyDown(KeyCode.Alpha1)) _windSpellInUse = !_windSpellInUse;  //Button 1
 
@@ -243,7 +254,7 @@ public class PlayerQ3LikeController : MonoBehaviour
         }
     }
 
-    private void FixedUpdate()
+  /*  private void FixedUpdate()
     {
       if (_windSpellInUse)
       {
@@ -251,7 +262,7 @@ public class PlayerQ3LikeController : MonoBehaviour
           WallRunInput();
       }
     }
-
+*/
 
 
     private void SetMovementDir()
@@ -470,12 +481,19 @@ public class PlayerQ3LikeController : MonoBehaviour
                 //WALL SUPER RUN EPTA
                 if (Input.GetKey(KeyCode.LeftShift))
                 {
-                    _playerVelocity.x *= _wallRunVelocityMultiplier; //////PUT THIS VALUE INTO VARIABLE
+                    _playerVelocity.x *= _wallRunVelocityMultiplier * Time.deltaTime; 
+                    // Clamp the horizontal velocity to the maximum run speed
+                    _playerVelocity.x = Mathf.Clamp(_playerVelocity.x, -maxWallSpeed, maxWallSpeed);
                     mana -= manaCost;
                 }
             }
             else _playerVelocity = Vector3.zero;
-        }else _isWallRunning = false;
+        }
+        else
+        {
+            _isWallRunning = false;
+            _playerVelocity.y = -gravity;
+        }
         
         if(mana < manaCost) Debug.Log("Not enough mana to wall run");
     }
