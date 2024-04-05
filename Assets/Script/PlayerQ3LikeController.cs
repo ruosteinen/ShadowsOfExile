@@ -245,8 +245,7 @@ public class PlayerQ3LikeController : MonoBehaviour
             // CheckForWall();
             CheckForWall();
             WallRunInput();
-            WindSpellJump();   
-            
+            WindSpellJump();  
         }
         
 
@@ -417,6 +416,9 @@ public class PlayerQ3LikeController : MonoBehaviour
             }
         }
         else WindSpellJump();
+        
+        //Zeroing the velocity vector if the player does not press keys to move
+        if(_dirs.ToForward == 0 && _dirs.ToRight == 0) _playerVelocity = Vector3.zero;
     }
 
 
