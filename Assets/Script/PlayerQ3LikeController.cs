@@ -84,11 +84,20 @@ public class PlayerQ3LikeController : MonoBehaviour
     //private float _jumpPowerCoeff = 2f;
     private float _wallJumpCostCoeff = 2.5f;
     private float _wallRunCostCoeff = 3f;
-    private float _wallRunVelocityMultiplier = 350f;
+    private float _wallRunVelocityMultiplier = 1.03f;
     private float _windJumpCostCoeff = 2f;
     
     
     private Vector3 _wallContactNormal;
+    
+    
+    public Transform groundCheck;
+    public float groundDistance = 0.1f;
+    //public float sphereRadius = 0.5f; 
+    public LayerMask groundMask;
+    private bool isGrounded;
+
+    
     private void Start()
     {
 
@@ -140,7 +149,17 @@ public class PlayerQ3LikeController : MonoBehaviour
             yMouseSensitivity = PlayerPrefs.GetFloat("MouseSensitivity");
         }
         else return;
-
+        
+        //RaycastHit hit;
+     
+        // Vector3 sphereCastOrigin = groundCheck.position + Vector3.up * sphereRadius;
+   
+        //Vector3 direction = -Vector3.up;
+        
+        //isGrounded = Physics.SphereCast(sphereCastOrigin, sphereRadius, direction, out hit, groundDistance + sphereRadius, groundMask);
+        isGrounded = Physics.Raycast(groundCheck.position, -Vector3.up, groundDistance, groundMask);
+            
+        
         HandleInput();
         
         
@@ -160,8 +179,8 @@ public class PlayerQ3LikeController : MonoBehaviour
         
         if(!_windSpellInUse)QueueJump();
 
-        if(_controller.isGrounded) GroundMove();
-        else if(!_controller.isGrounded) AirMove();
+        if(isGrounded) GroundMove();
+        else if(!isGrounded) AirMove();
 
         // Move the controller
         _controller.Move(_playerVelocity * Time.deltaTime);
@@ -191,7 +210,7 @@ public class PlayerQ3LikeController : MonoBehaviour
 
         mana = Mathf.Clamp(mana, 0, maxMana);
 
-        if (_controller.isGrounded && Input.GetKey(KeyCode.LeftShift) && _windSpellInUse)
+        if (isGrounded && Input.GetKey(KeyCode.LeftShift) && _windSpellInUse)
         {
             float manaCost = manaDrainRate * Time.deltaTime * (1 + armor.weight / 20);
             if (mana >= manaCost)
@@ -233,7 +252,7 @@ public class PlayerQ3LikeController : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.Alpha1)) _windSpellInUse = !_windSpellInUse;  //Button 1
 
-        if (_isWallRunning && _windSpellInUse && !_controller.isGrounded)
+        if (_isWallRunning && _windSpellInUse && !isGrounded)
         {
             if (_isWallRight || _isWallLeft)
             {
@@ -419,7 +438,7 @@ public class PlayerQ3LikeController : MonoBehaviour
         drop = 0.0f;
 
         //Only if the player is on the ground
-        if(_controller.isGrounded)
+        if(isGrounded)
         {
             control = speed < runDeacceleration ? runDeacceleration : speed;
             drop = control * groundFriction * Time.deltaTime * t;
@@ -481,7 +500,7 @@ public class PlayerQ3LikeController : MonoBehaviour
                 //WALL SUPER RUN EPTA
                 if (Input.GetKey(KeyCode.LeftShift))
                 {
-                    _playerVelocity.x *= _wallRunVelocityMultiplier * Time.deltaTime; 
+                    _playerVelocity.x *= _wallRunVelocityMultiplier; 
                     // Clamp the horizontal velocity to the maximum run speed
                     _playerVelocity.x = Mathf.Clamp(_playerVelocity.x, -maxWallSpeed, maxWallSpeed);
                     mana -= manaCost;
@@ -589,10 +608,12 @@ public class PlayerQ3LikeController : MonoBehaviour
         var ups = _controller.velocity;
         ups.y = 0;
         string windSpell = _windSpellInUse ? "Wind Spell in use" : "Wind Spell not in use";
+        string graund = isGrounded ? "Grounded" : "Not Grounded";
         GUI.Label(new Rect(0, 0, 400, 100), "FPS: " + _fps, style);
         GUI.Label(new Rect(0, 15, 400, 100), "Speed: " + Mathf.Round(ups.magnitude * 100) / 100, style);
         GUI.Label(new Rect(0, 30, 400, 100), "Top Speed: " + Mathf.Round(_playerTopVelocity * 100) / 100 , style);
         GUI.Label(new Rect(0, 45, 400, 100), "Mana: " + mana , style);
         GUI.Label(new Rect(0, 60, 400, 100), windSpell, style);
+        GUI.Label(new Rect(0, 75, 400, 100), graund, style);
     }
 }
