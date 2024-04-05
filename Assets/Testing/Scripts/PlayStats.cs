@@ -1,11 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class PlayStats : MonoBehaviour
 {
     [SerializeField] private float maxHealth;
     [SerializeField] private float defense;
+    [SerializeField] private TMP_Text healthValue;
 
     private float currentHealth;
 
@@ -14,6 +16,7 @@ public class PlayStats : MonoBehaviour
     void Start()
     {
         currentHealth = maxHealth;
+        UpdateHealthText();
 
         healthBar.SetSliderMax(maxHealth);
     }
@@ -22,6 +25,13 @@ public class PlayStats : MonoBehaviour
     {
         currentHealth -= amount - defense;
         healthBar.SetSlider(currentHealth);
+        UpdateHealthText();
+    }
+
+  
+    private void UpdateHealthText()
+    {
+        healthValue.text = $"{currentHealth} / {maxHealth}";
     }
 
 }

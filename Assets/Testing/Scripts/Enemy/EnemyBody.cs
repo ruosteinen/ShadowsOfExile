@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class EnemyBody : MonoBehaviour
 {
-    public float damage;
+    public int damage;
 
     private void OnTriggerEnter(Collider other)
     {
