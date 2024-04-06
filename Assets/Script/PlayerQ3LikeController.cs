@@ -234,12 +234,6 @@ public class PlayerQ3LikeController : MonoBehaviour
             }
         }
         
-        //HandleInput();
-        
-        //if (_windSpellInUse) CheckForWall();
-        
-        //if (_windSpellInUse) WindSpellJump();
-        
         if (_windSpellInUse)
         {
             // CheckForWall();
@@ -248,7 +242,6 @@ public class PlayerQ3LikeController : MonoBehaviour
             WindSpellJump();  
         }
         
-
         if (Input.GetKeyDown(KeyCode.Alpha1)) _windSpellInUse = !_windSpellInUse;  //Button 1
 
         if (_isWallRunning && _windSpellInUse && !isGrounded)
@@ -418,7 +411,11 @@ public class PlayerQ3LikeController : MonoBehaviour
         else WindSpellJump();
         
         //Zeroing the velocity vector if the player does not press keys to move
-        if(_dirs.ToForward == 0 && _dirs.ToRight == 0) _playerVelocity = Vector3.zero;
+        if (_dirs.ToForward == 0 && _dirs.ToRight == 0)
+        {
+            _playerVelocity.x = 0f;
+            _playerVelocity.z = 0f;
+        }
     }
 
 
@@ -487,7 +484,7 @@ public class PlayerQ3LikeController : MonoBehaviour
     private void StartWallRun()
     {
         float manaCost = manaDrainRate * _wallRunCostCoeff * Time.deltaTime * (1 + armor.weight / 20);
-        
+
         if (mana >= manaCost && _windSpellInUse)
         {
             _playerVelocity.y = 0;
@@ -499,14 +496,15 @@ public class PlayerQ3LikeController : MonoBehaviour
 
             if (movingForward || movingSideways) // Check if player is moving on the wall
             {
-                //WALL SUPER RUN EPTA
+                // WALL SUPER RUN EPTA
                 if (Input.GetKey(KeyCode.LeftShift))
                 {
-                    _playerVelocity.x *= _wallRunVelocityMultiplier; 
+                    _playerVelocity.x *= _wallRunVelocityMultiplier;
                     // Clamp the horizontal velocity to the maximum run speed
                     _playerVelocity.x = Mathf.Clamp(_playerVelocity.x, -maxWallSpeed, maxWallSpeed);
                     mana -= manaCost;
                 }
+                else _playerVelocity.x = Mathf.Clamp(_playerVelocity.x, -speedOnGround, speedOnGround);
             }
             else _playerVelocity = Vector3.zero;
         }
@@ -515,7 +513,7 @@ public class PlayerQ3LikeController : MonoBehaviour
             _isWallRunning = false;
             _playerVelocity.y = -gravity;
         }
-        
+
         if(mana < manaCost) Debug.Log("Not enough mana to wall run");
     }
     

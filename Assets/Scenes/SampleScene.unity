@@ -1208,7 +1208,7 @@ MonoBehaviour:
   customGravity: 20
   defaultGravity: 20
   groundFriction: 6
-  speedOnGround: 7
+  speedOnGround: 12
   runAcceleration: 14
   runDeacceleration: 10
   airAcceleration: 2
