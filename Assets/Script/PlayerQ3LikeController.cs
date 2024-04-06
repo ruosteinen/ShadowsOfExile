@@ -1,6 +1,7 @@
 using UnityEngine;
+using UnityEngine.UI;
+using System.Collections;
 
-// Contains the command the user wishes upon the character
 struct Directions
 {
     public float ToForward;
@@ -87,9 +88,8 @@ public class PlayerQ3LikeController : MonoBehaviour
     private float _wallRunVelocityMultiplier = 1.03f;
     private float _windJumpCostCoeff = 2f;
     
-    
+    // Wall contact 
     private Vector3 _wallContactNormal;
-    
     
     public Transform groundCheck;
     public float groundDistance = 0.1f;
@@ -97,7 +97,11 @@ public class PlayerQ3LikeController : MonoBehaviour
     public LayerMask groundMask;
     private bool isGrounded;
 
-    
+    public Image Crosshair;
+     
+    private float _raycastDistance = 1f;
+    private bool _isWallJumping;
+
     private void Start()
     {
 
@@ -126,6 +130,10 @@ public class PlayerQ3LikeController : MonoBehaviour
         yMouseSensitivity = sensitivity;
 
         armor = GetComponent<Armor>();
+
+       Crosshair = GameObject.FindObjectOfType<Image>();
+
+       Crosshair.gameObject.SetActive(true);
     }
 
     
@@ -142,26 +150,25 @@ public class PlayerQ3LikeController : MonoBehaviour
     
     private void Update()
     {
-        //To make mouse clicks work in the pause menu as well 
         if (!PauseMenuSingleton.Instance.IsPaused)
         {
             xMouseSensitivity = PlayerPrefs.GetFloat("MouseSensitivity");
             yMouseSensitivity = PlayerPrefs.GetFloat("MouseSensitivity");
+	        Crosshair.gameObject.SetActive(true);
         }
-        else return;
+        else{
+	        Crosshair.gameObject.SetActive(false);
+	        return;
+        }
         
         //RaycastHit hit;
-     
         // Vector3 sphereCastOrigin = groundCheck.position + Vector3.up * sphereRadius;
-   
         //Vector3 direction = -Vector3.up;
-        
         //isGrounded = Physics.SphereCast(sphereCastOrigin, sphereRadius, direction, out hit, groundDistance + sphereRadius, groundMask);
+        
         isGrounded = Physics.Raycast(groundCheck.position, -Vector3.up, groundDistance, groundMask);
-            
         
         HandleInput();
-        
         
         //FPS calculation
         _frameCount++;
@@ -239,43 +246,41 @@ public class PlayerQ3LikeController : MonoBehaviour
             // CheckForWall();
             CheckForWall();
             WallRunInput();
-            WindSpellJump();  
+            WindSpellJump();
         }
         
         if (Input.GetKeyDown(KeyCode.Alpha1)) _windSpellInUse = !_windSpellInUse;  //Button 1
-
+        
         if (_isWallRunning && _windSpellInUse && !isGrounded)
+	    {
+	        if (_isWallRight || _isWallLeft)
+	        {
+		        float tiltDirection = _isWallRight ? 1 : -1;
+		        float targetTilt = maxWallRunCameraTilt * tiltDirection;
+		        float targetVerticalRotation = _currentView.localRotation.eulerAngles.x;
+
+		        Quaternion targetRotation = Quaternion.Euler(targetVerticalRotation, 0, targetTilt);
+		        _currentView.localRotation = Quaternion.Lerp(_currentView.localRotation, targetRotation, 225f);
+	        }
+            else gravity = 0f;
+	        if (_windSpellInUse) WallJump();
+	    }
+	    else
+	    {
+	        if (useCustomGravity) gravity = customGravity;
+	        else gravity = defaultGravity;
+	    }
+        
+       if (_isWallJumping) _raycastDistance = 0f;
+        
+        else if (_isWallRunning && _windSpellInUse && !isGrounded)
         {
-            if (_isWallRight || _isWallLeft)
-            {
-
-                float tiltDirection = _isWallRight ? 1 : -1;
-                float targetTilt = maxWallRunCameraTilt * tiltDirection;
-
-                _currentView.localRotation =
-                    Quaternion.Lerp(_currentView.localRotation, Quaternion.Euler(0, 0, targetTilt), 225f);
-            }
-            gravity = 0f;
-            if(_windSpellInUse)  WallJump();
+            _playerVelocity.y = 0f;
+            _raycastDistance = 3f;
         }
-        else
-        {
-            if (useCustomGravity) gravity = customGravity;
-            else gravity = defaultGravity;
-        }
+        else _raycastDistance = 1f;
     }
-
-  /*  private void FixedUpdate()
-    {
-      if (_windSpellInUse)
-      {
-         // CheckForWall();
-          WallRunInput();
-      }
-    }
-*/
-
-
+    
     private void SetMovementDir()
     {
         _dirs.ToForward = Input.GetAxisRaw("Vertical");
@@ -479,17 +484,21 @@ public class PlayerQ3LikeController : MonoBehaviour
         if (_isWallLeft) StartWallRun();
         if(_isWallBack) StartWallRun();
         if(_isWallFront) StartWallRun();
+        
     }
 
     private void StartWallRun()
     {
         float manaCost = manaDrainRate * _wallRunCostCoeff * Time.deltaTime * (1 + armor.weight / 20);
-
+        
+        
         if (mana >= manaCost && _windSpellInUse)
         {
             _playerVelocity.y = 0;
             _isWallRunning = true;
-
+            
+            //raycastDistance = 1.5f;    
+            
             // Check if the player is moving forward or sideways
             bool movingForward = Mathf.Abs(_dirs.ToForward) > 0.1f;
             bool movingSideways = Mathf.Abs(_dirs.ToRight) > 0.1f;
@@ -504,7 +513,7 @@ public class PlayerQ3LikeController : MonoBehaviour
                     _playerVelocity.x = Mathf.Clamp(_playerVelocity.x, -maxWallSpeed, maxWallSpeed);
                     mana -= manaCost;
                 }
-                else _playerVelocity.x = Mathf.Clamp(_playerVelocity.x, -speedOnGround, speedOnGround);
+                else _playerVelocity.x = Mathf.Clamp(_playerVelocity.x * 1.5f, -speedOnGround, speedOnGround);
             }
             else _playerVelocity = Vector3.zero;
         }
@@ -516,92 +525,122 @@ public class PlayerQ3LikeController : MonoBehaviour
 
         if(mana < manaCost) Debug.Log("Not enough mana to wall run");
     }
+
     
     private void WallJump()
     {
         if (!_isWallRunning) return;
 
-        if (Input.GetButtonDown("Jump"))
-        {
-            _jumpPressTime = Time.time;
-        }
-
+        if (Input.GetButtonDown("Jump")) _jumpPressTime = Time.time;
+    
         if (Input.GetButtonUp("Jump"))
         {
             _jumpReleaseTime = Time.time;
             
-            //Zeroing out the stored velocity momentum in a collision with a wall
+            // Zeroing out the stored velocity momentum in a collision with a wall
             _playerVelocity = Vector3.zero;
-            float jumpForce = 50f;
+
+            
+            _isWallJumping = true;
+
+            StartCoroutine(ResetWallJumpFlag());
+            
+            
+            // Calculate jump force based on how long the jump button was held
+            float jumpPressDuration = _jumpReleaseTime - _jumpPressTime;
+            float maxJumpPressDuration = 1.0f; // Maximum duration for full jump force
+            float jumpForce = Mathf.Lerp(35f, 75f, jumpPressDuration / maxJumpPressDuration); // Linearly interpolate jump force based on press duration
             float maxJumpDuration = 0.5f;
 
             float jumpDuration = _jumpReleaseTime - _jumpPressTime;
             jumpDuration = Mathf.Clamp(jumpDuration, 0f, maxJumpDuration);
 
-            // Get the direction of the camera's forward vector
-            Vector3 cameraForward = Camera.main.transform.forward;
-
-            // Project the forward vector onto the horizontal plane (ignore vertical component)
-            Vector3 horizontalCameraForward = new Vector3(cameraForward.x, 0f, cameraForward.z).normalized;
-
-            // Calculate jump direction based on camera forward direction
-            Vector3 jumpDirection = horizontalCameraForward;
+            // Get the direction from player to the point they're looking at
+            Vector3 lookAtPoint = transform.position + Camera.main.transform.forward;
+            Vector3 jumpDirection = (lookAtPoint - transform.position).normalized;
 
             // Calculate jump height based on jump duration
             float jumpHeight = (jumpDuration * jumpForce) / 2.5f;
+
+            float maxJumpHeight = 5f; 
+            jumpHeight = Mathf.Clamp(jumpHeight, 0f, maxJumpHeight);
 
             // Calculate mana cost based on jump distance relative to max jump distance
             float maxJumpDistance = 10f;
             float jumpDistance = Mathf.Min(jumpHeight, maxJumpDistance);
             float manaCost = jumpDistance / maxJumpDistance * _wallJumpCostCoeff;
-            
+
+        
             if (mana >= manaCost)
             {
-                _playerVelocity = jumpDirection * jumpForce + Vector3.up * jumpHeight;
+                Vector3 jumpVelocity = jumpDirection * jumpForce + Vector3.up * jumpHeight;
+                _playerVelocity += jumpVelocity;
+                _controller.Move(_playerVelocity * Time.deltaTime);
                 mana -= manaCost;
+                StartCoroutine(DicreaseJump());
             }
             else Debug.Log("Not enough mana for wall jump");
         }
     }
     
 
-    private void WindSpellJump()
-{
-    if (_isWallRunning) return;
+
+    private IEnumerator DicreaseJump()
+    {
+        yield return new WaitForSeconds(0.8f);
+        _playerVelocity -= Vector3.up * (_playerVelocity.y * 2f); 
+    }
     
-    if (Input.GetButtonDown("Jump"))
-        _jumpPressTime = Time.time;
-
-    if (Input.GetButtonUp("Jump"))
+    
+    private IEnumerator ResetWallJumpFlag()
     {
-        _jumpReleaseTime = Time.time;
+        yield return new WaitForSeconds(0.1f); 
+        _isWallJumping = false;
+    }
+    
+    
 
-        float maxJumpDistance = 20f;
-        float minJumpDuration = 0.5f;
-        float jumpDuration = _jumpReleaseTime - _jumpPressTime;
-        float jumpDistance = Mathf.Min(jumpDuration * maxJumpDistance / minJumpDuration, maxJumpDistance);
+    private void WindSpellJump()
+    {
+        if (_isWallRunning) return;
 
-        // Calculate mana consumption based on actual jump duration
-        float manaCost = jumpDistance / maxJumpDistance *_windJumpCostCoeff;
-        //Debug.Log(manaCost);
-        if (mana >= manaCost)
+        if (Input.GetButtonDown("Jump")) _jumpPressTime = Time.time;
+
+        if (Input.GetButtonUp("Jump"))
         {
-            _playerVelocity.y = jumpDistance;
-            mana -= manaCost;
-        }else Debug.Log("Not enough mana for wind jump");
-    }
-}
+            _jumpReleaseTime = Time.time;
 
-    private void CheckForWall() //make sure to call in Update()
+            float maxJumpDistance = 20f;
+            float minJumpDuration = 0.5f;
+            float jumpDuration = _jumpReleaseTime - _jumpPressTime;
+            float jumpDistance = Mathf.Min(jumpDuration * maxJumpDistance / minJumpDuration, maxJumpDistance);
+
+            // Calculate mana consumption based on actual jump duration
+            float manaCost = jumpDistance / maxJumpDistance *_windJumpCostCoeff;
+            //Debug.Log(manaCost);
+            if (mana >= manaCost)
+            {
+                _playerVelocity.y = jumpDistance;
+                mana -= manaCost;
+            }else Debug.Log("Not enough mana for wind jump");
+        }
+    }
+
+
+
+    private void CheckForWall()
     {
-        _isWallRight = Physics.Raycast(transform.position, _currentView.right, 1f, whatIsWall);
-        _isWallLeft = Physics.Raycast(transform.position, -_currentView.right, 1f, whatIsWall);
-        _isWallBack = Physics.Raycast(transform.position, -_currentView.forward, 1f, whatIsWall);
-        _isWallFront = Physics.Raycast(transform.position, _currentView.forward, 1f, whatIsWall);
+        Vector3 playerPosition = transform.position;
 
-        //leave wall run
+        _isWallRight = Physics.Raycast(playerPosition, transform.right, _raycastDistance, whatIsWall);
+        _isWallLeft = Physics.Raycast(playerPosition, -transform.right, _raycastDistance, whatIsWall);
+        _isWallBack = Physics.Raycast(playerPosition, -transform.forward, _raycastDistance, whatIsWall);
+        _isWallFront = Physics.Raycast(playerPosition, transform.forward, _raycastDistance, whatIsWall);
+
         if (!_isWallLeft && !_isWallRight && !_isWallBack && !_isWallFront) _isWallRunning = false;
-    }
+        else if (_isWallJumping) _playerVelocity = Vector3.zero;
+    } 
+
 
     private void OnGUI()
     {
