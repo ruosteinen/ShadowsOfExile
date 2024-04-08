@@ -31,14 +31,14 @@ public class FlameThrow : MonoBehaviour
     }
    
 
-    private void OnCollisionEnter(Collision collision)
+    /*private void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.CompareTag("Flammable"))
         {
             Flammable flammable = collision.gameObject.GetComponentInChildren<Flammable>();
             if (flammable != null && !flammable.isOnFire) flammable.Ignite();
         }
-    }
+    }*/
 }
 
 
