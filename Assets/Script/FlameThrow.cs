@@ -42,10 +42,6 @@ public class FlameThrow : MonoBehaviour
 }
 
 
-
-
-
-
 /*using UnityEngine;
 
 public class FlameThrow : MonoBehaviour
