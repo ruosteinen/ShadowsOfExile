@@ -8,7 +8,9 @@ public class Flammable : MonoBehaviour
     public ParticleSystem smokeFX;
     public Material[] materials;
     public float colorChangeSpeed = 0.3f;
+    private Coroutine ignitionCoroutine;
     //public float destroyDelay = 5f;
+    
 
     private void Start()
     {
@@ -45,21 +47,9 @@ public class Flammable : MonoBehaviour
         }
     }
 
-    public void Ignite()
-    {
-        Debug.Log("Ignite called on " + gameObject.name);
-        if (!isOnFire)
-        {
-            isOnFire = true;
-            StartCoroutine(Ignition());
-        }
-    }
-
     IEnumerator Ignition()
     {
-        //isOnFire = true;
         Debug.Log("Ignition coroutine started for " + gameObject.name);
-        gameObject.tag = "Untagged";
         gameObject.layer = LayerMask.NameToLayer("OnFire");
 
         if (fireFX != null) fireFX.Play();
@@ -72,5 +62,32 @@ public class Flammable : MonoBehaviour
         smokeFX.Stop();
         yield return new WaitForSeconds(2f);
         Destroy(gameObject);
+    }
+
+    public void Ignite()
+    {
+        if (!isOnFire)
+        {
+            isOnFire = true;
+            ignitionCoroutine = StartCoroutine(Ignition());
+        }
+    }
+
+    public void Extinguish()
+    {
+        if (isOnFire)
+        {
+            isOnFire = false;
+            Debug.Log("Extinguish called on" + gameObject.name);
+
+            if (ignitionCoroutine != null)
+            {
+                StopCoroutine(ignitionCoroutine);
+                ignitionCoroutine = null; // Clear the stored coroutine
+            }
+
+            if (fireFX != null) fireFX.Stop();
+            if (smokeFX != null) smokeFX.Stop();
+        }
     }
 }

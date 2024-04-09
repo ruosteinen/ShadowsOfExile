@@ -5,10 +5,7 @@ public class FireBall : MonoBehaviour
     public float maxDistance;
     private Vector3 throwPosition;
 
-    public void Initialize(Vector3 initialThrowPosition)
-    {
-        throwPosition = initialThrowPosition;
-    }
+    public void Initialize(Vector3 initialThrowPosition) => throwPosition = initialThrowPosition;
 
     void Update()
     {
@@ -22,7 +19,6 @@ public class FireBall : MonoBehaviour
         {
             Flammable flammable = collision.gameObject.GetComponent<Flammable>();
             if (flammable != null && !flammable.isOnFire) flammable.Ignite();
-            //Destroy(gameObject);
         }
         Destroy(gameObject);
     }
