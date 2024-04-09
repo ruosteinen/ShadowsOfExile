@@ -5,9 +5,10 @@ public class Flammable : MonoBehaviour
 {
     public bool isOnFire;
     public ParticleSystem fireFX;
+    public ParticleSystem smokeFX;
     public Material[] materials;
     public float colorChangeSpeed = 0.3f;
-    public float destroyDelay = 5f;
+    //public float destroyDelay = 5f;
 
     private void Start()
     {
@@ -56,6 +57,7 @@ public class Flammable : MonoBehaviour
 
     IEnumerator Ignition()
     {
+        //isOnFire = true;
         Debug.Log("Ignition coroutine started for " + gameObject.name);
         gameObject.tag = "Untagged";
         gameObject.layer = LayerMask.NameToLayer("OnFire");
@@ -65,39 +67,10 @@ public class Flammable : MonoBehaviour
         
         yield return new WaitForSeconds(5f);
         fireFX.Stop();
-        yield return new WaitForSeconds(destroyDelay);
+        smokeFX.Play();
+        yield return new WaitForSeconds(8f); 
+        smokeFX.Stop();
+        yield return new WaitForSeconds(2f);
         Destroy(gameObject);
     }
 }
-
-
-/*
-    // Debug.Log("Ignition coroutine started for " + gameObject.name);
-    //isOnFire = true;
-   // gameObject.tag = "Untagged"; // delete tag
-   // gameObject.layer = LayerMask.NameToLayer("OnFire");
-   // fireFX.Play();
-   Debug.Log("Ignition coroutine started for " + gameObject.name);
-   isOnFire = true;
-   gameObject.tag = "Untagged"; // delete tag
-   gameObject.layer = LayerMask.NameToLayer("OnFire");
-
-   ParticleSystem fireFX = GetComponent<ParticleSystem>();
-   if (fireFX != null)
-   {
-       fireFX.Play();
-   }
-   else
-   {
-       Debug.LogWarning("ParticleSystem component not found on " + gameObject.name);
-   }
-   
-   
-    yield return new WaitForSeconds(/*Random.Range(fireDelay - fireDelay/2 , fireDelay + fireDelay/2)* / 1f);
-    // smokeFX.transform.parent = fireFX.transform.parent;
-    fireFX.Stop();
-    // yield return new WaitForSeconds(Random.Range(smokeDelay - smokeDelay/2 , smokeDelay + smokeDelay*2)); 
-    // smokeFX.Stop(); 
-    yield return new WaitForSeconds(destroyDelay);
-    Destroy(gameObject);
- */

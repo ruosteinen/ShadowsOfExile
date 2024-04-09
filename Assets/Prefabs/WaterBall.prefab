@@ -13,9 +13,9 @@ GameObject:
   - component: {fileID: 6164821289024565280}
   - component: {fileID: 5039731191626330564}
   - component: {fileID: 688002956855617047}
-  - component: {fileID: 627637186944397512}
+  - component: {fileID: -4698724445577089845}
   m_Layer: 0
-  m_Name: FireBall
+  m_Name: WaterBall
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -64,7 +64,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: a0ef289671548e43fa1d831a408930d5, type: 2}
+  - {fileID: 2100000, guid: 3b31c2729633b9c71b5581dcd20a0856, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -134,7 +134,7 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!114 &627637186944397512
+--- !u!114 &-4698724445577089845
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -143,6 +143,6 @@ MonoBehaviour:
   m_GameObject: {fileID: 5711425907569739061}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b52febc71b7dc360fa0654938f886b30, type: 3}
+  m_Script: {fileID: 11500000, guid: 3c6c9fa5aa5159550b3fe8df248271ce, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 

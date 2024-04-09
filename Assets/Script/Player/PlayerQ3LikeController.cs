@@ -2,7 +2,6 @@ using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
 
-
 struct Directions
 {
     public float ToForward;
@@ -104,7 +103,7 @@ public class PlayerQ3LikeController : MonoBehaviour
 
     //Spells
     public bool windSpellInUse;
-    public bool fireSpellInUse;
+    //public bool fireSpellInUse;
 
     
     
@@ -181,7 +180,7 @@ public class PlayerQ3LikeController : MonoBehaviour
         
         //Spells 
         if (Input.GetKeyDown(KeyCode.Alpha1)) windSpellInUse = !windSpellInUse;  //Button 1
-        if (Input.GetKeyDown(KeyCode.Alpha2)) fireSpellInUse = !fireSpellInUse;  //Button 2
+        //if (Input.GetKeyDown(KeyCode.Alpha2)) fireSpellInUse = !fireSpellInUse;  //Button 2
         
         
         //FPS calculation
@@ -659,14 +658,14 @@ public class PlayerQ3LikeController : MonoBehaviour
         ups.y = 0;
         string windSpell = windSpellInUse ? "Wind Spell in use" : "Wind Spell not in use";
         string ground = isGrounded ? "Grounded" : "Not Grounded";
-        string fireSpell = fireSpellInUse ? "Fire Spell in use" : "Fire Spell not in use";
+       // string fireSpell = fireSpellInUse ? "Fire Spell in use" : "Fire Spell not in use";
 
         GUI.Label(new Rect(0, 0, 400, 100), "FPS: " + _fps, style);
         GUI.Label(new Rect(0, 15, 400, 100), "Speed: " + Mathf.Round(ups.magnitude * 100) / 100, style);
         GUI.Label(new Rect(0, 30, 400, 100), "Top Speed: " + Mathf.Round(_playerTopVelocity * 100) / 100 , style);
         GUI.Label(new Rect(0, 45, 400, 100), "Mana: " + mana , style);
         GUI.Label(new Rect(0, 60, 400, 100), windSpell, style);
-        GUI.Label(new Rect(0, 75, 400, 100), fireSpell, style);
-        GUI.Label(new Rect(0, 90, 400, 100), ground, style);
+        //GUI.Label(new Rect(0, 75, 400, 100), fireSpell, style);
+        GUI.Label(new Rect(0, 75, 400, 100), ground, style);
     }
 }

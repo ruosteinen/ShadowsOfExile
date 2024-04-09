@@ -8,7 +8,8 @@ public class FireBall : MonoBehaviour
         {
             Flammable flammable = collision.gameObject.GetComponent<Flammable>();
             if (flammable != null && !flammable.isOnFire) flammable.Ignite();
-            Destroy(gameObject);
+            //Destroy(gameObject);
         }
+        Destroy(gameObject);
     }
 }
