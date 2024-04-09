@@ -1377,8 +1377,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fireballPrefab: {fileID: 5711425907569739061, guid: 22125f554321be253adb535acb6cd9e6, type: 3}
+  waterballPrefab: {fileID: 5711425907569739061, guid: 748f0f88407347204807adcbf0489896, type: 3}
   fireBallSpeed: 80
-  spawnDistance: 2
+  waterBallSpeed: 80
+  spawnDistance: 1
   playerCamera: {fileID: 963194227}
   playerController: {fileID: 271030209}
 --- !u!4 &273701852 stripped
