@@ -1798,7 +1798,7 @@ GameObject:
   - component: {fileID: 464374531}
   m_Layer: 10
   m_Name: Plane1
-  m_TagString: Untagged
+  m_TagString: Flammable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -9410,9 +9410,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3f0a2e5716e1dec429f0156e327af336, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isOnFire: 0
   fireFX: {fileID: 273701854}
   smokeFX: {fileID: 528674352}
+  isOnFire: 0
   materials:
   - {fileID: 2100000, guid: 58f19b6a8275371f2b789a0b0c146c87, type: 2}
   colorChangeSpeed: 0.3

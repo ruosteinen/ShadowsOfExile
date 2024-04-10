@@ -1,41 +1,29 @@
-using System.Collections;
 using UnityEngine;
-
+using System.Collections;
 public class Flammable : MonoBehaviour
 {
-    public bool isOnFire;
     public ParticleSystem fireFX;
     public ParticleSystem smokeFX;
+    private Coroutine ignitionCoroutine;
+    private float elapsedIgnitionTime; 
+    public bool isOnFire;
+    private bool wasExtinguished;
     public Material[] materials;
     public float colorChangeSpeed = 0.3f;
-    private Coroutine ignitionCoroutine;
-    //public float destroyDelay = 5f;
-    
 
+    // Specify ignition, smoke, and cooldown durations
+    private readonly float ignitionDuration = 5f;
+    private readonly float smokeDuration = 8f;
+    private readonly float cooldownDuration = 2f;
+    
+    
     private void Start()
     {
-        fireFX = GetComponentInChildren<ParticleSystem>();
-        if (fireFX == null) Debug.LogError("ParticleSystem не найден на объекте " + gameObject.name);
-        
         MeshRenderer meshRenderer = GetComponent<MeshRenderer>();
-        
         if (meshRenderer != null) materials = meshRenderer.materials;
-        
-        else Debug.LogError("MeshRenderer не найден на объекте " + gameObject.name);
-        
-        if (isOnFire) Ignite();
     }
-
-    private void OnParticleCollision(GameObject obj)
-    {
-        if (obj.CompareTag("Flammable"))
-        {
-            Flammable flammableComponent = obj.GetComponentInChildren<Flammable>();
-            if (flammableComponent != null && !flammableComponent.isOnFire)
-                flammableComponent.Ignite();
-        }
-    }
-
+    
+    
     private void Update()
     {
         if (isOnFire)
@@ -46,21 +34,31 @@ public class Flammable : MonoBehaviour
             }
         }
     }
-
-    IEnumerator Ignition()
+    
+    private IEnumerator Ignition()
     {
-        Debug.Log("Ignition coroutine started for " + gameObject.name);
+        Debug.Log($"Ignition coroutine started for {gameObject.name}.");
         gameObject.layer = LayerMask.NameToLayer("OnFire");
 
-        if (fireFX != null) fireFX.Play();
-        else Debug.LogError("ParticleSystem component not found on " + gameObject.name);
-        
-        yield return new WaitForSeconds(5f);
-        fireFX.Stop();
-        smokeFX.Play();
-        yield return new WaitForSeconds(8f); 
-        smokeFX.Stop();
-        yield return new WaitForSeconds(2f);
+        while (elapsedIgnitionTime < ignitionDuration + smokeDuration + cooldownDuration)
+        {
+            if (elapsedIgnitionTime < ignitionDuration)
+            {
+                if (fireFX != null && !fireFX.isPlaying) fireFX.Play();
+            }
+            else if (elapsedIgnitionTime >= ignitionDuration && elapsedIgnitionTime < ignitionDuration + smokeDuration)
+            {
+                if (fireFX != null && fireFX.isPlaying) fireFX.Stop();
+                if (smokeFX != null && !smokeFX.isPlaying) smokeFX.Play();
+            }
+
+            elapsedIgnitionTime += Time.deltaTime;
+            yield return null;
+        }
+
+        // Once the burning process is complete, stop all effects and destroy the object
+        if (fireFX != null && fireFX.isPlaying) fireFX.Stop();
+        if (smokeFX != null && smokeFX.isPlaying) smokeFX.Stop();
         Destroy(gameObject);
     }
 
@@ -78,14 +76,16 @@ public class Flammable : MonoBehaviour
         if (isOnFire)
         {
             isOnFire = false;
-            Debug.Log("Extinguish called on" + gameObject.name);
+            wasExtinguished = true;
+            Debug.Log($"Extinguish called on {gameObject.name}.");
 
             if (ignitionCoroutine != null)
             {
                 StopCoroutine(ignitionCoroutine);
-                ignitionCoroutine = null; // Clear the stored coroutine
+                ignitionCoroutine = null;
             }
 
+            // Stop the particle systems
             if (fireFX != null) fireFX.Stop();
             if (smokeFX != null) smokeFX.Stop();
         }
