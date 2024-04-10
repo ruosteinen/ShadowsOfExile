@@ -147,3 +147,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxDistance: 60
+  affectedRadius: 5
+  groundLayer:
+    serializedVersion: 2
+    m_Bits: 1024
