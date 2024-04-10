@@ -13,7 +13,6 @@ public class ManaShooting : MonoBehaviour
 
     void Start()
     {
-        // Find the PlayStats component in the scene
         playerStats = FindObjectOfType<PlayStats>();
 
         if (playerStats == null)
