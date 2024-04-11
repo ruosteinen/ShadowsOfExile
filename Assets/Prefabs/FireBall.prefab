@@ -147,7 +147,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxDistance: 60
-  affectedRadius: 5
+  affectedRadius: 1
   groundLayer:
     serializedVersion: 2
     m_Bits: 1024
+  FlammableAreaPrefab: {fileID: 7260314791010705794, guid: c1a4ffbd70046275bad60d16d561b02f, type: 3}

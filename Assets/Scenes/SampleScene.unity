@@ -1492,21 +1492,37 @@ PrefabInstance:
       propertyPath: m_Name
       value: FireFX
       objectReference: {fileID: 0}
+    - target: {fileID: 903447367660455921, guid: 5c51889bb56177fcdafec176bb90aeb7, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1848191451664532191, guid: 5c51889bb56177fcdafec176bb90aeb7, type: 3}
+      propertyPath: ShapeModule.type
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1848191451664532191, guid: 5c51889bb56177fcdafec176bb90aeb7, type: 3}
+      propertyPath: ShapeModule.radius.value
+      value: 5
+      objectReference: {fileID: 0}
     - target: {fileID: 1848191451664532191, guid: 5c51889bb56177fcdafec176bb90aeb7, type: 3}
       propertyPath: ShapeModule.m_MeshRenderer
       value: 
       objectReference: {fileID: 464374532}
+    - target: {fileID: 1848191451664532191, guid: 5c51889bb56177fcdafec176bb90aeb7, type: 3}
+      propertyPath: ShapeModule.radiusThickness
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 9081901781325868704, guid: 5c51889bb56177fcdafec176bb90aeb7, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -0.6114424
+      value: -2.053
       objectReference: {fileID: 0}
     - target: {fileID: 9081901781325868704, guid: 5c51889bb56177fcdafec176bb90aeb7, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.17
+      value: 0.48
       objectReference: {fileID: 0}
     - target: {fileID: 9081901781325868704, guid: 5c51889bb56177fcdafec176bb90aeb7, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0.24
+      value: 1.073
       objectReference: {fileID: 0}
     - target: {fileID: 9081901781325868704, guid: 5c51889bb56177fcdafec176bb90aeb7, type: 3}
       propertyPath: m_LocalRotation.w
@@ -1865,7 +1881,7 @@ GameObject:
   - component: {fileID: 464374535}
   m_Layer: 10
   m_Name: Plane1
-  m_TagString: Flammable
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

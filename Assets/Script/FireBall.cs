@@ -1,12 +1,14 @@
+using UnityEditor;
 using UnityEngine;
 
 public class FireBall : MonoBehaviour
 {
     public float maxDistance;
-    public float affectedRadius = 5f;
+    public float affectedRadius = 1f;
     public LayerMask groundLayer;
     private Vector3 throwPosition;
-
+    public GameObject FlammableAreaPrefab;
+    
     public void Initialize(Vector3 initialThrowPosition) => throwPosition = initialThrowPosition;
 
     void Update()
@@ -15,21 +17,23 @@ public class FireBall : MonoBehaviour
         if (distanceFromThrow > maxDistance) Destroy(gameObject);
     }
     
+    
     private void OnCollisionEnter(Collision collision)
     {
+        
+        int layerIndex = collision.collider.gameObject.layer; 
+        string layerName = LayerMask.LayerToName(layerIndex);
+        
         if (collision.gameObject.CompareTag("Flammable"))
         {
             Flammable flammable = collision.gameObject.GetComponent<Flammable>();
             if (flammable != null && !flammable.isOnFire) flammable.Ignite();
         }
-        else if (groundLayer == (groundLayer | (1 << collision.gameObject.layer)))
+        
+        if (layerName == "Ground")
         {
-            Collider[] colliders = Physics.OverlapSphere(collision.contacts[0].point, affectedRadius);
-            foreach (Collider col in colliders)
-            {
-                ParticleSystem ps = col.GetComponent<ParticleSystem>();
-                if (ps != null) ps.Play();
-            }
+            Vector3 collisionPoint = collision.contacts[0].point;
+            Instantiate(FlammableAreaPrefab, collisionPoint, Quaternion.identity);
         }
         Destroy(gameObject);
     }
