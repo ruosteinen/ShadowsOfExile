@@ -14,10 +14,9 @@ GameObject:
   - component: {fileID: 5039731191626330564}
   - component: {fileID: 688002956855617047}
   - component: {fileID: 627637186944397512}
-  - component: {fileID: 6949921384628253709}
   m_Layer: 0
   m_Name: FireBall
-  m_TagString: Untagged
+  m_TagString: FireBall
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -148,21 +147,3 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxDistance: 60
-  groundLayer:
-    serializedVersion: 2
-    m_Bits: 1024
-  particleSystemPrefab: {fileID: 8610393447740231327, guid: b6ad7ce082bcfa859bbb80aea7f69a54, type: 3}
-  particleModelPrefab: {fileID: 4873300570997675311, guid: 373adbc4cd69b21d48f43c7b2308662e, type: 3}
-  maxScale: 8
---- !u!114 &6949921384628253709
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5711425907569739061}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cbbf2a3cfe7c1d2269d02fdb8813533e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
