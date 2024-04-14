@@ -750,8 +750,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1ab9d7ffad83e32a3a84fd3f7657a699, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  particleSystemPrefab: {fileID: 8610393447740231327, guid: b6ad7ce082bcfa859bbb80aea7f69a54, type: 3}
-  particleModelPrefab: {fileID: 4873300570997675311, guid: 373adbc4cd69b21d48f43c7b2308662e, type: 3}
+  fireParticleSystemPrefab: {fileID: 0}
+  smokeParticleSystemPrefab: {fileID: 0}
+  particleModelPrefab: {fileID: 0}
   maxScale: 4
   scaleSpeed: 0.1
   particleSystemDuration: 8
@@ -1939,7 +1940,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1ab9d7ffad83e32a3a84fd3f7657a699, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  particleSystemPrefab: {fileID: 8610393447740231327, guid: b6ad7ce082bcfa859bbb80aea7f69a54, type: 3}
+  fireParticleSystemPrefab: {fileID: 8610393447740231327, guid: b6ad7ce082bcfa859bbb80aea7f69a54, type: 3}
+  smokeParticleSystemPrefab: {fileID: 8610393447740231327, guid: 194035e515c200493a6610fc7e8a4341, type: 3}
   particleModelPrefab: {fileID: 4873300570997675311, guid: 373adbc4cd69b21d48f43c7b2308662e, type: 3}
   maxScale: 4
   scaleSpeed: 0.1
