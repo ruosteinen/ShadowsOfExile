@@ -10,6 +10,7 @@ public class GroundFire : MonoBehaviour
     public float maxScale = 4f;
     public float scaleSpeed = 0.1f;
     public float particleSystemDuration = 8f;
+    public float smokeDelay = 1.0f; // Delay before smoke starts
 
     private List<ParticleSystem> activeParticleSystems = new List<ParticleSystem>();
 
@@ -18,7 +19,7 @@ public class GroundFire : MonoBehaviour
         if (collision.gameObject.CompareTag("FireBall"))
         {
             Vector3 collisionPoint = collision.contacts[0].point;
-            StartFireAndSmokeSystems(collisionPoint);
+            StartCoroutine(StartFireAndSmokeSystems(collisionPoint));
         }
         else if (collision.gameObject.CompareTag("WaterBall"))
         {
@@ -27,23 +28,25 @@ public class GroundFire : MonoBehaviour
         }
     }
 
-    private void StartFireAndSmokeSystems(Vector3 collisionPoint)
+    private IEnumerator StartFireAndSmokeSystems(Vector3 collisionPoint)
     {
-        // Instantiate fire particle system
         GameObject fireSystemObject = Instantiate(fireParticleSystemPrefab, collisionPoint, Quaternion.identity);
         ParticleSystem fireSystemComponent = fireSystemObject.GetComponent<ParticleSystem>();
         SetParticleSystemShape(fireSystemComponent);
         activeParticleSystems.Add(fireSystemComponent);
 
-        // Instantiate smoke particle system at the same collision point
+        StartCoroutine(ScaleOverTimeAndDestroy(fireSystemObject, maxScale, scaleSpeed, particleSystemDuration));
+
+        // To start the smoke after fire particle system
+        yield return new WaitForSeconds(smokeDelay);
+        
         GameObject smokeSystemObject = Instantiate(smokeParticleSystemPrefab, collisionPoint, Quaternion.identity);
         ParticleSystem smokeSystemComponent = smokeSystemObject.GetComponent<ParticleSystem>();
         SetParticleSystemShape(smokeSystemComponent);
         activeParticleSystems.Add(smokeSystemComponent);
 
-        // Start the coroutine for both systems
-        StartCoroutine(ScaleOverTimeAndDestroy(fireSystemObject, maxScale, scaleSpeed, particleSystemDuration));
-        StartCoroutine(ScaleOverTimeAndDestroy(smokeSystemObject, maxScale, scaleSpeed, particleSystemDuration));
+        // To stop smoke at the same time as fire
+        StartCoroutine(ScaleOverTimeAndDestroy(smokeSystemObject, maxScale, scaleSpeed, particleSystemDuration - smokeDelay));
     }
 
     private void SetParticleSystemShape(ParticleSystem particleSystemComponent)

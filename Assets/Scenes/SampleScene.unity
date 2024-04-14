@@ -750,12 +750,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1ab9d7ffad83e32a3a84fd3f7657a699, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  fireParticleSystemPrefab: {fileID: 0}
-  smokeParticleSystemPrefab: {fileID: 0}
-  particleModelPrefab: {fileID: 0}
+  fireParticleSystemPrefab: {fileID: 8610393447740231327, guid: b6ad7ce082bcfa859bbb80aea7f69a54, type: 3}
+  smokeParticleSystemPrefab: {fileID: 8610393447740231327, guid: 194035e515c200493a6610fc7e8a4341, type: 3}
+  particleModelPrefab: {fileID: 4873300570997675311, guid: 373adbc4cd69b21d48f43c7b2308662e, type: 3}
   maxScale: 4
   scaleSpeed: 0.1
   particleSystemDuration: 8
+  smokeDelay: 1
 --- !u!1 &130602121
 GameObject:
   m_ObjectHideFlags: 0
@@ -1923,8 +1924,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3f0a2e5716e1dec429f0156e327af336, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  fireFX: {fileID: 0}
-  smokeFX: {fileID: 0}
+  fireFX: {fileID: 1848191451664532191, guid: 5c51889bb56177fcdafec176bb90aeb7, type: 3}
+  smokeFX: {fileID: 7294232335944892352, guid: 1dd30b3731a7a181caa91d2d6b43e899, type: 3}
   isOnFire: 0
   materials: []
   colorChangeSpeed: 0.3
@@ -1946,6 +1947,7 @@ MonoBehaviour:
   maxScale: 4
   scaleSpeed: 0.1
   particleSystemDuration: 8
+  smokeDelay: 1
 --- !u!1 &505875373
 GameObject:
   m_ObjectHideFlags: 0
