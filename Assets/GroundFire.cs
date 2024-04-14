@@ -10,9 +10,10 @@ public class GroundFire : MonoBehaviour
     public float maxScale = 4f;
     public float scaleSpeed = 0.1f;
     public float particleSystemDuration = 8f;
-    public float smokeDelay = 1.0f; // Delay before smoke starts
+    public float smokeDelay = 1.0f;
 
-    private List<ParticleSystem> activeParticleSystems = new List<ParticleSystem>();
+    private List<ParticleSystem> activeFireParticleSystems = new List<ParticleSystem>();
+    private Dictionary<ParticleSystem, ParticleSystem> fireToSmokeMap = new Dictionary<ParticleSystem, ParticleSystem>();
 
     private void OnCollisionEnter(Collision collision)
     {
@@ -24,7 +25,7 @@ public class GroundFire : MonoBehaviour
         else if (collision.gameObject.CompareTag("WaterBall"))
         {
             Vector3 collisionPoint = collision.contacts[0].point;
-            StopParticleSystemAtPoint(collisionPoint);
+            StopFireAndSmokeAtPoint(collisionPoint);
         }
     }
 
@@ -33,20 +34,24 @@ public class GroundFire : MonoBehaviour
         GameObject fireSystemObject = Instantiate(fireParticleSystemPrefab, collisionPoint, Quaternion.identity);
         ParticleSystem fireSystemComponent = fireSystemObject.GetComponent<ParticleSystem>();
         SetParticleSystemShape(fireSystemComponent);
-        activeParticleSystems.Add(fireSystemComponent);
+        activeFireParticleSystems.Add(fireSystemComponent);
 
-        StartCoroutine(ScaleOverTimeAndDestroy(fireSystemObject, maxScale, scaleSpeed, particleSystemDuration));
+        StartCoroutine(ScaleParticleSystem(fireSystemObject, maxScale, scaleSpeed));
 
-        // To start the smoke after fire particle system
         yield return new WaitForSeconds(smokeDelay);
-        
-        GameObject smokeSystemObject = Instantiate(smokeParticleSystemPrefab, collisionPoint, Quaternion.identity);
-        ParticleSystem smokeSystemComponent = smokeSystemObject.GetComponent<ParticleSystem>();
-        SetParticleSystemShape(smokeSystemComponent);
-        activeParticleSystems.Add(smokeSystemComponent);
 
-        // To stop smoke at the same time as fire
-        StartCoroutine(ScaleOverTimeAndDestroy(smokeSystemObject, maxScale, scaleSpeed, particleSystemDuration - smokeDelay));
+        if (activeFireParticleSystems.Contains(fireSystemComponent))
+        {
+            GameObject smokeSystemObject = Instantiate(smokeParticleSystemPrefab, collisionPoint, Quaternion.identity);
+            ParticleSystem smokeSystemComponent = smokeSystemObject.GetComponent<ParticleSystem>();
+            SetParticleSystemShape(smokeSystemComponent);
+            activeFireParticleSystems.Add(smokeSystemComponent);
+            fireToSmokeMap.Add(fireSystemComponent, smokeSystemComponent);
+            StartCoroutine(ScaleParticleSystem(smokeSystemObject, maxScale, scaleSpeed));
+            Destroy(smokeSystemObject, particleSystemDuration);
+        }
+
+        Destroy(fireSystemObject, particleSystemDuration);
     }
 
     private void SetParticleSystemShape(ParticleSystem particleSystemComponent)
@@ -56,43 +61,43 @@ public class GroundFire : MonoBehaviour
         shapeModule.mesh = particleModelPrefab.GetComponent<MeshFilter>().sharedMesh;
     }
 
-    private void StopParticleSystemAtPoint(Vector3 collisionPoint)
+    private void StopFireAndSmokeAtPoint(Vector3 collisionPoint)
     {
-        List<ParticleSystem> systemsToRemove = new List<ParticleSystem>();
-        foreach (ParticleSystem ps in activeParticleSystems)
+        List<ParticleSystem> fireSystemsToRemove = new List<ParticleSystem>();
+        foreach (var fireSystem in activeFireParticleSystems)
         {
-            float distance = Vector3.Distance(ps.transform.position, collisionPoint);
-            if (distance < ps.transform.localScale.x * 2f)
+            if (Vector3.Distance(fireSystem.transform.position, collisionPoint) < maxScale * 2f)
             {
-                ps.Stop();
-                systemsToRemove.Add(ps);
+                fireSystem.Stop();
+                if (fireToSmokeMap.TryGetValue(fireSystem, out ParticleSystem smokeSystem))
+                {
+                    smokeSystem.Stop();
+                    fireToSmokeMap.Remove(fireSystem);
+                }
+                fireSystemsToRemove.Add(fireSystem);
             }
         }
-        foreach (ParticleSystem ps in systemsToRemove)
+
+        foreach (var fireSystem in fireSystemsToRemove)
         {
-            activeParticleSystems.Remove(ps);
+            activeFireParticleSystems.Remove(fireSystem);
         }
     }
 
-    private IEnumerator ScaleOverTimeAndDestroy(GameObject particleSystemObject, float targetScale, float speed, float duration)
+    private IEnumerator ScaleParticleSystem(GameObject systemObject, float targetScale, float speed)
     {
         float timer = 0;
-        Vector3 initialScale = particleSystemObject.transform.localScale;
+        Vector3 initialScale = systemObject.transform.localScale;
         Vector3 targetScaleVector = new Vector3(targetScale, targetScale, targetScale);
 
-        while (particleSystemObject.transform.localScale != targetScaleVector)
+        while (systemObject.transform.localScale != targetScaleVector)
         {
-            float currentScale = Mathf.Lerp(1, targetScale, timer / speed);
-            particleSystemObject.transform.localScale = new Vector3(currentScale, currentScale, currentScale);
-            if (timer / speed >= 1.0f) break; // Prevent overshooting
+            if (systemObject == null) yield break;
+            float currentScale = Mathf.Lerp(initialScale.x, targetScale, timer / speed);
+            systemObject.transform.localScale = new Vector3(currentScale, currentScale, currentScale);
+            if (timer >= speed) break;
             timer += Time.deltaTime;
             yield return null;
         }
-
-        yield return new WaitForSeconds(duration);
-
-        ParticleSystem ps = particleSystemObject.GetComponent<ParticleSystem>();
-        activeParticleSystems.Remove(ps);
-        Destroy(particleSystemObject);
     }
 }
