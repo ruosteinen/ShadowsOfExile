@@ -754,8 +754,8 @@ MonoBehaviour:
   smokeParticleSystemPrefab: {fileID: 8610393447740231327, guid: 194035e515c200493a6610fc7e8a4341, type: 3}
   particleModelPrefab: {fileID: 4873300570997675311, guid: 373adbc4cd69b21d48f43c7b2308662e, type: 3}
   maxScale: 4
-  scaleSpeed: 0.1
-  particleSystemDuration: 8
+  scaleSpeed: 2
+  particleSystemDuration: 10
   smokeDelay: 1
 --- !u!1 &130602121
 GameObject:
@@ -1945,8 +1945,8 @@ MonoBehaviour:
   smokeParticleSystemPrefab: {fileID: 8610393447740231327, guid: 194035e515c200493a6610fc7e8a4341, type: 3}
   particleModelPrefab: {fileID: 4873300570997675311, guid: 373adbc4cd69b21d48f43c7b2308662e, type: 3}
   maxScale: 4
-  scaleSpeed: 0.1
-  particleSystemDuration: 8
+  scaleSpeed: 2
+  particleSystemDuration: 10
   smokeDelay: 1
 --- !u!1 &505875373
 GameObject:
