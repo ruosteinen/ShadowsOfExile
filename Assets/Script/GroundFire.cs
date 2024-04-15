@@ -13,6 +13,7 @@ public class GroundFire : MonoBehaviour
     public float smokeDelay = 1.0f;
 
     private List<ParticleSystem> activeFireParticleSystems = new List<ParticleSystem>();
+
     private Dictionary<ParticleSystem, ParticleSystem> fireToSmokeMap = new Dictionary<ParticleSystem, ParticleSystem>();
 
     private void OnCollisionEnter(Collision collision)
@@ -29,71 +30,59 @@ public class GroundFire : MonoBehaviour
         }
     }
 
-   private IEnumerator StartFireAndSmokeSystems(Vector3 collisionPoint)
-{
-    GameObject fireSystemObject = Instantiate(fireParticleSystemPrefab, collisionPoint, Quaternion.identity);
-    ParticleSystem fireSystemComponent = fireSystemObject.GetComponent<ParticleSystem>();
-    SetParticleSystemShape(fireSystemComponent);
-    activeFireParticleSystems.Add(fireSystemComponent);
-
-    fireSystemObject.transform.localScale = Vector3.one * 0.1f;
-
-    float startTime = Time.time;
-    Vector3 initialScale = fireSystemObject.transform.localScale;
-
-    while (Time.time - startTime < scaleSpeed)
+    private IEnumerator StartFireAndSmokeSystems(Vector3 collisionPoint)
     {
-        float t = (Time.time - startTime) / scaleSpeed;
+        GameObject fireSystemObject = Instantiate(fireParticleSystemPrefab, collisionPoint, Quaternion.identity);
+        ParticleSystem fireSystemComponent = fireSystemObject.GetComponent<ParticleSystem>();
+        SetParticleSystemShape(fireSystemComponent); // Define SetParticleSystemShape method
+        activeFireParticleSystems.Add(fireSystemComponent);
 
-        float currentScale = Mathf.Lerp(initialScale.x, maxScale, t);
-        fireSystemObject.transform.localScale = Vector3.one * currentScale;
+        fireSystemObject.transform.localScale = Vector3.one * 0.1f;
+        yield return ScaleParticleSystemOverTime(fireSystemObject, maxScale);
 
-        yield return null;
+        yield return new WaitForSeconds(smokeDelay);
+
+        if (activeFireParticleSystems.Contains(fireSystemComponent))
+        {
+            GameObject smokeSystemObject = Instantiate(smokeParticleSystemPrefab, collisionPoint, Quaternion.identity);
+            ParticleSystem smokeSystemComponent = smokeSystemObject.GetComponent<ParticleSystem>();
+            SetParticleSystemShape(smokeSystemComponent); // Define SetParticleSystemShape method
+            activeFireParticleSystems.Add(smokeSystemComponent);
+            fireToSmokeMap.Add(fireSystemComponent, smokeSystemComponent);
+
+            yield return ScaleParticleSystemOverTime(smokeSystemObject, maxScale);
+
+            Destroy(smokeSystemObject, particleSystemDuration);
+        }
+
+        Destroy(fireSystemObject, particleSystemDuration);
     }
 
-    yield return new WaitForSeconds(smokeDelay);
-
-    if (activeFireParticleSystems.Contains(fireSystemComponent))
+    private IEnumerator ScaleParticleSystemOverTime(GameObject systemObject, float targetScale)
     {
-        GameObject smokeSystemObject = Instantiate(smokeParticleSystemPrefab, collisionPoint, Quaternion.identity);
-        ParticleSystem smokeSystemComponent = smokeSystemObject.GetComponent<ParticleSystem>();
-        SetParticleSystemShape(smokeSystemComponent);
-        activeFireParticleSystems.Add(smokeSystemComponent);
-        fireToSmokeMap.Add(fireSystemComponent, smokeSystemComponent);
-
-        startTime = Time.time;
-        initialScale = smokeSystemObject.transform.localScale;
+        float startTime = Time.time;
+        Vector3 initialScale = systemObject.transform.localScale;
 
         while (Time.time - startTime < scaleSpeed)
         {
             float t = (Time.time - startTime) / scaleSpeed;
-
-            float currentScale = Mathf.Lerp(initialScale.x, maxScale, t);
-            smokeSystemObject.transform.localScale = Vector3.one * currentScale;
-
+            float currentScale = Mathf.Lerp(initialScale.x, targetScale, t);
+            systemObject.transform.localScale = Vector3.one * currentScale;
             yield return null;
         }
-
-        Destroy(smokeSystemObject, particleSystemDuration);
     }
 
-    Destroy(fireSystemObject, particleSystemDuration);
-}
-
-
-    private void SetParticleSystemShape(ParticleSystem particleSystemComponent)
-    {
-        ParticleSystem.ShapeModule shapeModule = particleSystemComponent.shape;
-        shapeModule.shapeType = ParticleSystemShapeType.Mesh;
-        shapeModule.mesh = particleModelPrefab.GetComponent<MeshFilter>().sharedMesh;
-    }
-
+    
     private void StopFireAndSmokeAtPoint(Vector3 collisionPoint)
     {
-        List<ParticleSystem> fireSystemsToRemove = new List<ParticleSystem>();
+        float currentScale; 
+        List<ParticleSystem> fireSystemsToRemove = new List<ParticleSystem>(); 
+
         foreach (var fireSystem in activeFireParticleSystems)
         {
-            if (Vector3.Distance(fireSystem.transform.position, collisionPoint) < maxScale * 2f)
+            currentScale = fireSystem.transform.localScale.x;
+
+            if (Vector3.Distance(fireSystem.transform.position, collisionPoint) < currentScale * 1.5f)
             {
                 fireSystem.Stop();
                 if (fireToSmokeMap.TryGetValue(fireSystem, out ParticleSystem smokeSystem))
@@ -101,10 +90,23 @@ public class GroundFire : MonoBehaviour
                     smokeSystem.Stop();
                     fireToSmokeMap.Remove(fireSystem);
                 }
-                fireSystemsToRemove.Add(fireSystem);
+
+                fireSystemsToRemove.Add(fireSystem); 
             }
         }
 
-        foreach (var fireSystem in fireSystemsToRemove) activeFireParticleSystems.Remove(fireSystem);
+        foreach (var fireSystemToRemove in fireSystemsToRemove)
+        {
+            activeFireParticleSystems.Remove(fireSystemToRemove);
+        }
+    }
+    
+
+
+    private void SetParticleSystemShape(ParticleSystem particleSystemComponent)
+    {
+        ParticleSystem.ShapeModule shapeModule = particleSystemComponent.shape;
+        shapeModule.shapeType = ParticleSystemShapeType.Mesh;
+        shapeModule.mesh = particleModelPrefab.GetComponent<MeshFilter>().sharedMesh;
     }
 }
