@@ -18,6 +18,14 @@ public class SettingsMenu : MonoBehaviour
 
     void Start()
     {
+        SetupResolutionDropdown();
+        SetupQualityDropdown();
+        SetupFullscreenText();
+        SetupMouseSensitivitySlider();
+    }
+
+    private void SetupResolutionDropdown()
+    {
         resolutionDropdown.ClearOptions();
         List<string> options = new List<string>();
         _resolutions = Screen.resolutions;
@@ -25,43 +33,74 @@ public class SettingsMenu : MonoBehaviour
 
         for (int i = 0; i < _resolutions.Length; i++)
         {
-            string option = _resolutions[i].width + "x" + _resolutions[i].height + " " + _resolutions[i].refreshRateRatio+ "Hz";
+            string option = _resolutions[i].width + "x" + _resolutions[i].height + " " + _resolutions[i].refreshRate + "Hz";
             options.Add(option);
 
-            if (_resolutions[i].width == Screen.currentResolution.width && _resolutions[i].height == Screen.currentResolution.height)
-              currentResolutionIndex = i;
+            if (_resolutions[i].width == Screen.currentResolution.width && 
+                _resolutions[i].height == Screen.currentResolution.height)
+            {
+                currentResolutionIndex = i;
+            }
         }
 
         resolutionDropdown.AddOptions(options);
-        resolutionDropdown.value = currentResolutionIndex;
+        resolutionDropdown.value = PlayerPrefs.GetInt("ResolutionPreference", currentResolutionIndex);
         resolutionDropdown.RefreshShownValue();
-        LoadSettings(currentResolutionIndex);
-
-        fullscreenButtonText.text = "Fullscreen";
-
-        mouseSensitivitySlider.value = PlayerPrefs.GetFloat("MouseSensitivity", 50f);
-        mouseSensitivitySlider.onValueChanged.AddListener(SetMouseSensitivity);
+        resolutionDropdown.onValueChanged.AddListener(SetResolution);
     }
 
-
-    private void SetMouseSensitivity(float sensitivity)
+    private void SetupQualityDropdown()
     {
-        PlayerPrefs.SetFloat("MouseSensitivity", sensitivity);
-        PlayerPrefs.Save();
+        qualityDropdown.ClearOptions();
+        List<string> options = new List<string>(QualitySettings.names);
+        qualityDropdown.AddOptions(options);
+        
+        int currentQualityIndex = QualitySettings.GetQualityLevel();
+        qualityDropdown.value = PlayerPrefs.GetInt("QualitySettingPreference", currentQualityIndex);
+        qualityDropdown.RefreshShownValue();
+        qualityDropdown.onValueChanged.AddListener(SetQuality);
+    }
+
+    private void SetupFullscreenText()
+    {
+        fullscreenButtonText.text = Screen.fullScreen ? "Windowed" : "Fullscreen";
+        fullscreenButton.onClick.AddListener(ToggleFullscreenMode);
+    }
+
+    private void SetupMouseSensitivitySlider()
+    {
+        mouseSensitivitySlider.value = PlayerPrefs.GetFloat("MouseSensitivity", 50f);
+        mouseSensitivitySlider.onValueChanged.AddListener(SetMouseSensitivity);
     }
 
     public void SetResolution(int resolutionIndex)
     {
         Resolution resolution = _resolutions[resolutionIndex];
         Screen.SetResolution(resolution.width, resolution.height, Screen.fullScreen);
+        PlayerPrefs.SetInt("ResolutionPreference", resolutionIndex);
     }
 
-    public void SetQuality(int qualityIndex) => QualitySettings.SetQualityLevel(qualityIndex, true);
+    public void SetQuality(int qualityIndex)
+    {
+        QualitySettings.SetQualityLevel(qualityIndex, true);
+        PlayerPrefs.SetInt("QualitySettingPreference", qualityIndex);
+    }
+
+    private void SetMouseSensitivity(float sensitivity)
+    {
+        PlayerPrefs.SetFloat("MouseSensitivity", sensitivity);
+    }
 
     public void ToggleFullscreenMode()
     {
         Screen.fullScreen = !Screen.fullScreen;
         UpdateFullscreenButtonText();
+        PlayerPrefs.SetInt("FullscreenPreference", System.Convert.ToInt32(Screen.fullScreen));
+    }
+
+    private void UpdateFullscreenButtonText()
+    {
+        fullscreenButtonText.text = Screen.fullScreen ? "Windowed" : "Fullscreen";
     }
 
     public void ExitSettings()
@@ -70,44 +109,20 @@ public class SettingsMenu : MonoBehaviour
         mainMenuPanel.SetActive(true);
     }
 
-    /*
-    public void SaveSettings()
-    {
-        PlayerPrefs.SetInt("QualitySettingPreference", qualityDropdown.value);
-        PlayerPrefs.SetInt("ResolutionPreference", resolutionDropdown.value);
-        PlayerPrefs.SetInt("FullscreenPreference", System.Convert.ToInt32(Screen.fullScreen));
-    }
-    */
-
     public void SetDefaultSettings()
-       {
-           int highestQualityIndex = QualitySettings.names.Length - 1;
-           qualityDropdown.value = highestQualityIndex;
-           SetQuality(highestQualityIndex);
-
-           mouseSensitivitySlider.value = 100f;
-
-           int highestResolutionIndex = _resolutions.Length - 1;
-           resolutionDropdown.value = highestResolutionIndex;
-           SetResolution(highestResolutionIndex);
-
-           Screen.fullScreen = true;
-           fullscreenButtonText.text = "Fullscreen";
-       }
-
-    private void LoadSettings(int currentResolutionIndex)
     {
-        int highQualityIndex = 0;
+        int highestQualityIndex = QualitySettings.names.Length - 1;
+        qualityDropdown.value = highestQualityIndex;
+        SetQuality(highestQualityIndex);
 
-        qualityDropdown.value = PlayerPrefs.GetInt("QualitySettingPreference", highQualityIndex);
+        mouseSensitivitySlider.value = 100f;
+        SetMouseSensitivity(100f);
 
-        resolutionDropdown.value = PlayerPrefs.GetInt("ResolutionPreference", currentResolutionIndex);
-        Screen.fullScreen = System.Convert.ToBoolean(PlayerPrefs.GetInt("FullscreenPreference", System.Convert.ToInt32(Screen.fullScreen)));
+        int highestResolutionIndex = _resolutions.Length - 1;
+        resolutionDropdown.value = highestResolutionIndex;
+        SetResolution(highestResolutionIndex);
 
+        Screen.fullScreen = true;
         UpdateFullscreenButtonText();
-
-        QualitySettings.SetQualityLevel(qualityDropdown.value, true);
     }
-
-    private void UpdateFullscreenButtonText() => fullscreenButtonText.text = Screen.fullScreen ? "Windowed" : "Fullscreen";
 }
