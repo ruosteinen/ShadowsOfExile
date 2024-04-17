@@ -746,7 +746,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   fireParticleSystemPrefab: {fileID: 8610393447740231327, guid: b6ad7ce082bcfa859bbb80aea7f69a54, type: 3}
   smokeParticleSystemPrefab: {fileID: 8610393447740231327, guid: 194035e515c200493a6610fc7e8a4341, type: 3}
-  particleModelPrefab: {fileID: 4873300570997675311, guid: 373adbc4cd69b21d48f43c7b2308662e, type: 3}
+  burntAreaPrefab: {fileID: 0}
   maxScale: 4
   scaleSpeed: 2
   particleSystemDuration: 10
@@ -1937,7 +1937,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   fireParticleSystemPrefab: {fileID: 8610393447740231327, guid: b6ad7ce082bcfa859bbb80aea7f69a54, type: 3}
   smokeParticleSystemPrefab: {fileID: 8610393447740231327, guid: 194035e515c200493a6610fc7e8a4341, type: 3}
-  particleModelPrefab: {fileID: 4873300570997675311, guid: 373adbc4cd69b21d48f43c7b2308662e, type: 3}
+  burntAreaPrefab: {fileID: 4320427511188518843, guid: 743ef232aa2967866ac957928a461fa8, type: 3}
   maxScale: 4
   scaleSpeed: 2
   particleSystemDuration: 10
