@@ -3,24 +3,20 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags:
-  - Wall
-  - Flammable
-  - Enemy
-  - Loot
+  tags: []
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - Wall
+  - 
   - Water
   - UI
-  - OnFire
   - 
   - 
   - 
-  - Ground
-  - Player
+  - 
+  - 
+  - 
   - 
   - 
   - 
