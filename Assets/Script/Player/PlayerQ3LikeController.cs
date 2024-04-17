@@ -159,21 +159,25 @@ public class PlayerQ3LikeController : MonoBehaviour
         {
             xMouseSensitivity = PlayerPrefs.GetFloat("MouseSensitivity");
             yMouseSensitivity = PlayerPrefs.GetFloat("MouseSensitivity");
-	        Crosshair.gameObject.SetActive(true);
+            if (Crosshair != null)
+                Crosshair.gameObject.SetActive(true);
+            Debug.Log("not paused"); // Check if this log is always showing
         }
         else
         {
-	        Crosshair.gameObject.SetActive(false);
-		    return;
+            if (Crosshair != null)
+                Crosshair.gameObject.SetActive(false);
+            Debug.Log("paused"); // Check if this log is showing only when the game is paused
+            return;
         }
-        
-        
-        
+
+
+
         //RaycastHit hit;
         // Vector3 sphereCastOrigin = groundCheck.position + Vector3.up * sphereRadius;
         //Vector3 direction = -Vector3.up;
         //isGrounded = Physics.SphereCast(sphereCastOrigin, sphereRadius, direction, out hit, groundDistance + sphereRadius, groundMask);
-        
+
         isGrounded = Physics.Raycast(groundCheck.position, -Vector3.up, groundDistance, groundMask);
         
         HandleInput();
