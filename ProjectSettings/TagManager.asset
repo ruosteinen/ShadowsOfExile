@@ -9,6 +9,8 @@ TagManager:
   - FireBall
   - Undefined
   - WaterBall
+  - Loot
+  - BurntAreaPrefab
   layers:
   - Default
   - TransparentFX

@@ -91,9 +91,11 @@ public class GroundFire : MonoBehaviour
         foreach (var fireSystem in activeFireParticleSystems)
         {
             GameObject visualEffectObject = fireToVisualMap[fireSystem];
-            float currentScale = visualEffectObject.transform.localScale.x;
+            Vector3 currentScale = visualEffectObject.transform.localScale;
 
-            if (Vector3.Distance(visualEffectObject.transform.position, collisionPoint) < currentScale * 1.5f)
+            float distanceThreshold = currentScale.magnitude * 2f;
+
+            if (Vector3.Distance(visualEffectObject.transform.position, collisionPoint) < distanceThreshold)
             {
                 fireSystem.Stop();
                 if (fireToSmokeMap.TryGetValue(fireSystem, out ParticleSystem smokeSystem))
@@ -108,9 +110,8 @@ public class GroundFire : MonoBehaviour
             }
         }
 
-        foreach (var fireSystemToRemove in fireSystemsToRemove) activeFireParticleSystems.Remove(fireSystemToRemove);
-        
-    } 
+        foreach (var fireSystemToRemove in fireSystemsToRemove) activeFireParticleSystems.Remove(fireSystemToRemove);    
+    }
     private void SetParticleSystemShape(ParticleSystem particleSystemComponent, GameObject visualPrefab)
     {
         ParticleSystem.ShapeModule shapeModule = particleSystemComponent.shape;
