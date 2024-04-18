@@ -3,6 +3,7 @@ using UnityEngine;
 public class WaterBall : MonoBehaviour
 {
     public float maxDistance;
+    public int damage;
     private Vector3 throwPosition;
     public void Initialize(Vector3 initialThrowPosition) => throwPosition = initialThrowPosition;
     void Update()
@@ -14,7 +15,10 @@ public class WaterBall : MonoBehaviour
     private void OnCollisionEnter(Collision collision)
     {
         Debug.Log("WaterBall collided with: " + collision.gameObject.name);
-        if (collision.gameObject.CompareTag("Flammable"))
+        
+        if (collision.gameObject.CompareTag("Enemy")) DoDamage(collision.collider);
+        
+        else if (collision.gameObject.CompareTag("Flammable"))
         {
             Flammable flammable = collision.gameObject.GetComponent<Flammable>();
             if (flammable != null)
@@ -28,6 +32,15 @@ public class WaterBall : MonoBehaviour
             }
             else Debug.Log("Flammable obj not found on: " + collision.gameObject.name);
         }
+        Destroy(gameObject);
+    }
+    
+    private void DoDamage(Collider other)
+    {
+        HealthSystem enemy = other.gameObject.GetComponent<HealthSystem>();
+
+        enemy.TakeDamage(damage);
+
         Destroy(gameObject);
     }
 }

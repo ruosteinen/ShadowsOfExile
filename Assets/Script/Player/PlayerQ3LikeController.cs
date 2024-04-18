@@ -664,12 +664,12 @@ public class PlayerQ3LikeController : MonoBehaviour
         string ground = isGrounded ? "Grounded" : "Not Grounded";
        // string fireSpell = fireSpellInUse ? "Fire Spell in use" : "Fire Spell not in use";
 
-        GUI.Label(new Rect(0, 0, 400, 100), "FPS: " + _fps, style);
-        GUI.Label(new Rect(0, 15, 400, 100), "Speed: " + Mathf.Round(ups.magnitude * 100) / 100, style);
-        GUI.Label(new Rect(0, 30, 400, 100), "Top Speed: " + Mathf.Round(_playerTopVelocity * 100) / 100 , style);
-        GUI.Label(new Rect(0, 45, 400, 100), "Mana: " + mana , style);
-        GUI.Label(new Rect(0, 60, 400, 100), windSpell, style);
+        GUI.Label(new Rect(0, 600, 400, 100), "FPS: " + _fps, style);
+        GUI.Label(new Rect(0, 615, 400, 100), "Speed: " + Mathf.Round(ups.magnitude * 100) / 100, style);
+        GUI.Label(new Rect(0, 630, 400, 100), "Top Speed: " + Mathf.Round(_playerTopVelocity * 100) / 100 , style);
+        GUI.Label(new Rect(0, 645, 400, 100), "Mana: " + mana , style);
+        GUI.Label(new Rect(0, 660, 400, 100), windSpell, style);
         //GUI.Label(new Rect(0, 75, 400, 100), fireSpell, style);
-        GUI.Label(new Rect(0, 75, 400, 100), ground, style);
+        GUI.Label(new Rect(0, 675, 400, 100), ground, style);
     }
 }

@@ -79,7 +79,7 @@ public class GroundFire : MonoBehaviour
         {
             float t = (Time.time - startTime) / scaleSpeed;
             float currentScale = Mathf.Lerp(0.1f, targetScale, t); // Lerp from 0.1f to targetScale for X and Z
-            visualEffectObject.transform.localScale = new Vector3(currentScale, 0.15f, currentScale);
+            visualEffectObject.transform.localScale = new Vector3(currentScale, 0f, currentScale);
             yield return null;
         }
     }
