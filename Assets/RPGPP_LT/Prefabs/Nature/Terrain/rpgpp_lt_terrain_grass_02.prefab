@@ -11,6 +11,8 @@ GameObject:
   - component: {fileID: 4802134562677756}
   - component: {fileID: 33916563977071252}
   - component: {fileID: 23168982960894600}
+  - component: {fileID: 5427139743806118569}
+  - component: {fileID: 5155345025192141366}
   m_Layer: 0
   m_Name: rpgpp_lt_terrain_grass_02
   m_TagString: Untagged
@@ -83,3 +85,43 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!65 &5427139743806118569
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1076262714343606}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 18.931479, y: 0.45176694, z: 19.43615}
+  m_Center: {x: -0.026899338, y: 0.2321152, z: 0.0836854}
+--- !u!114 &5155345025192141366
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1076262714343606}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1ab9d7ffad83e32a3a84fd3f7657a699, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fireParticleSystemPrefab: {fileID: 0}
+  smokeParticleSystemPrefab: {fileID: 0}
+  burntAreaPrefab: {fileID: 0}
+  maxScale: 4
+  scaleSpeed: 2
+  particleSystemDuration: 10
+  smokeDelay: 1

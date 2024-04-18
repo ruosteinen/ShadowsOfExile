@@ -146,10 +146,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b52febc71b7dc360fa0654938f886b30, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  meshRendererPrefab: {fileID: 4320427511188518843, guid: 743ef232aa2967866ac957928a461fa8, type: 3}
   maxDistance: 60
-  affectedRadius: 5
-  groundLayer:
-    serializedVersion: 2
-    m_Bits: 1024
   damage: 50

@@ -1267,55 +1267,6 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 289851917}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &304391376 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1076262714343606, guid: 68cbfa1438162b243ac02fb9e3e30581,
-    type: 3}
-  m_PrefabInstance: {fileID: 957927301}
-  m_PrefabAsset: {fileID: 0}
---- !u!65 &304391381
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 304391376}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 18.931479, y: 0.45176694, z: 19.43615}
-  m_Center: {x: -0.026899338, y: 0.2321152, z: 0.0836854}
---- !u!114 &304391385
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 304391376}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1ab9d7ffad83e32a3a84fd3f7657a699, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  fireParticleSystemPrefab: {fileID: 8610393447740231327, guid: b6ad7ce082bcfa859bbb80aea7f69a54,
-    type: 3}
-  smokeParticleSystemPrefab: {fileID: 8610393447740231327, guid: 194035e515c200493a6610fc7e8a4341,
-    type: 3}
-  burntAreaPrefab: {fileID: 4320427511188518843, guid: 743ef232aa2967866ac957928a461fa8,
-    type: 3}
-  maxScale: 4
-  scaleSpeed: 2
-  particleSystemDuration: 10
-  smokeDelay: 1
 --- !u!1 &373386201
 GameObject:
   m_ObjectHideFlags: 0
@@ -1634,7 +1585,7 @@ GameObject:
   - component: {fileID: 464374531}
   - component: {fileID: 464374535}
   - component: {fileID: 464374536}
-  m_Layer: 10
+  m_Layer: 3
   m_Name: Plane1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2721,6 +2672,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: rpgpp_lt_building_03
       objectReference: {fileID: 0}
+    - target: {fileID: 1232766363669618, guid: 2b519101e10d4a74580d4c86ac9e03e6, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
     - target: {fileID: 4998326679312090, guid: 2b519101e10d4a74580d4c86ac9e03e6, type: 3}
       propertyPath: m_LocalPosition.x
       value: -24.33
@@ -2857,7 +2812,7 @@ GameObject:
   - component: {fileID: 831915796}
   - component: {fileID: 831915795}
   - component: {fileID: 831915794}
-  m_Layer: 3
+  m_Layer: 6
   m_Name: Cube
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3340,6 +3295,11 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 7076410989971673595, guid: 8303ecc284049144182724ccba8181bd,
+        type: 3}
+      propertyPath: m_LayerMask.m_Bits
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7857923591202791137, guid: 8303ecc284049144182724ccba8181bd,
         type: 3}
       propertyPath: m_Name
@@ -3414,7 +3374,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1076262714343606, guid: 68cbfa1438162b243ac02fb9e3e30581, type: 3}
       propertyPath: m_Layer
-      value: 10
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 4802134562677756, guid: 68cbfa1438162b243ac02fb9e3e30581, type: 3}
       propertyPath: m_LocalScale.x
@@ -3468,18 +3428,28 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5155345025192141366, guid: 68cbfa1438162b243ac02fb9e3e30581,
+        type: 3}
+      propertyPath: burntAreaPrefab
+      value: 
+      objectReference: {fileID: 4320427511188518843, guid: 743ef232aa2967866ac957928a461fa8,
+        type: 3}
+    - target: {fileID: 5155345025192141366, guid: 68cbfa1438162b243ac02fb9e3e30581,
+        type: 3}
+      propertyPath: fireParticleSystemPrefab
+      value: 
+      objectReference: {fileID: 8610393447740231327, guid: b6ad7ce082bcfa859bbb80aea7f69a54,
+        type: 3}
+    - target: {fileID: 5155345025192141366, guid: 68cbfa1438162b243ac02fb9e3e30581,
+        type: 3}
+      propertyPath: smokeParticleSystemPrefab
+      value: 
+      objectReference: {fileID: 8610393447740231327, guid: 194035e515c200493a6610fc7e8a4341,
+        type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 1076262714343606, guid: 68cbfa1438162b243ac02fb9e3e30581,
-        type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 304391381}
-    - targetCorrespondingSourceObject: {fileID: 1076262714343606, guid: 68cbfa1438162b243ac02fb9e3e30581,
-        type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 304391385}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 68cbfa1438162b243ac02fb9e3e30581, type: 3}
 --- !u!1 &961629279
 GameObject:
@@ -4324,7 +4294,7 @@ GameObject:
   - component: {fileID: 1328696157}
   - component: {fileID: 1328696156}
   - component: {fileID: 1328696160}
-  m_Layer: 3
+  m_Layer: 6
   m_Name: FlammableWall
   m_TagString: Flammable
   m_Icon: {fileID: 0}
@@ -5198,7 +5168,7 @@ GameObject:
   - component: {fileID: 1465140727}
   - component: {fileID: 1465140726}
   - component: {fileID: 1465140725}
-  m_Layer: 3
+  m_Layer: 6
   m_Name: Cube (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5299,6 +5269,11 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 7076410989971673595, guid: 8303ecc284049144182724ccba8181bd,
+        type: 3}
+      propertyPath: m_LayerMask.m_Bits
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7857923591202791137, guid: 8303ecc284049144182724ccba8181bd,
         type: 3}
       propertyPath: m_Name
@@ -6190,7 +6165,7 @@ GameObject:
   - component: {fileID: 2032996419}
   - component: {fileID: 2032996418}
   - component: {fileID: 2032996417}
-  m_Layer: 3
+  m_Layer: 6
   m_Name: Cube (3)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -6847,6 +6822,16 @@ PrefabInstance:
       propertyPath: Crosshair
       value: 
       objectReference: {fileID: 1356480091}
+    - target: {fileID: 2997416305528207258, guid: fedaf1e16a8c4a24b89a0e7c9a905f50,
+        type: 3}
+      propertyPath: groundMask.m_Bits
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 2997416305528207258, guid: fedaf1e16a8c4a24b89a0e7c9a905f50,
+        type: 3}
+      propertyPath: whatIsWall.m_Bits
+      value: 64
+      objectReference: {fileID: 0}
     - target: {fileID: 3177775606037457560, guid: fedaf1e16a8c4a24b89a0e7c9a905f50,
         type: 3}
       propertyPath: m_Name
