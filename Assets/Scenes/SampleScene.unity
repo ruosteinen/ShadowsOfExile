@@ -638,7 +638,7 @@ GameObject:
   - component: {fileID: 74943617}
   - component: {fileID: 74943616}
   - component: {fileID: 74943620}
-  m_Layer: 10
+  m_Layer: 3
   m_Name: Plane2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -748,7 +748,8 @@ MonoBehaviour:
     type: 3}
   smokeParticleSystemPrefab: {fileID: 8610393447740231327, guid: 194035e515c200493a6610fc7e8a4341,
     type: 3}
-  burntAreaPrefab: {fileID: 0}
+  burntAreaPrefab: {fileID: 4320427511188518843, guid: 743ef232aa2967866ac957928a461fa8,
+    type: 3}
   maxScale: 4
   scaleSpeed: 2
   particleSystemDuration: 10
@@ -6817,6 +6818,12 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1851085880965888989, guid: fedaf1e16a8c4a24b89a0e7c9a905f50,
+        type: 3}
+      propertyPath: waterballPrefab
+      value: 
+      objectReference: {fileID: 7022740766292812956, guid: 9386084a13b20a5cfa17febc932c95e7,
+        type: 3}
     - target: {fileID: 2997416305528207258, guid: fedaf1e16a8c4a24b89a0e7c9a905f50,
         type: 3}
       propertyPath: Crosshair
