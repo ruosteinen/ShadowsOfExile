@@ -4843,3 +4843,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   particleSystem: {fileID: 1848191451664532191}
   damage: 3
+  healthBar: {fileID: 0}

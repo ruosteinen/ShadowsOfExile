@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ManaShooting : MonoBehaviour
+public class ManaShootingTest: MonoBehaviour
 {
     public GameObject projectilePrefabLeft;
     public GameObject projectilePrefabRight;

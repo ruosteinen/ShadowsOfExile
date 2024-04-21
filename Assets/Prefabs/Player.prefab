@@ -106,6 +106,9 @@ GameObject:
   - component: {fileID: 1104542506198366382}
   - component: {fileID: 5116875017031234026}
   - component: {fileID: 1851085880965888989}
+  - component: {fileID: 3191281952952429316}
+  - component: {fileID: 5954785660854155097}
+  - component: {fileID: 1176431973010941796}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -330,6 +333,64 @@ MonoBehaviour:
   spawnDistance: 1
   playerCamera: {fileID: 2268799461048619316}
   playerController: {fileID: 2997416305528207258}
+  manaCost: 10
+--- !u!114 &3191281952952429316
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3177775606037457560}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: da2db841cfe3355aaafb2318ef8cbafc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxHealth: 100
+  currentHealth: 100
+  healthBar: {fileID: 0}
+--- !u!114 &5954785660854155097
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3177775606037457560}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2c14a270284325f00b844ac8adfa66aa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  manaBar: {fileID: 0}
+  playerController: {fileID: 0}
+  manaText: {fileID: 0}
+--- !u!54 &1176431973010941796
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3177775606037457560}
+  serializedVersion: 4
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!1 &4185482088061308991
 GameObject:
   m_ObjectHideFlags: 0

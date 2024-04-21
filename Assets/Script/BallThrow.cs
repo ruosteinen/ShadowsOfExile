@@ -9,7 +9,7 @@ public class BallThrow : MonoBehaviour
     public float spawnDistance = 1f;
     public Camera playerCamera;
     public PlayerQ3LikeController playerController;
-
+    public int manaCost = 10;
     private void Update()
     {
         if (playerCamera != null && !PauseMenuSingleton.Instance.IsPaused && playerController.mana > 1f)
@@ -29,24 +29,24 @@ public class BallThrow : MonoBehaviour
         Vector3 throwPosition = playerController.transform.position;
         GameObject ball = Instantiate(ballPrefab, spawnPoint, Quaternion.identity);
 
-        if (ballPrefab == fireballPrefab)
+        if (ballPrefab == fireballPrefab && playerController.mana > manaCost)
         {
             FireBall fireBallScript = ball.GetComponent<FireBall>();
             if (fireBallScript != null) fireBallScript.Initialize(throwPosition);
         }
         
-        if (ballPrefab == waterballPrefab)
+        if (ballPrefab == waterballPrefab && playerController.mana > manaCost)
         {
             WaterBall waterBallScript = ball.GetComponent<WaterBall>();
             if (waterBallScript != null) waterBallScript.Initialize(throwPosition);
         }
 
         Rigidbody ballRB = ball.GetComponent<Rigidbody>();
-        if (ballRB != null)
+        if (ballRB != null && playerController.mana > manaCost)
         {
             Vector3 playerVel = playerController.playerVelocity;
             ballRB.velocity = (ray.direction * ballSpeed) + playerVel;
-            playerController.mana--;
+            playerController.mana -= manaCost;
         }
     }
 }

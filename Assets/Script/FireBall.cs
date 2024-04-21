@@ -14,7 +14,7 @@ public class FireBall : MonoBehaviour
         if (distanceFromThrow > maxDistance) Destroy(gameObject);
     }
     
-    private void OnCollisionEnter(Collision collision)
+    private void OnTriggerEnter(Collision collision)
     {
         if (collision.gameObject.CompareTag("Enemy"))
         {

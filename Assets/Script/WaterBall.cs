@@ -12,7 +12,7 @@ public class WaterBall : MonoBehaviour
         if (distanceFromThrow > maxDistance) Destroy(gameObject);
     }
     
-    private void OnCollisionEnter(Collision collision)
+    private void OnTriggerEnter(Collision collision)
     {
         Debug.Log("WaterBall collided with: " + collision.gameObject.name);
         

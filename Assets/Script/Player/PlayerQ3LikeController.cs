@@ -42,11 +42,11 @@ public class PlayerQ3LikeController : MonoBehaviour
 
     //Running
     private bool _isRunning;
-    public float mana = 5f;
-    [SerializeField]private float maxMana = 6f;
-    [SerializeField]private float manaDrainRate = 0.9f;
-    [SerializeField]private float manaRecoveryRate = 0.8f;
-    [SerializeField]private float runMultiplier = 2f;
+    public float mana = 100f;
+    [SerializeField]private float maxMana = 100f;
+    [SerializeField]private float manaDrainRate = 10f;
+    [SerializeField]private float manaRecoveryRate = 8f;
+    [SerializeField]private float runMultiplier = 5f;
 
     public Armor armor;
     private Console _console;
