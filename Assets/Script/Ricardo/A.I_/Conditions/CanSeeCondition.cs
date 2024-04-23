@@ -12,50 +12,20 @@ public class CanSeeCondition : Condition
 
     public override bool Test(FiniteStateMachine fsm)
     {
-        /*Vector3 direction = fsm.GetNavMeshAgent().target.position - fsm.GetNavMeshAgent().transform.position;
-        if (direction.magnitude < viewDistance)
-        {
-            float angle = Vector3.Angle(direction.normalized, fsm.GetNavMeshAgent().transform.forward);
-            if (angle < viewAngle)
-            {
-                return !negation;
-            }
-        }
-
-        return negation;
-    }*/
-
-        if (fsm.GetNavMeshAgent().CheckEnemyType(FSMNavMeshAgent.EnemyType.Striker))
-        {
-            if (fsm.GetCurrentState().name == "Chase State" && negation)
-            {
-                return !negation;
-            }
-            else if (fsm.GetCurrentState().name == "Patrol State" || fsm.GetCurrentState().name == "Chase State" || fsm.GetCurrentState().name == "Attack State")
-            {
-                return CanSee(fsm);
-            }
-
-            return negation;
-        }
-        else if (!fsm.GetNavMeshAgent().CheckEnemyType(FSMNavMeshAgent.EnemyType.Striker))
+        if (fsm.GetCurrentState().name == "Patrol State" || fsm.GetCurrentState().name == "Chase State" || fsm.GetCurrentState().name == "Attack State")
         {
             return CanSee(fsm);
         }
-        else
-        {
-            return negation;
-        }
+
+        return negation;
     }
+
     private bool CanSee(FiniteStateMachine fsm)
     {
         float vd = viewDistance;
         if (!fsm.GetNavMeshAgent().CheckEnemyType(FSMNavMeshAgent.EnemyType.Melee) && (fsm.GetCurrentState().name == "Attack State" || fsm.GetCurrentState().name == "Chase State"))
         {
             vd = 5 * viewDistance;
-        } else if(fsm.GetNavMeshAgent().CheckEnemyType(FSMNavMeshAgent.EnemyType.Striker))
-        {
-            vd = 10 * viewDistance;
         }
 
         Vector3 direction = fsm.GetNavMeshAgent().target.position - fsm.GetNavMeshAgent().transform.position;

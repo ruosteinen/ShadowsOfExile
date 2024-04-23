@@ -9,11 +9,7 @@ public class TakeDamageCondition : Condition
 
     public override bool Test(FiniteStateMachine fsm)
     {
-        if (fsm.GetNavMeshAgent().CheckEnemyType(FSMNavMeshAgent.EnemyType.Striker))
-        {
-            return false;
-        }
-        else if (fsm.GetNavMeshAgent().tdcHealthHolder > fsm.GetNavMeshAgent().GetHealth())
+        if (fsm.GetNavMeshAgent().tdcHealthHolder > fsm.GetNavMeshAgent().GetHealth())
         {
             return !negation;
         }
