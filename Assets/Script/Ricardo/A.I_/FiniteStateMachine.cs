@@ -14,6 +14,12 @@ public class FiniteStateMachine : MonoBehaviour
     {
         currentState = initialState;
         navMeshAgent = GetComponent<FSMNavMeshAgent>();
+
+        if (navMeshAgent == null)
+        {
+            Debug.LogError("FSMNavMeshAgent component not found!");
+            // Handle the absence of the FSMNavMeshAgent component
+        }
     }
 
     private void Update()

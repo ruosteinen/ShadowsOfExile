@@ -11,6 +11,12 @@ public class HealthSystem : MonoBehaviour
     public float health = 100;
     public float reduceSpeed = 2;
 
+    private float playerHealthToRecover;
+    public float playerToRecoverTime = 10;
+    public float playerRecoverTime = 2;
+    private float playerRecoverTimer = 0;
+    private float playerToRecoverTimer = 0;
+
     public float target = 1;
     [SerializeField] private GameObject[] Drops;
     [SerializeField] private AudioClip[] droidSounds;
@@ -58,6 +64,23 @@ public class HealthSystem : MonoBehaviour
                 KillEnemy();
             }
         }
+        else if (gameObject.CompareTag("Player") && health != maxHealth)
+        {
+            if (playerToRecoverTimer > playerToRecoverTime)
+            {
+                playerRecoverTimer += Time.deltaTime;
+                if (playerRecoverTimer > playerRecoverTime)
+                {
+                    playerRecoverTimer = 0;
+                    RecoverHealth(playerHealthToRecover);
+                }
+            }
+            else
+            {
+                playerToRecoverTimer += Time.deltaTime;
+
+            }
+        }
     }
 
     private void FreezeConstrains()
@@ -89,6 +112,18 @@ public class HealthSystem : MonoBehaviour
     private void UpdateHealthBar()
     {
         target = health / maxHealth;
+    }
+
+    public void RecoverHealth(float healthToRecover)
+    {
+        health += healthToRecover;
+        if (health > maxHealth)
+        {
+            health = maxHealth;
+            if (isEnemy)
+                healthbarCanvas.enabled = false;
+        }
+        UpdateHealthBar();
     }
 
     private void KillEnemy()

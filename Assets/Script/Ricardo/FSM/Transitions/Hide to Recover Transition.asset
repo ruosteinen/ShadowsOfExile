@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 931c4f975e37a9d469df16e1f910aef7, type: 3}
   m_Name: Hide to Recover Transition
   m_EditorClassIdentifier: 
-  decision: {fileID: 0}
+  decision: {fileID: 11400000, guid: 2f9b99198f2db27469032d36a588b9c4, type: 2}
   action: {fileID: 0}
-  targetState: {fileID: 0}
+  targetState: {fileID: 11400000, guid: 737fb26fd06e59c4390a432dff73f0d0, type: 2}

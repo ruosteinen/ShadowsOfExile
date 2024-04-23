@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 931c4f975e37a9d469df16e1f910aef7, type: 3}
   m_Name: RunAway To Recover
   m_EditorClassIdentifier: 
-  decision: {fileID: 0}
+  decision: {fileID: 11400000, guid: 8026a33087afdcd44a13bea5bf86edd8, type: 2}
   action: {fileID: 0}
-  targetState: {fileID: 0}
+  targetState: {fileID: 11400000, guid: 737fb26fd06e59c4390a432dff73f0d0, type: 2}

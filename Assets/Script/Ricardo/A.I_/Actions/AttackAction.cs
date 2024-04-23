@@ -9,15 +9,13 @@ public class AttackAction : Action
     {
         if (fsm.GetNavMeshAgent().CheckEnemyType(FSMNavMeshAgent.EnemyType.Ranged))
         {
+            Debug.Log("Ranged Attack");
             fsm.GetNavMeshAgent().RangedAttack();
         }
         else if (fsm.GetNavMeshAgent().CheckEnemyType(FSMNavMeshAgent.EnemyType.Melee))
         {
+            Debug.Log("Melee Attack");
             fsm.GetNavMeshAgent().MeleeAttack();
-        }
-        else if (fsm.GetNavMeshAgent().CheckEnemyType(FSMNavMeshAgent.EnemyType.Striker))
-        {
-            fsm.GetNavMeshAgent().StrikerAttack();
         }
     }
 }
