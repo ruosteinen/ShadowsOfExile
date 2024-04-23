@@ -3,8 +3,6 @@ using UnityEngine;
 public class FireBall : MonoBehaviour
 {
     public float maxDistance;
-    public float affectedRadius = 5f;
-    public LayerMask groundLayer;
     private Vector3 throwPosition;
     public int damage;
 

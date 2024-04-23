@@ -32,8 +32,7 @@ public class BallThrow : MonoBehaviour
         if (ballPrefab == fireballPrefab)
         {
             FireBall fireBallScript = ball.GetComponent<FireBall>();
-            if (fireBallScript != null)
-                fireBallScript.Initialize(throwPosition);
+            if (fireBallScript != null) fireBallScript.Initialize(throwPosition);
         }
         
         if (ballPrefab == waterballPrefab)

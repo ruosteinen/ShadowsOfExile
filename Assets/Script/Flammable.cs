@@ -48,7 +48,7 @@ public class Flammable : MonoBehaviour
             }
             else if (elapsedIgnitionTime >= ignitionDuration && elapsedIgnitionTime < ignitionDuration + smokeDuration)
             {
-                if (fireFX != null && fireFX.isPlaying) fireFX.Stop();
+                if (fireFX != null && !fireFX.isPlaying) fireFX.Play();
                 if (smokeFX != null && !smokeFX.isPlaying) smokeFX.Play();
             }
 
