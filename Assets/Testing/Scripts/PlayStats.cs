@@ -59,7 +59,7 @@ public class PlayStats : MonoBehaviour
         RegenerateMana();
         UpdateXpUI();
         if (Input.GetKeyDown(KeyCode.E))
-            GainExperienceFlatRate(20);
+            GainExperienceFlatRate(2000);
         if (currentXp > requiredXp)
             LevelUp();
     }
@@ -87,12 +87,12 @@ public class PlayStats : MonoBehaviour
 
     private void UpdateHealthText()
     {
-        healthValue.text = $"{currentHealth} / {maxHealth}";
+        healthValue.text = $"{(int)currentHealth} / {(int)maxHealth}";
     }
 
     private void UpdateManaText()
     {
-        manaValue.text = $"{(int)currentMana} / {maxMana}";
+        manaValue.text = $"{(int)currentMana} / {(int)maxMana}";
     }
 
     public void UpdateXpUI()
