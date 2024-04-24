@@ -6,6 +6,8 @@ public class FireBall : MonoBehaviour
     private Vector3 throwPosition;
     public int damage;
 
+    private PlayStats playStats;
+
     public void Initialize(Vector3 initialThrowPosition) => throwPosition = initialThrowPosition;
 
     void Update()
