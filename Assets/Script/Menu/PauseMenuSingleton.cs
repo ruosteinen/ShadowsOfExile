@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class PauseMenuSingleton : MonoBehaviour
+public sealed class PauseMenuSingleton : MonoBehaviour
 {
     public static PauseMenuSingleton Instance { get; private set; }
 
@@ -50,7 +50,7 @@ public class PauseMenuSingleton : MonoBehaviour
     public void Resume()
     {
         pauseMenuPanel.SetActive(false);
-        settingsPanel.SetActive(false);///////
+        settingsPanel.SetActive(false);
         Time.timeScale = 1f; //Resuming game time
         IsPaused = false;
 

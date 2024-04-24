@@ -35,13 +35,11 @@ public class FireBall : MonoBehaviour
             }
         }*/
         Destroy(gameObject);
-    }
+    } 
     private void DoDamage(Collider other)
     {
         HealthSystem enemy = other.gameObject.GetComponent<HealthSystem>();
-
         enemy.TakeDamage(damage);
-
         Destroy(gameObject);
     }
 }

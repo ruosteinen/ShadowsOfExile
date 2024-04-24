@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 3703193207967383967}
   - component: {fileID: 2268799461048619316}
   - component: {fileID: 5081830387796426086}
+  - component: {fileID: 7829573188557105980}
   m_Layer: 0
   m_Name: "FirstPerson\u0421amera"
   m_TagString: MainCamera
@@ -92,6 +93,50 @@ AudioListener:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1038014141948787833}
   m_Enabled: 1
+--- !u!114 &7829573188557105980
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1038014141948787833}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a79441f348de89743a2939f4d699eac1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_RenderShadows: 1
+  m_RequiresDepthTextureOption: 2
+  m_RequiresOpaqueTextureOption: 2
+  m_CameraType: 0
+  m_Cameras: []
+  m_RendererIndex: -1
+  m_VolumeLayerMask:
+    serializedVersion: 2
+    m_Bits: 1
+  m_VolumeTrigger: {fileID: 0}
+  m_VolumeFrameworkUpdateModeOption: 2
+  m_RenderPostProcessing: 0
+  m_Antialiasing: 0
+  m_AntialiasingQuality: 2
+  m_StopNaN: 0
+  m_Dithering: 0
+  m_ClearDepth: 1
+  m_AllowXRRendering: 1
+  m_AllowHDROutput: 1
+  m_UseScreenCoordOverride: 0
+  m_ScreenSizeOverride: {x: 0, y: 0, z: 0, w: 0}
+  m_ScreenCoordScaleBias: {x: 0, y: 0, z: 0, w: 0}
+  m_RequiresDepthTexture: 0
+  m_RequiresColorTexture: 0
+  m_Version: 2
+  m_TaaSettings:
+    quality: 3
+    frameInfluence: 0.1
+    jitterScale: 1
+    mipBias: 0
+    varianceClampScale: 0.9
+    contrastAdaptiveSharpening: 0
 --- !u!1 &3177775606037457560
 GameObject:
   m_ObjectHideFlags: 0
@@ -109,6 +154,7 @@ GameObject:
   - component: {fileID: 3191281952952429316}
   - component: {fileID: 5954785660854155097}
   - component: {fileID: 1176431973010941796}
+  - component: {fileID: 815982727851092893}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -163,7 +209,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   firstPersonView: {fileID: 3703193207967383967}
-  thirdPersonView: {fileID: 5475668875828977856}
   playerViewYOffset: 0.9
   xMouseSensitivity: 30
   yMouseSensitivity: 30
@@ -334,6 +379,8 @@ MonoBehaviour:
   playerCamera: {fileID: 2268799461048619316}
   playerController: {fileID: 2997416305528207258}
   manaCost: 10
+  fireRate: 0
+  waterRate: 0
 --- !u!114 &3191281952952429316
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -391,6 +438,28 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &815982727851092893
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3177775606037457560}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e698d1ca81a777e489281c8dfc375184, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxHealth: 100
+  health: 100
+  reduceSpeed: 2
+  playerToRecoverTime: 10
+  playerRecoverTime: 2
+  target: 1
+  Drops: []
+  droidSounds: []
+  playerAudioSource: {fileID: 0}
+  playerInvincible: 0
 --- !u!1 &4185482088061308991
 GameObject:
   m_ObjectHideFlags: 0
@@ -5399,6 +5468,7 @@ GameObject:
   - component: {fileID: 5475668875828977856}
   - component: {fileID: 8341372221458936527}
   - component: {fileID: 7448111743445080800}
+  - component: {fileID: 35480888328065038}
   m_Layer: 0
   m_Name: "ThirdPerson\u0421amera"
   m_TagString: MainCamera
@@ -5480,3 +5550,47 @@ AudioListener:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6722951245516074277}
   m_Enabled: 1
+--- !u!114 &35480888328065038
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6722951245516074277}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a79441f348de89743a2939f4d699eac1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_RenderShadows: 1
+  m_RequiresDepthTextureOption: 2
+  m_RequiresOpaqueTextureOption: 2
+  m_CameraType: 0
+  m_Cameras: []
+  m_RendererIndex: -1
+  m_VolumeLayerMask:
+    serializedVersion: 2
+    m_Bits: 1
+  m_VolumeTrigger: {fileID: 0}
+  m_VolumeFrameworkUpdateModeOption: 2
+  m_RenderPostProcessing: 0
+  m_Antialiasing: 0
+  m_AntialiasingQuality: 2
+  m_StopNaN: 0
+  m_Dithering: 0
+  m_ClearDepth: 1
+  m_AllowXRRendering: 1
+  m_AllowHDROutput: 1
+  m_UseScreenCoordOverride: 0
+  m_ScreenSizeOverride: {x: 0, y: 0, z: 0, w: 0}
+  m_ScreenCoordScaleBias: {x: 0, y: 0, z: 0, w: 0}
+  m_RequiresDepthTexture: 0
+  m_RequiresColorTexture: 0
+  m_Version: 2
+  m_TaaSettings:
+    quality: 3
+    frameInfluence: 0.1
+    jitterScale: 1
+    mipBias: 0
+    varianceClampScale: 0.9
+    contrastAdaptiveSharpening: 0

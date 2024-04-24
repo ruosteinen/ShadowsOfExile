@@ -12,7 +12,7 @@ public class PlayerQ3LikeController : MonoBehaviour
 {
     // Camera
     public Transform firstPersonView;
-    public Transform thirdPersonView;
+    //public Transform thirdPersonView;
     private Transform _currentView;
     [SerializeField]private float playerViewYOffset = 0.6f; // The height at which the camera is bound to
 
@@ -112,7 +112,7 @@ public class PlayerQ3LikeController : MonoBehaviour
 
         _currentView = firstPersonView;
         firstPersonView.gameObject.SetActive(true);
-        thirdPersonView.gameObject.SetActive(false);
+        //thirdPersonView.gameObject.SetActive(false);
 
         // Hide the cursor
         Cursor.visible = false;
@@ -136,9 +136,9 @@ public class PlayerQ3LikeController : MonoBehaviour
 
         armor = GetComponent<Armor>();  
 
-       Crosshair = GameObject.FindObjectOfType<Image>();
+       //Crosshair = GameObject.FindObjectOfType<Image>();
 
-       Crosshair.gameObject.SetActive(true);
+       //Crosshair.gameObject.SetActive(true);
     }
 
     
@@ -159,33 +159,27 @@ public class PlayerQ3LikeController : MonoBehaviour
         {
             xMouseSensitivity = PlayerPrefs.GetFloat("MouseSensitivity");
             yMouseSensitivity = PlayerPrefs.GetFloat("MouseSensitivity");
-            if (Crosshair != null)
-                Crosshair.gameObject.SetActive(true);
-            Debug.Log("not paused"); // Check if this log is always showing
+            if (Crosshair != null) Crosshair.gameObject.SetActive(true);
+            //Debug.Log("not paused"); // Check if this log is always showing
         }
         else
         {
-            if (Crosshair != null)
-                Crosshair.gameObject.SetActive(false);
-            Debug.Log("paused"); // Check if this log is showing only when the game is paused
+            if (Crosshair != null) Crosshair.gameObject.SetActive(false);
+            //Debug.Log("paused"); // Check if this log is showing only when the game is paused
             return;
         }
-
-
+        
+        HandleInput();
 
         //RaycastHit hit;
         // Vector3 sphereCastOrigin = groundCheck.position + Vector3.up * sphereRadius;
         //Vector3 direction = -Vector3.up;
         //isGrounded = Physics.SphereCast(sphereCastOrigin, sphereRadius, direction, out hit, groundDistance + sphereRadius, groundMask);
-
         isGrounded = Physics.Raycast(groundCheck.position, -Vector3.up, groundDistance, groundMask);
-        
-        HandleInput();
         
         //Spells 
         if (Input.GetKeyDown(KeyCode.Alpha1)) windSpellInUse = !windSpellInUse;  //Button 1
         //if (Input.GetKeyDown(KeyCode.Alpha2)) fireSpellInUse = !fireSpellInUse;  //Button 2
-        
         
         //FPS calculation
         _frameCount++;
@@ -198,8 +192,8 @@ public class PlayerQ3LikeController : MonoBehaviour
         }
 
         //Cursor locking
-        if (Cursor.lockState != CursorLockMode.Locked)
-            if (Input.GetButtonDown("Fire1")) Cursor.lockState = CursorLockMode.Locked;
+        //if (Cursor.lockState != CursorLockMode.Locked)
+        //    if (Input.GetButtonDown("Fire1")) Cursor.lockState = CursorLockMode.Locked;
         
         if(!windSpellInUse)QueueJump();
 
@@ -220,7 +214,7 @@ public class PlayerQ3LikeController : MonoBehaviour
             currentPosition.z);
 
 
-        if (Input.GetKeyDown(KeyCode.C)) {
+        /*if (Input.GetKeyDown(KeyCode.C)) {
             if (_currentView == firstPersonView) {
                 firstPersonView.gameObject.SetActive(false);
                 thirdPersonView.gameObject.SetActive(true);
@@ -230,7 +224,7 @@ public class PlayerQ3LikeController : MonoBehaviour
                 firstPersonView.gameObject.SetActive(true);
                 _currentView = firstPersonView;
             }
-        }
+        }*/
 
         mana = Mathf.Clamp(mana, 0, maxMana);
 
