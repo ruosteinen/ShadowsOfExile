@@ -2486,7 +2486,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -360, y: 310}
+  m_AnchoredPosition: {x: -360, y: 10}
   m_SizeDelta: {x: 300.7766, y: 147.7407}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &620733439
@@ -6296,10 +6296,20 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: -8636869376524194915, guid: 8303ecc284049144182724ccba8181bd,
+        type: 3}
+      propertyPath: m_Speed
+      value: 3.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 2398909842503262408, guid: 8303ecc284049144182724ccba8181bd,
+        type: 3}
+      propertyPath: m_Mass
+      value: 1000
+      objectReference: {fileID: 0}
     - target: {fileID: 2398909842503262408, guid: 8303ecc284049144182724ccba8181bd,
         type: 3}
       propertyPath: m_Constraints
-      value: 126
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7076410989971673595, guid: 8303ecc284049144182724ccba8181bd,
         type: 3}
@@ -6341,10 +6351,30 @@ PrefabInstance:
       propertyPath: patrolWaypoints.Array.data[4]
       value: 
       objectReference: {fileID: 866085821}
+    - target: {fileID: 7488854860131220065, guid: 8303ecc284049144182724ccba8181bd,
+        type: 3}
+      propertyPath: m_IsTrigger
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7857923591202791137, guid: 8303ecc284049144182724ccba8181bd,
         type: 3}
       propertyPath: m_Name
       value: Enemy Goblin (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 8924855334295107303, guid: 8303ecc284049144182724ccba8181bd,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8924855334295107303, guid: 8303ecc284049144182724ccba8181bd,
+        type: 3}
+      propertyPath: slowDuration
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 8924855334295107303, guid: 8303ecc284049144182724ccba8181bd,
+        type: 3}
+      propertyPath: knockbackDuration
+      value: 0.1
       objectReference: {fileID: 0}
     - target: {fileID: 9099820084872642004, guid: 8303ecc284049144182724ccba8181bd,
         type: 3}
@@ -8469,6 +8499,21 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 7022740766292812956, guid: 9386084a13b20a5cfa17febc932c95e7,
         type: 3}
+    - target: {fileID: 2268799461048619316, guid: fedaf1e16a8c4a24b89a0e7c9a905f50,
+        type: 3}
+      propertyPath: field of view
+      value: 60.000004
+      objectReference: {fileID: 0}
+    - target: {fileID: 2268799461048619316, guid: fedaf1e16a8c4a24b89a0e7c9a905f50,
+        type: 3}
+      propertyPath: m_FocalLength
+      value: 20.784609
+      objectReference: {fileID: 0}
+    - target: {fileID: 2268799461048619316, guid: fedaf1e16a8c4a24b89a0e7c9a905f50,
+        type: 3}
+      propertyPath: m_projectionMatrixMode
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2997416305528207258, guid: fedaf1e16a8c4a24b89a0e7c9a905f50,
         type: 3}
       propertyPath: mana

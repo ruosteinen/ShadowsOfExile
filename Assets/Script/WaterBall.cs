@@ -4,8 +4,6 @@ public class WaterBall : MonoBehaviour
 {
     public float maxDistance;
     public int damage;
-    public float slowFactor;
-    public float knockbackForce;
     private Vector3 throwPosition;
     public void Initialize(Vector3 initialThrowPosition) => throwPosition = initialThrowPosition;
     void Update()
@@ -20,7 +18,7 @@ public class WaterBall : MonoBehaviour
     
         if (collision.gameObject.CompareTag("Enemy")) 
         {
-            Rigidbody enemyRigidbody = collision.gameObject.GetComponent<Rigidbody>();
+            /* Rigidbody enemyRigidbody = collision.gameObject.GetComponent<Rigidbody>();
             if (enemyRigidbody != null)
             {
                 Vector3 direction = collision.contacts[0].point - transform.position;
@@ -28,7 +26,7 @@ public class WaterBall : MonoBehaviour
             }
         
             UnityEngine.AI.NavMeshAgent enemyAgent = collision.gameObject.GetComponent<UnityEngine.AI.NavMeshAgent>();
-            if (enemyAgent != null) enemyAgent.velocity *= slowFactor;
+            if (enemyAgent != null) enemyAgent.velocity *= slowFactor;*/
             
             DoDamage(collision.collider);
         }

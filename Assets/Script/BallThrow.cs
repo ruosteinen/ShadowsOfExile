@@ -4,8 +4,8 @@ public class BallThrow : MonoBehaviour
 {
     public GameObject fireballPrefab;
     public GameObject waterballPrefab;
-    public float fireBallSpeed = 20f; // Скорость огненного шара
-    public float waterBallSpeed = 15f; // Скорость водяного шара
+    public float fireBallSpeed = 80f; 
+    public float waterBallSpeed = 80f;
     public float spawnDistance = 1f;
     public Camera playerCamera;
     public PlayerQ3LikeController playerController;
