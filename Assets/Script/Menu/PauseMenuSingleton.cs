@@ -13,7 +13,7 @@ public sealed class PauseMenuSingleton : MonoBehaviour
     public bool IsPaused
     {
         get { return _isPaused; }
-        private set { _isPaused = value; }
+       set { _isPaused = value; }
     }
 
     private void Awake()
