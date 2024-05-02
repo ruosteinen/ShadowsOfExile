@@ -443,7 +443,7 @@ Rigidbody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 279219112}
   serializedVersion: 4
-  m_Mass: 1
+  m_Mass: 0.5
   m_Drag: 0
   m_AngularDrag: 0.05
   m_CenterOfMass: {x: 0, y: 0, z: 0}
@@ -501,7 +501,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 279219112}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cc99f79d6ec8dfa4f82af5fd97341d65, type: 3}
+  m_Script: {fileID: 11500000, guid: 3f277a2787e2260429b69a71e2d931a7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &287150935
@@ -5522,7 +5522,7 @@ MonoBehaviour:
   groundDistance: 0.4
   groundMask:
     serializedVersion: 2
-    m_Bits: 1024
+    m_Bits: 0
 --- !u!114 &527344863
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5532,17 +5532,28 @@ MonoBehaviour:
   m_GameObject: {fileID: 527344859}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 05f54c462c1480b41bef7b80d0663b59, type: 3}
+  m_Script: {fileID: 11500000, guid: 75cd41e409765e824940e91393065fc1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth: 100
-  defense: 10
+  maxHealth: 0
+  defense: 0
+  attack: 0
   healthValue: {fileID: 980321448}
-  maxMana: 100
+  maxMana: 0
   manaValue: {fileID: 1692786883}
   currentMana: 0
   healthBar: {fileID: 1014490660}
   manaBar: {fileID: 34003798}
+  level: 0
+  currentXp: 0
+  requiredXp: 0
+  FrontExpBar: {fileID: 0}
+  BackExpBar: {fileID: 0}
+  Level: {fileID: 0}
+  Exp: {fileID: 0}
+  additionMultiplier: 300
+  powerMultiplier: 2
+  divisionMultiplier: 7
 --- !u!1 &556620732
 GameObject:
   m_ObjectHideFlags: 0
@@ -11536,7 +11547,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dfe680c8acd48474bb907fa78ca0594d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  damage: 20
 --- !u!136 &1168322865
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -11788,15 +11798,11 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1374823945}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 908eb8e4d07a2e7438e91ba82df49e21, type: 3}
+  m_Script: {fileID: 11500000, guid: cc99f79d6ec8dfa4f82af5fd97341d65, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  range: 10
-  KnockbackForce: 250
-  Cam: {fileID: 1461569740}
-  Enemy: {fileID: 279219112}
 --- !u!1 &1461569738
 GameObject:
   m_ObjectHideFlags: 0

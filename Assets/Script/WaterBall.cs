@@ -5,6 +5,7 @@ public class WaterBall : MonoBehaviour
     public float maxDistance;
     public int damage;
     private Vector3 throwPosition;
+
     public void Initialize(Vector3 initialThrowPosition) => throwPosition = initialThrowPosition;
     void Update()
     {

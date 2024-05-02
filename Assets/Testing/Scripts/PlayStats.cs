@@ -138,12 +138,12 @@ public class PlayStats : MonoBehaviour
     public void LevelUp()
     {
         level++;
-        currentHealth *= 1.5f;
-        currentMana *= 1.5f;
-        maxHealth *= 1.5f;
-        maxMana *= 1.5f;
-        attack *= 2;
-        defense *= 2;
+        currentHealth *= 1.2f;
+        currentMana *= 1.2f;
+        maxHealth *= 1.2f;
+        maxMana *= 1.2f;
+        attack *= 1.2f;
+        defense *= 1.2f;
         currentHealth = Mathf.Min(currentHealth, maxHealth);
         currentMana = Mathf.Min(currentMana, maxMana);
         healthBar.SetSliderMax(maxHealth);
