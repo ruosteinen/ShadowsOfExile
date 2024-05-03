@@ -1,11 +1,21 @@
 using UnityEngine;
+using TMPro;
 
 public class PotionMakerScript : MonoBehaviour
 {
     public string interactionText = "Press E to use"; 
     public int fontSize = 20;
     public GameObject potionMakerScreen;
-    private bool playerInRange; 
+    private bool playerInRange;
+
+    public TMP_Text RequiredAmountText;
+    public TMP_Text CurrentAmountText;
+
+    private void Start()
+    {
+        string reqText = "You need 2 resources to create a potion";
+        RequiredAmountText.text = reqText;
+    }
 
     private void Update()
     {
@@ -25,6 +35,13 @@ public class PotionMakerScript : MonoBehaviour
                 PauseMenuSingleton.Instance.IsPaused = true;
             }
         }
+        
+        LootHandler lootHandler = FindObjectOfType<LootHandler>();
+
+        if (lootHandler != null)
+        {
+            CurrentAmountText.text = "Current amount: " + lootHandler.resourceAmount;
+        }
     }
 
     private void OnTriggerEnter(Collider other)
@@ -39,8 +56,20 @@ public class PotionMakerScript : MonoBehaviour
 
     public void ClosePotionMaker()
     {
-        PauseMenuSingleton.Instance.IsPaused = false;
+        PauseMenuSingleton.Instance.Resume();
         potionMakerScreen.SetActive(false);   
+    }
+
+    public void MakePotion()
+    {
+        Debug.Log("MakePotion called");
+        LootHandler lootHandler = FindObjectOfType<LootHandler>();
+        if (lootHandler != null  && lootHandler.resourceAmount >= 2) {
+            lootHandler.resourceAmount -= 2;
+            Debug.Log(lootHandler.resourceAmount);
+        } else {
+            Debug.Log("LootHandler not found");
+        }
     }
 
     private void OnGUI()
