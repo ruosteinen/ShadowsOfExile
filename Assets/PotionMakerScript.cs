@@ -1,16 +1,20 @@
 using UnityEngine;
 using TMPro;
+using UnityEngine.SceneManagement;
 
 public class PotionMakerScript : MonoBehaviour
 {
     public string interactionText = "Press E to use"; 
-    public int fontSize = 20;
+    public int fontSize = 30;
     public GameObject potionMakerScreen;
     private bool playerInRange;
 
     public TMP_Text RequiredAmountText;
     public TMP_Text CurrentAmountText;
 
+    public bool isPotionMaking = false;
+    
+    public int potionAmount = 0;
     private void Start()
     {
         string reqText = "You need 2 resources to create a potion";
@@ -23,6 +27,7 @@ public class PotionMakerScript : MonoBehaviour
         {
             if (Input.GetKeyDown(KeyCode.E))
             {
+                isPotionMaking = true;
                 potionMakerScreen.SetActive(true);
                 Time.timeScale = 0f;
                 PlayerQ3LikeController playerController = FindObjectOfType<PlayerQ3LikeController>();
@@ -56,6 +61,7 @@ public class PotionMakerScript : MonoBehaviour
 
     public void ClosePotionMaker()
     {
+        isPotionMaking = false; 
         PauseMenuSingleton.Instance.Resume();
         potionMakerScreen.SetActive(false);   
     }
@@ -66,15 +72,22 @@ public class PotionMakerScript : MonoBehaviour
         LootHandler lootHandler = FindObjectOfType<LootHandler>();
         if (lootHandler != null  && lootHandler.resourceAmount >= 2) {
             lootHandler.resourceAmount -= 2;
+            potionAmount++;
             Debug.Log(lootHandler.resourceAmount);
         } else {
             Debug.Log("LootHandler not found");
         }
     }
 
+    public void PlayGame()
+    {
+        Time.timeScale = 1f;
+        SceneManager.LoadScene("SampleScene");
+    }
+    
     private void OnGUI()
     {
-        if (playerInRange)
+        if (playerInRange && !isPotionMaking)
         {
             Vector3 screenPosition = Camera.main.WorldToScreenPoint(transform.position);
             GUIStyle style = new GUIStyle(GUI.skin.label);

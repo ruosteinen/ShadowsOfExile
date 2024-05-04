@@ -4,30 +4,45 @@ public class BallThrow : MonoBehaviour
 {
     public GameObject fireballPrefab;
     public GameObject waterballPrefab;
-    public float fireBallSpeed = 80f; 
+    public float fireBallSpeed = 80f;
     public float waterBallSpeed = 80f;
     public float spawnDistance = 1f;
     public Camera playerCamera;
     public PlayerQ3LikeController playerController;
     public int manaCost = 10;
-    public float fireRate; 
+    public float fireRate;
     public float waterRate;
     private float lastFireTime;
     private float lastWaterTime;
 
+    private GameObject currentBallPrefab;
+    private float currentBallSpeed;
+
+    void Start()
+    {
+        currentBallPrefab = fireballPrefab;
+        currentBallSpeed = fireBallSpeed;
+    }
+
     private void Update()
     {
-        if (playerCamera != null && !PauseMenuSingleton.Instance.IsPaused && playerController.mana >= manaCost )
+        if (playerCamera != null && !PauseMenuSingleton.Instance.IsPaused && playerController.mana >= manaCost)
         {
-            if (Input.GetMouseButtonDown(0) && !Input.GetMouseButtonDown(1) && Time.time > lastFireTime + fireRate)
+            if (Input.GetAxis("Mouse ScrollWheel") > 0)
             {
-                SpawnAndThrowBall(fireballPrefab, fireBallSpeed);
-                lastFireTime = Time.time;
+                currentBallPrefab = fireballPrefab;
+                currentBallSpeed = fireBallSpeed;
             }
-            else if (Input.GetMouseButtonDown(1) && !Input.GetMouseButtonDown(0) && Time.time > lastWaterTime + waterRate)
+            else if (Input.GetAxis("Mouse ScrollWheel") < 0)
             {
-                SpawnAndThrowBall(waterballPrefab, waterBallSpeed);
-                lastWaterTime = Time.time;
+                currentBallPrefab = waterballPrefab;
+                currentBallSpeed = waterBallSpeed;
+            }
+
+            if (Input.GetMouseButtonDown(0) && Time.time > lastFireTime + fireRate)
+            {
+                SpawnAndThrowBall(currentBallPrefab, currentBallSpeed);
+                lastFireTime = Time.time;
             }
         }
     }
@@ -45,7 +60,7 @@ public class BallThrow : MonoBehaviour
             FireBall fireBallScript = ball.GetComponent<FireBall>();
             if (fireBallScript != null) fireBallScript.Initialize(throwPosition);
         }
-        
+
         if (ballPrefab == waterballPrefab && playerController.mana >= manaCost)
         {
             WaterBall waterBallScript = ball.GetComponent<WaterBall>();
@@ -61,3 +76,4 @@ public class BallThrow : MonoBehaviour
         }
     }
 }
+

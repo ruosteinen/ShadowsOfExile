@@ -7,7 +7,7 @@ public sealed class PauseMenuSingleton : MonoBehaviour
 
     public GameObject pauseMenuPanel;
     public GameObject settingsPanel;
-
+    
     private bool _isPaused;  //false by default
 
     public bool IsPaused
@@ -27,7 +27,9 @@ public sealed class PauseMenuSingleton : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Escape))
+        PotionMakerScript potionMaker = FindObjectOfType<PotionMakerScript>();
+
+        if (Input.GetKeyDown(KeyCode.Escape) && !potionMaker.isPotionMaking)
         {
             if (IsPaused)
                 Resume();
