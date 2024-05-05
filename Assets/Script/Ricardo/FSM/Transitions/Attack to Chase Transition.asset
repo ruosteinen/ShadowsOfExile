@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 931c4f975e37a9d469df16e1f910aef7, type: 3}
   m_Name: Attack to Chase Transition
   m_EditorClassIdentifier: 
-  decision: {fileID: 11400000, guid: 9f52e1194c58b8d4387c5a617ed68f49, type: 2}
+  decision: {fileID: 11400000, guid: 3130182cc7776eb438b671fac16b69c9, type: 2}
   action: {fileID: 0}
   targetState: {fileID: 11400000, guid: 03384eb654218bc4987c482699896b57, type: 2}
