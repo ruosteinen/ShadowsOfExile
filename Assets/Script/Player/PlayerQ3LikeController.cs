@@ -82,10 +82,10 @@ public class PlayerQ3LikeController : MonoBehaviour
     
     //Сoefficients
     //private float _jumpPowerCoeff = 2f;
-    private float _wallJumpCostCoeff = 2.5f;
-    private float _wallRunCostCoeff = 3f;
+    private float _wallJumpCostCoeff = 90f;
+    private float _wallRunCostCoeff = 0.8f;
     private float _wallRunVelocityMultiplier = 1.03f;
-    private float _windJumpCostCoeff = 2f;
+    private float _windJumpCostCoeff = 25f;
     
     // Wall contact 
     private Vector3 _wallContactNormal;
@@ -230,11 +230,11 @@ public class PlayerQ3LikeController : MonoBehaviour
 
         if (isGrounded && Input.GetKey(KeyCode.LeftShift) && windSpellInUse)
         {
-            float manaCost = manaDrainRate * Time.deltaTime * (1 + armor.weight / 20);
+            float manaCost = manaDrainRate * Time.deltaTime;
             if (mana >= manaCost)
             {
                 _isRunning = true;
-                mana -= manaCost;
+                mana -= manaCost*0.8f;
             }
             else
             {
@@ -498,7 +498,7 @@ public class PlayerQ3LikeController : MonoBehaviour
 
     private void StartWallRun()
     {
-        float manaCost = manaDrainRate * _wallRunCostCoeff * Time.deltaTime * (1 + armor.weight / 20);
+        float manaCost = manaDrainRate * _wallRunCostCoeff * Time.deltaTime;
         
         
         if (mana >= manaCost && windSpellInUse)
