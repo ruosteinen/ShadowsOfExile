@@ -2467,8 +2467,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 24
-  m_fontSizeBase: 24
+  m_fontSize: 12
+  m_fontSizeBase: 12
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -2601,8 +2601,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 24
-  m_fontSizeBase: 24
+  m_fontSize: 12
+  m_fontSizeBase: 12
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -6421,6 +6421,23 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerInRange: 0
   isTalkingWithPlayer: 0
+  quests:
+  - accepted: 0
+    declined: 0
+    initialDialogCompleted: 0
+    isCompleted: 0
+    hasNoRequirements: 0
+    info: {fileID: 11400000, guid: 9757ca39b8dbce64ba0ed54a13e4b4b1, type: 2}
+  currentActiveQuest:
+    accepted: 0
+    declined: 0
+    initialDialogCompleted: 0
+    isCompleted: 0
+    hasNoRequirements: 0
+    info: {fileID: 0}
+  activeQuestIndex: 0
+  firstTimeInteraction: 1
+  currentDialog: 0
 --- !u!65 &1381622888
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -7988,8 +8005,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 18
-  m_fontSizeBase: 18
+  m_fontSize: 10
+  m_fontSizeBase: 10
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -9361,6 +9378,11 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1851085880965888989, guid: fedaf1e16a8c4a24b89a0e7c9a905f50,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1851085880965888989, guid: fedaf1e16a8c4a24b89a0e7c9a905f50,
         type: 3}
       propertyPath: waterballPrefab
