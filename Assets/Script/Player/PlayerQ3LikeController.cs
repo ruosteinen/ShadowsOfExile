@@ -105,7 +105,9 @@ public class PlayerQ3LikeController : MonoBehaviour
     public bool windSpellInUse;
     //public bool fireSpellInUse;
 
-    
+    //Spell pic
+    public Texture2D windTexture;
+    private float scaleWindFactor = 1.5f;
     
     private void Start()
     {
@@ -665,5 +667,11 @@ public class PlayerQ3LikeController : MonoBehaviour
         GUI.Label(new Rect(0, 660, 400, 100), windSpell, style);
         //GUI.Label(new Rect(0, 75, 400, 100), fireSpell, style);
         GUI.Label(new Rect(0, 675, 400, 100), ground, style);
+        
+        
+        if (windSpellInUse)
+        {
+            GUI.DrawTexture(new Rect(335, 260, 50 * scaleWindFactor, 50 * scaleWindFactor), windTexture); 
+        }
     }
 }

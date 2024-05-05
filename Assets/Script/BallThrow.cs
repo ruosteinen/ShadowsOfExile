@@ -17,7 +17,11 @@ public class BallThrow : MonoBehaviour
 
     private GameObject currentBallPrefab;
     private float currentBallSpeed;
-
+    
+    public Texture2D fireballTexture;
+    public Texture2D waterballTexture;
+    private float scaleFireFactor = 1.5f;
+    private float scaleWaterFactor = 1.5f;
     void Start()
     {
         currentBallPrefab = fireballPrefab;
@@ -73,6 +77,18 @@ public class BallThrow : MonoBehaviour
             Vector3 playerVel = playerController.playerVelocity;
             ballRB.velocity = (ray.direction * ballSpeed) + playerVel;
             playerController.mana -= manaCost;
+        }
+    }
+    
+    void OnGUI()
+    {
+        if (currentBallPrefab == fireballPrefab)
+        {
+            GUI.DrawTexture(new Rect(180, 260, 50 * scaleFireFactor, 50 * scaleFireFactor), fireballTexture); 
+        }
+        else if (currentBallPrefab == waterballPrefab)
+        {
+            GUI.DrawTexture(new Rect(180, 260, 50 * scaleWaterFactor , 50 * scaleWaterFactor), waterballTexture);
         }
     }
 }
