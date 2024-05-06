@@ -2385,7 +2385,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 521f41d72f8349a83930d055dad51620, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  interactionText: Press E to use
+  interactionText: Press U to use
   fontSize: 30
   potionMakerScreen: {fileID: 1706047782}
   RequiredAmountText: {fileID: 1506390942}

@@ -4,7 +4,7 @@ using UnityEngine.SceneManagement;
 
 public class PotionMakerScript : MonoBehaviour
 {
-    public string interactionText = "Press E to use"; 
+    public string interactionText = "Press U to use"; 
     public int fontSize = 30;
     public GameObject potionMakerScreen;
     private bool playerInRange;
@@ -25,7 +25,7 @@ public class PotionMakerScript : MonoBehaviour
     {
         if (playerInRange)
         {
-            if (Input.GetKeyDown(KeyCode.E))
+            if (Input.GetKeyDown(KeyCode.U))
             {
                 isPotionMaking = true;
                 potionMakerScreen.SetActive(true);
