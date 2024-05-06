@@ -12,7 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6af2e5abcfe3b1c4ea51a10aba4238c5, type: 3}
   m_Name: Recover State
   m_EditorClassIdentifier: 
-  entryAction: {fileID: 0}
+  entryAction: {fileID: 11400000, guid: a219891c50764a247a5341857e5f607d, type: 2}
   stateActions: []
   exitAction: {fileID: 0}
-  transitions: []
+  transitions:
+  - {fileID: 11400000, guid: 16dcf91bf2f80c244bfe1d0670936b4a, type: 2}
+  - {fileID: 11400000, guid: 2a15e3d268af98a4a92ad206a6c5c595, type: 2}

@@ -9,34 +9,31 @@ public class CameraController : MonoBehaviour
     [SerializeField] private float maxZoom = -10f;
     [SerializeField] private float zoomSensitivity = 2f;
 
-    private void Start()
-    {
-       thirdPersonCamera.enabled = false; // Initially disable third person camera
-    }
-
-    private void Update()
+    private void Start() => thirdPersonCamera.enabled = false; // Initially disable third person camera
+    
+    /*private void Update()
     {
         HandleCameraSwitching();
         HandleCameraZoom();
-    }
+    }*/
 
-    private void HandleCameraSwitching()
+    /* private void HandleCameraSwitching()
     {
-        if (Input.GetKeyDown(KeyCode.C)) // 'C' key to switch camera
+       if (Input.GetKeyDown(KeyCode.C)) // 'C' key to switch camera
         {
             firstPersonCamera.enabled = !firstPersonCamera.enabled;
             thirdPersonCamera.enabled = !thirdPersonCamera.enabled;
         }
-    }
+    }*/
 
-    private void HandleCameraZoom()
-    {
-        if (thirdPersonCamera.enabled)
-        {
-            float scroll = Input.GetAxis("Mouse ScrollWheel");
-            thirdPersonCameraOffset.z = Mathf.Clamp(thirdPersonCameraOffset.z + scroll * zoomSensitivity, 
-                maxZoom, minZoom);
-            thirdPersonCamera.transform.localPosition = thirdPersonCameraOffset;
-        }
-    }
-}
+    /*  private void HandleCameraZoom()
+     {
+         if (thirdPersonCamera.enabled)
+         {
+             float scroll = Input.GetAxis("Mouse ScrollWheel");
+             thirdPersonCameraOffset.z = Mathf.Clamp(thirdPersonCameraOffset.z + scroll * zoomSensitivity,
+                 maxZoom, minZoom);
+             thirdPersonCamera.transform.localPosition = thirdPersonCameraOffset;
+         }
+     }*/
+ }

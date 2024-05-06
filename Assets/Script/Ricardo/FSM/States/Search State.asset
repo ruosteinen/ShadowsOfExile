@@ -12,7 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6af2e5abcfe3b1c4ea51a10aba4238c5, type: 3}
   m_Name: Search State
   m_EditorClassIdentifier: 
-  entryAction: {fileID: 0}
-  stateActions: []
+  entryAction: {fileID: 11400000, guid: b8965af4ed1c4e344b1472183bca49fa, type: 2}
+  stateActions:
+  - {fileID: 11400000, guid: cb711d4e423cbfa4282233ed62206d38, type: 2}
   exitAction: {fileID: 0}
-  transitions: []
+  transitions:
+  - {fileID: 11400000, guid: c30b514c675a75a428b85a698b067e12, type: 2}
+  - {fileID: 11400000, guid: da21750de66b9b841afb90b15a3ee26e, type: 2}
+  - {fileID: 11400000, guid: a6f9ec22c0d0e0a4f93402c6312cbe8b, type: 2}
+  - {fileID: 11400000, guid: 12450ac2103add74a97141aaa5d25116, type: 2}

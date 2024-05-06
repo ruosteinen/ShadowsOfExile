@@ -12,6 +12,7 @@ public class SelectionManager : MonoBehaviour
     public GameObject interaction_Info_UI;
     Text interaction_text;
 
+    
     private void Start()
     {
         onTarget = false;
@@ -41,7 +42,7 @@ public class SelectionManager : MonoBehaviour
             InteractableObject interactable = selectionTransform.GetComponent<InteractableObject>();
 
             QuestNPC npc = selectionTransform.GetComponent<QuestNPC>();
-            if (npc && npc.playerInRange)
+            if (npc && npc.playerInRange && !PauseMenuSingleton.Instance.IsPaused) 
             { 
                 interaction_text.text = "Quest";
                 interaction_Info_UI.SetActive(true);

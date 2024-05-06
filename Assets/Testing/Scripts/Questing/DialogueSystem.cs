@@ -31,11 +31,13 @@ public class DialogueSystem : MonoBehaviour
 
     public void openQuestUI()
     {
+        Time.timeScale = 0f;
         questUI.gameObject.SetActive(true);
         questUIActive = true;
 
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
+        PauseMenuSingleton.Instance.IsPaused = true;
     }
 
     public void closeQuestUI()
@@ -45,5 +47,7 @@ public class DialogueSystem : MonoBehaviour
 
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
+        Time.timeScale = 1f;
+        PauseMenuSingleton.Instance.IsPaused = false;
     }
 }

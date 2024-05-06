@@ -38,7 +38,7 @@ public class Flammable : MonoBehaviour
     private IEnumerator Ignition()
     {
         Debug.Log($"Ignition coroutine started for {gameObject.name}.");
-        gameObject.layer = LayerMask.NameToLayer("OnFire");
+        //gameObject.layer = LayerMask.NameToLayer("OnFire");
 
         while (elapsedIgnitionTime < ignitionDuration + smokeDuration + cooldownDuration)
         {

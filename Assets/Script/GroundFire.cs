@@ -1,7 +1,7 @@
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
-
+using System.Linq;
 public class GroundFire : MonoBehaviour
 {
     public GameObject fireParticleSystemPrefab;
@@ -12,8 +12,6 @@ public class GroundFire : MonoBehaviour
     public float particleSystemDuration = 10f;
     public float smokeDelay = 1.0f;
 
-    private List<ParticleSystem> activeFireParticleSystems = new List<ParticleSystem>();
-    private Dictionary<ParticleSystem, ParticleSystem> fireToSmokeMap = new Dictionary<ParticleSystem, ParticleSystem>();
     private Dictionary<ParticleSystem, GameObject> fireToVisualMap = new Dictionary<ParticleSystem, GameObject>();
 
     private void OnCollisionEnter(Collision collision)
@@ -26,46 +24,41 @@ public class GroundFire : MonoBehaviour
         else if (collision.gameObject.CompareTag("WaterBall"))
         {
             Vector3 collisionPoint = collision.contacts[0].point;
-            StopFireAndSmokeAtPoint(collisionPoint);
+            StopFireAndSmokeAtPoint(collisionPoint, 3f);
         }
     }
 
     private IEnumerator StartFireAndSmokeSystems(Vector3 collisionPoint)
     {
         GameObject fireVisualObject = CreateVisualEffect(collisionPoint, burntAreaPrefab);
-        GameObject fireSystemObject = Instantiate(fireParticleSystemPrefab, collisionPoint, Quaternion.identity);
-        ParticleSystem fireSystemComponent = fireSystemObject.GetComponent<ParticleSystem>();
+        ParticleSystem fireSystemComponent = Instantiate(fireParticleSystemPrefab, collisionPoint, Quaternion.identity).GetComponent<ParticleSystem>();
 
         SetParticleSystemShape(fireSystemComponent, fireVisualObject);
-        activeFireParticleSystems.Add(fireSystemComponent);
         fireToVisualMap.Add(fireSystemComponent, fireVisualObject);
 
         yield return ScaleVisualEffectOverTime(fireVisualObject, maxScale);
 
         yield return new WaitForSeconds(smokeDelay);
 
-        if (activeFireParticleSystems.Contains(fireSystemComponent))
+        if (fireToVisualMap.ContainsKey(fireSystemComponent)) 
         {
-            GameObject smokeSystemObject = Instantiate(smokeParticleSystemPrefab, collisionPoint, Quaternion.identity);
-            ParticleSystem smokeSystemComponent = smokeSystemObject.GetComponent<ParticleSystem>();
-            
+            ParticleSystem smokeSystemComponent = Instantiate(smokeParticleSystemPrefab, collisionPoint, Quaternion.identity).GetComponent<ParticleSystem>();
+
             SetParticleSystemShape(smokeSystemComponent, fireVisualObject);
-            activeFireParticleSystems.Add(smokeSystemComponent);
-            fireToSmokeMap.Add(fireSystemComponent, smokeSystemComponent);
 
             yield return ScaleVisualEffectOverTime(fireVisualObject, maxScale);
 
-            Destroy(smokeSystemObject, particleSystemDuration);
+            Destroy(smokeSystemComponent.gameObject, particleSystemDuration);
         }
 
-        Destroy(fireSystemObject, particleSystemDuration);
+        Destroy(fireSystemComponent.gameObject, particleSystemDuration);
         Destroy(fireVisualObject, particleSystemDuration);
     }
 
     private GameObject CreateVisualEffect(Vector3 collisionPoint, GameObject prefab)
     {
         GameObject visualEffectObject = Instantiate(prefab, collisionPoint, Quaternion.identity);
-        visualEffectObject.transform.localScale = new Vector3(0.1f, 1f, 0.1f); // Start small, but keep original Y scale
+        visualEffectObject.transform.localScale = new Vector3(0.1f, 0f, 0.1f); // Start small, but keep original Y scale
         return visualEffectObject;
     }
 
@@ -73,58 +66,58 @@ public class GroundFire : MonoBehaviour
     {
         float startTime = Time.time;
         Vector3 initialScale = visualEffectObject.transform.localScale;
-        float initialYScale = initialScale.y; // Save the initial Y scale
 
         while (Time.time - startTime < scaleSpeed)
         {
             float t = (Time.time - startTime) / scaleSpeed;
-            float currentScale = Mathf.Lerp(0.1f, targetScale, t); // Lerp from 0.1f to targetScale for X and Z
-            visualEffectObject.transform.localScale = new Vector3(currentScale, 0f, currentScale);
+            float currentScale = Mathf.Lerp(initialScale.x, targetScale, t); // Lerp from initial scale to targetScale for X and Z
+            visualEffectObject.transform.localScale = new Vector3(currentScale, 0, currentScale); // Keep the original Y scale
             yield return null;
         }
     }
 
-    private void StopFireAndSmokeAtPoint(Vector3 collisionPoint)
+    private void StopFireAndSmokeAtPoint(Vector3 collisionPoint, float specificScale)
     {
-        List<ParticleSystem> fireSystemsToRemove = new List<ParticleSystem>();
+        Collider[] colliders = Physics.OverlapBox(collisionPoint, new Vector3(specificScale/1.5f, specificScale/1.5f, specificScale/1.5f));
 
-        foreach (var fireSystem in activeFireParticleSystems)
+        foreach (var collider in colliders)
         {
-            GameObject visualEffectObject = fireToVisualMap[fireSystem];
-            Vector3 currentScale = visualEffectObject.transform.localScale;
-
-            float distanceThreshold = currentScale.magnitude * 2f;
-
-            if (Vector3.Distance(visualEffectObject.transform.position, collisionPoint) < distanceThreshold)
+            if (collider.CompareTag("BurntAreaPrefab"))
             {
-                fireSystem.Stop();
-                if (fireToSmokeMap.TryGetValue(fireSystem, out ParticleSystem smokeSystem))
-                {
-                    smokeSystem.Stop();
-                    fireToSmokeMap.Remove(fireSystem);
-                }
+                GameObject visualEffectObject = collider.gameObject;
 
-                fireSystemsToRemove.Add(fireSystem);
-                Destroy(visualEffectObject); 
-                fireToVisualMap.Remove(fireSystem);
+                if (fireToVisualMap.ContainsValue(visualEffectObject))
+                {
+                    ParticleSystem fireSystem = fireToVisualMap.FirstOrDefault(x => x.Value == visualEffectObject).Key;
+
+                    if (fireSystem != null)
+                    {
+                        fireSystem.Stop();
+
+                        if (fireToVisualMap.ContainsKey(fireSystem))
+                        {
+                            GameObject fireVisual = fireToVisualMap[fireSystem];
+                            Destroy(fireVisual);
+                            fireToVisualMap.Remove(fireSystem);
+                        }
+                    }
+                }
             }
         }
-
-        foreach (var fireSystemToRemove in fireSystemsToRemove) activeFireParticleSystems.Remove(fireSystemToRemove);    
     }
+
+
     private void SetParticleSystemShape(ParticleSystem particleSystemComponent, GameObject visualPrefab)
     {
         ParticleSystem.ShapeModule shapeModule = particleSystemComponent.shape;
         shapeModule.shapeType = ParticleSystemShapeType.Mesh;
-     
+
         MeshFilter meshFilter = visualPrefab.GetComponent<MeshFilter>();
         if (meshFilter != null) shapeModule.mesh = meshFilter.sharedMesh;
-        
         else
         {
             MeshRenderer meshRenderer = visualPrefab.GetComponent<MeshRenderer>();
             if (meshRenderer != null) shapeModule.meshRenderer = meshRenderer;
-            
             else Debug.LogWarning("SetParticleSystemShape: No MeshFilter or MeshRenderer found on visualPrefab.");
         }
     }

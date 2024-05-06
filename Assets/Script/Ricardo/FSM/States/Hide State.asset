@@ -12,7 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6af2e5abcfe3b1c4ea51a10aba4238c5, type: 3}
   m_Name: Hide State
   m_EditorClassIdentifier: 
-  entryAction: {fileID: 0}
+  entryAction: {fileID: 11400000, guid: a219891c50764a247a5341857e5f607d, type: 2}
   stateActions: []
-  exitAction: {fileID: 0}
-  transitions: []
+  exitAction: {fileID: 11400000, guid: 757ed2a4c36c22640bda801bed73138b, type: 2}
+  transitions:
+  - {fileID: 11400000, guid: 36cb0605c64f43d4eb801fac29d35c7a, type: 2}

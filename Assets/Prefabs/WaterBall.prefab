@@ -147,3 +147,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxDistance: 60
+  damage: 50
+  slowFactor: 0
+  knockbackForce: 300

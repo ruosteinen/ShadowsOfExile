@@ -12,7 +12,7 @@ public class PlayerQ3LikeController : MonoBehaviour
 {
     // Camera
     public Transform firstPersonView;
-    public Transform thirdPersonView;
+    //public Transform thirdPersonView;
     private Transform _currentView;
     [SerializeField]private float playerViewYOffset = 0.6f; // The height at which the camera is bound to
 
@@ -42,11 +42,11 @@ public class PlayerQ3LikeController : MonoBehaviour
 
     //Running
     private bool _isRunning;
-    public float mana = 5f;
-    [SerializeField]private float maxMana = 6f;
-    [SerializeField]private float manaDrainRate = 0.9f;
-    [SerializeField]private float manaRecoveryRate = 0.8f;
-    [SerializeField]private float runMultiplier = 2f;
+    //public float mana = 100f;
+    //[SerializeField]private float maxMana = 100f;
+    [SerializeField]private float manaDrainRate = 10f;
+    [SerializeField]private float manaRecoveryRate = 8f;
+    [SerializeField]private float runMultiplier = 5f;
 
     public Armor armor;
     private Console _console;
@@ -82,10 +82,10 @@ public class PlayerQ3LikeController : MonoBehaviour
     
     //Сoefficients
     //private float _jumpPowerCoeff = 2f;
-    private float _wallJumpCostCoeff = 2.5f;
-    private float _wallRunCostCoeff = 3f;
+    private float _wallJumpCostCoeff = 90f;
+    private float _wallRunCostCoeff = 0.8f;
     private float _wallRunVelocityMultiplier = 1.03f;
-    private float _windJumpCostCoeff = 2f;
+    private float _windJumpCostCoeff = 25f;
     
     // Wall contact 
     private Vector3 _wallContactNormal;
@@ -105,14 +105,19 @@ public class PlayerQ3LikeController : MonoBehaviour
     public bool windSpellInUse;
     //public bool fireSpellInUse;
 
+    //Spell pic
+    public Texture2D windTexture;
+    private float scaleWindFactor = 1.5f;
     
+    //PlayStats link 
+    public PlayStats playStats;
     
     private void Start()
     {
 
         _currentView = firstPersonView;
         firstPersonView.gameObject.SetActive(true);
-        thirdPersonView.gameObject.SetActive(false);
+        //thirdPersonView.gameObject.SetActive(false);
 
         // Hide the cursor
         Cursor.visible = false;
@@ -136,9 +141,9 @@ public class PlayerQ3LikeController : MonoBehaviour
 
         armor = GetComponent<Armor>();  
 
-       Crosshair = GameObject.FindObjectOfType<Image>();
+       //Crosshair = GameObject.FindObjectOfType<Image>();
 
-       Crosshair.gameObject.SetActive(true);
+       //Crosshair.gameObject.SetActive(true);
     }
 
     
@@ -159,33 +164,27 @@ public class PlayerQ3LikeController : MonoBehaviour
         {
             xMouseSensitivity = PlayerPrefs.GetFloat("MouseSensitivity");
             yMouseSensitivity = PlayerPrefs.GetFloat("MouseSensitivity");
-            if (Crosshair != null)
-                Crosshair.gameObject.SetActive(true);
-            Debug.Log("not paused"); // Check if this log is always showing
+            if (Crosshair != null) Crosshair.gameObject.SetActive(true);
+            //Debug.Log("not paused"); // Check if this log is always showing
         }
         else
         {
-            if (Crosshair != null)
-                Crosshair.gameObject.SetActive(false);
-            Debug.Log("paused"); // Check if this log is showing only when the game is paused
+            if (Crosshair != null) Crosshair.gameObject.SetActive(false);
+            //Debug.Log("paused"); // Check if this log is showing only when the game is paused
             return;
         }
-
-
+        
+        HandleInput();
 
         //RaycastHit hit;
         // Vector3 sphereCastOrigin = groundCheck.position + Vector3.up * sphereRadius;
         //Vector3 direction = -Vector3.up;
         //isGrounded = Physics.SphereCast(sphereCastOrigin, sphereRadius, direction, out hit, groundDistance + sphereRadius, groundMask);
-
         isGrounded = Physics.Raycast(groundCheck.position, -Vector3.up, groundDistance, groundMask);
-        
-        HandleInput();
         
         //Spells 
         if (Input.GetKeyDown(KeyCode.Alpha1)) windSpellInUse = !windSpellInUse;  //Button 1
         //if (Input.GetKeyDown(KeyCode.Alpha2)) fireSpellInUse = !fireSpellInUse;  //Button 2
-        
         
         //FPS calculation
         _frameCount++;
@@ -198,8 +197,8 @@ public class PlayerQ3LikeController : MonoBehaviour
         }
 
         //Cursor locking
-        if (Cursor.lockState != CursorLockMode.Locked)
-            if (Input.GetButtonDown("Fire1")) Cursor.lockState = CursorLockMode.Locked;
+        //if (Cursor.lockState != CursorLockMode.Locked)
+        //    if (Input.GetButtonDown("Fire1")) Cursor.lockState = CursorLockMode.Locked;
         
         if(!windSpellInUse)QueueJump();
 
@@ -220,7 +219,7 @@ public class PlayerQ3LikeController : MonoBehaviour
             currentPosition.z);
 
 
-        if (Input.GetKeyDown(KeyCode.C)) {
+        /*if (Input.GetKeyDown(KeyCode.C)) {
             if (_currentView == firstPersonView) {
                 firstPersonView.gameObject.SetActive(false);
                 thirdPersonView.gameObject.SetActive(true);
@@ -230,17 +229,17 @@ public class PlayerQ3LikeController : MonoBehaviour
                 firstPersonView.gameObject.SetActive(true);
                 _currentView = firstPersonView;
             }
-        }
+        }*/
 
-        mana = Mathf.Clamp(mana, 0, maxMana);
+        playStats.currentMana = Mathf.Clamp(playStats.currentMana, 0, playStats.maxMana);
 
         if (isGrounded && Input.GetKey(KeyCode.LeftShift) && windSpellInUse)
         {
-            float manaCost = manaDrainRate * Time.deltaTime * (1 + armor.weight / 20);
-            if (mana >= manaCost)
+            float manaCost = manaDrainRate * Time.deltaTime;
+            if (playStats.currentMana >= manaCost)
             {
                 _isRunning = true;
-                mana -= manaCost;
+                playStats.currentMana -= manaCost*0.8f;
             }
             else
             {
@@ -251,10 +250,10 @@ public class PlayerQ3LikeController : MonoBehaviour
         else
         {
             _isRunning = false;
-            if (mana < maxMana)
+            if (playStats.currentMana < playStats.maxMana)
             {
                 float recoveryMultiplier = 1 / (1 + armor.weight / 20);
-                mana += manaRecoveryRate * recoveryMultiplier * Time.deltaTime;
+                playStats.currentMana += manaRecoveryRate * recoveryMultiplier * Time.deltaTime;
             }
         }
         
@@ -504,10 +503,10 @@ public class PlayerQ3LikeController : MonoBehaviour
 
     private void StartWallRun()
     {
-        float manaCost = manaDrainRate * _wallRunCostCoeff * Time.deltaTime * (1 + armor.weight / 20);
+        float manaCost = manaDrainRate * _wallRunCostCoeff * Time.deltaTime;
         
         
-        if (mana >= manaCost && windSpellInUse)
+        if (playStats.currentMana >= manaCost && windSpellInUse)
         {
             playerVelocity.y = 0;
             _isWallRunning = true;
@@ -526,7 +525,7 @@ public class PlayerQ3LikeController : MonoBehaviour
                     playerVelocity.x *= _wallRunVelocityMultiplier;
                     // Clamp the horizontal velocity to the maximum run speed
                     playerVelocity.x = Mathf.Clamp(playerVelocity.x, -maxWallSpeed, maxWallSpeed);
-                    mana -= manaCost;
+                    playStats.currentMana -= manaCost;
                 }
                 else playerVelocity.x = Mathf.Clamp(playerVelocity.x * 1.5f, -speedOnGround, speedOnGround);
             }
@@ -538,7 +537,7 @@ public class PlayerQ3LikeController : MonoBehaviour
             playerVelocity.y = -gravity;
         }
 
-        if(mana < manaCost) Debug.Log("Not enough mana to wall run");
+        if(playStats.currentMana < manaCost) Debug.Log("Not enough mana to wall run");
     }
 
     
@@ -586,12 +585,12 @@ public class PlayerQ3LikeController : MonoBehaviour
             float manaCost = jumpDistance / maxJumpDistance * _wallJumpCostCoeff;
 
         
-            if (mana >= manaCost)
+            if (playStats.currentMana >= manaCost)
             {
                 Vector3 jumpVelocity = jumpDirection * jumpForce + Vector3.up * jumpHeight;
                 playerVelocity += jumpVelocity;
                 _controller.Move(playerVelocity * Time.deltaTime);
-                mana -= manaCost;
+                playStats.currentMana -= manaCost;
                 StartCoroutine(DicreaseJump());
             }
             else Debug.Log("Not enough mana for wall jump");
@@ -633,10 +632,10 @@ public class PlayerQ3LikeController : MonoBehaviour
             // Calculate mana consumption based on actual jump duration
             float manaCost = jumpDistance / maxJumpDistance *_windJumpCostCoeff;
             //Debug.Log(manaCost);
-            if (mana >= manaCost)
+            if (playStats.currentMana >= manaCost)
             {
                 playerVelocity.y = jumpDistance;
-                mana -= manaCost;
+                playStats.currentMana -= manaCost;
             }else Debug.Log("Not enough mana for wind jump");
         }
     }
@@ -658,7 +657,7 @@ public class PlayerQ3LikeController : MonoBehaviour
 
     private void OnGUI()
     {
-        var ups = _controller.velocity;
+      /*  var ups = _controller.velocity;
         ups.y = 0;
         string windSpell = windSpellInUse ? "Wind Spell in use" : "Wind Spell not in use";
         string ground = isGrounded ? "Grounded" : "Not Grounded";
@@ -667,9 +666,15 @@ public class PlayerQ3LikeController : MonoBehaviour
         GUI.Label(new Rect(0, 600, 400, 100), "FPS: " + _fps, style);
         GUI.Label(new Rect(0, 615, 400, 100), "Speed: " + Mathf.Round(ups.magnitude * 100) / 100, style);
         GUI.Label(new Rect(0, 630, 400, 100), "Top Speed: " + Mathf.Round(_playerTopVelocity * 100) / 100 , style);
-        GUI.Label(new Rect(0, 645, 400, 100), "Mana: " + mana , style);
+        GUI.Label(new Rect(0, 645, 400, 100), "Mana: " + playStats.currentMana , style);
         GUI.Label(new Rect(0, 660, 400, 100), windSpell, style);
         //GUI.Label(new Rect(0, 75, 400, 100), fireSpell, style);
         GUI.Label(new Rect(0, 675, 400, 100), ground, style);
+        */
+        
+        if (windSpellInUse)
+        {
+            GUI.DrawTexture(new Rect(335, 260, 50 * scaleWindFactor, 50 * scaleWindFactor), windTexture); 
+        }
     }
 }

@@ -21,9 +21,17 @@ public class FireDamage : MonoBehaviour
         {
             Collider collider = collisionEvents[i].colliderComponent as Collider;
             if (collider && collider.CompareTag("Enemy")) DoDamage(collider);
+            if (collider && collider.CompareTag("Player")) TakeDamageToPlayer(collider);
         }
     }
 
+    private void TakeDamageToPlayer(Collider collider)
+    {
+        PlayStats playerHealth = collider.GetComponent<PlayStats>();
+        if (playerHealth != null) playerHealth.TakeDamage(damage);
+    }
+
+    
     private void DoDamage(Collider collider)
     {
         HealthSystem enemyHealth = collider.GetComponent<HealthSystem>();
