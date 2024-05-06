@@ -12,13 +12,28 @@ public class FSMNavMeshAgent : MonoBehaviour
     public Transform target;
 
     [Header("Shooting Settings")]
+<<<<<<< HEAD
     [SerializeField] private GameObject bulletPrefab;
+=======
+    [SerializeField] private GameObject arrowPrefab;
+>>>>>>> parent of 592e66d (A.I. working)
     public float shootTimeInterval = 2;
     private float shootTimer = 0;
     public int shootCounter = 0;
 
     [Header("Enemy Settings")]
     public int health = 100;
+<<<<<<< HEAD
+=======
+    public int healthToRecover = 20;
+
+    public float recoverTimeInterval = 2f;
+    private float recoverTimer;
+
+    public int runAwayTimeInterval = 1;
+    private float runAwayTimer = 0;
+    private int prevWaypoint;
+>>>>>>> parent of 592e66d (A.I. working)
     public float tdcHealthHolder;
 
     public int meleeDamage = 20;
@@ -57,7 +72,14 @@ public class FSMNavMeshAgent : MonoBehaviour
 
     private void Update()
     {
+<<<<<<< HEAD
         
+=======
+        if (IsAtDestination())
+        {
+            GoToNextPatrolWaypoint();
+        }
+>>>>>>> parent of 592e66d (A.I. working)
     }
 
     public bool IsAtDestination()
@@ -122,8 +144,14 @@ public class FSMNavMeshAgent : MonoBehaviour
         }
         else if (shootTimer > shootTimeInterval)
         {
+<<<<<<< HEAD
             StopAttack(shootTimeInterval - 0.5f);
             ShootBullet(.6f);
+=======
+            StartCoroutine(StopAttack(shootTimeInterval - 0.5f));
+            //shoot bullet on the right time of the animation
+            StartCoroutine(ShootBullet(.6f));
+>>>>>>> parent of 592e66d (A.I. working)
 
             shootTimer = 0;
             shootCounter++;
@@ -132,7 +160,14 @@ public class FSMNavMeshAgent : MonoBehaviour
 
     private void ShootBullet(float time)
     {
+<<<<<<< HEAD
         Invoke("InstantiateBullet", time);
+=======
+        yield return new WaitForSeconds(time);
+        Vector3 diretion = (target.position - transform.position).normalized;
+        GameObject arrow = Instantiate(arrowPrefab, transform.position + transform.forward + transform.right / 2, Quaternion.identity);
+        arrow.GetComponent<Rigidbody>().AddForce(diretion * (1000 * 3));
+>>>>>>> parent of 592e66d (A.I. working)
     }
 
     private void InstantiateBullet()
@@ -171,21 +206,38 @@ public class FSMNavMeshAgent : MonoBehaviour
         shootTimer += Time.deltaTime;
         if (shootTimer > meleeTimeInterval)
         {
+<<<<<<< HEAD
             StopAttack(meleeTimeInterval - 0.5f);
             DoMelee(.5f);
 
             if (doMeleeBool)
+=======
+            StartCoroutine(StopAttack(meleeTimeInterval - 0.5f));
+            StartCoroutine(DoMelee(.5f));
+
+            if (doMeeleBool)
+>>>>>>> parent of 592e66d (A.I. working)
             {
                 Collider[] hitColliders = Physics.OverlapBox(transform.position + transform.forward * 3, transform.localScale * 1.5f);
                 int i = 0;
 
+<<<<<<< HEAD
+=======
+                Collider[] hitColliders = Physics.OverlapBox(transform.position + transform.forward * 3, transform.localScale * 1.5f, Quaternion.identity, m_LayerMask);
+                int i = 0;
+
+>>>>>>> parent of 592e66d (A.I. working)
                 while (i < hitColliders.Length)
                 {
                     if (hitColliders[i].CompareTag("Player"))
                     {
+<<<<<<< HEAD
                         // Call the TakeDamage method of the player's health system
                         hitColliders[i].GetComponentInParent<PlayerHealthSystem>().TakeDamage(meleeDamage);
                         Debug.Log("dam");
+=======
+                        hitColliders[i].GetComponentInParent<HealthSystem>().TakeDamage(meleeDamage);
+>>>>>>> parent of 592e66d (A.I. working)
                     }
                     i++;
                 }
@@ -195,9 +247,15 @@ public class FSMNavMeshAgent : MonoBehaviour
                 }
             }
         }
+<<<<<<< HEAD
         else if (doMeleeBool)
         {
             doMeleeBool = false;
+=======
+        else if (doMeeleBool)
+        {
+            doMeeleBool = false;
+>>>>>>> parent of 592e66d (A.I. working)
         }
     }
 
@@ -216,6 +274,73 @@ public class FSMNavMeshAgent : MonoBehaviour
         Gizmos.DrawWireSphere(transform.position + transform.forward * 3, transform.localScale.magnitude * 1.5f);
     }
 
+<<<<<<< HEAD
+=======
+    public void Recover()
+    {
+        if (agent.velocity.magnitude < 0.1f)
+        {
+            recoverTimer += Time.deltaTime;
+            if (healthSystem.health < healthSystem.maxHealth && recoverTimer > recoverTimeInterval)
+            {
+                healthSystem.RecoverHealth(healthToRecover);
+                UpdateHealthHolder();
+                recoverTimer = 0;
+            }
+        }
+    }
+
+    public void Search()
+    {
+        float singleStep = rotateSpeed * Time.deltaTime;
+
+        if (Quaternion.Angle(transform.rotation, Quaternion.LookRotation(rotationDirection[rotationNum])) <= 2)
+        {
+            if (rotationNum < rotationDirection.Length - 1)
+            {
+                rotationNum++;
+            }
+            else
+            {
+                rotationComplete = true;
+            }
+        }
+        else
+        {
+            if (Quaternion.Angle(transform.rotation, Quaternion.LookRotation(rotationDirection[rotationNum])) >= 2 && rotationNum < rotationDirection.Length)
+            {
+                newDirection = Vector3.RotateTowards(transform.forward, rotationDirection[rotationNum], singleStep, 0.0f);
+
+                transform.rotation = Quaternion.LookRotation(newDirection);
+            }
+        }
+    }
+
+    public void RunAway()
+    {
+        if (!agent.hasPath)
+        {
+            runAwayTimer += Time.deltaTime;
+            if (runAwayTimer > runAwayTimeInterval)
+            {
+                Transform point = null;
+                float maxDist = 0;
+                foreach (Transform w in patrolWaypoints)
+                {
+                    float dist = Vector3.Distance(w.position, target.position);
+                    if (maxDist < dist)
+                    {
+                        point = w;
+                        maxDist = dist;
+                    }
+                }
+                agent.SetDestination(point.position);
+                runAwayTimer = 0;
+            }
+        }
+    }
+
+>>>>>>> parent of 592e66d (A.I. working)
     public bool DirectContactWithPlayer()
     {
         RaycastHit hit;
@@ -287,6 +412,26 @@ public class FSMNavMeshAgent : MonoBehaviour
         return healthSystem.maxHealth;
     }
 
+<<<<<<< HEAD
+=======
+    public void UpdateHealthHolder()
+    {
+        tdcHealthHolder = GetHealth();
+    }
+
+    public bool CanHide()
+    {
+        if (shootCounter >= shootAmmountToHide)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+>>>>>>> parent of 592e66d (A.I. working)
     public bool CheckEnemyType(EnemyType enemyType)
     {
         if (enemyType == type)
@@ -301,7 +446,12 @@ public class FSMNavMeshAgent : MonoBehaviour
 
     private void StopAttack(float time)
     {
+<<<<<<< HEAD
         // No need for delay, directly reset the timer
         shootTimer = 0;
+=======
+        yield return new WaitForSeconds(time);
+        Debug.Log("Stopattack");
+>>>>>>> parent of 592e66d (A.I. working)
     }
 }

@@ -12,6 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 931c4f975e37a9d469df16e1f910aef7, type: 3}
   m_Name: Search to Patrol Transition
   m_EditorClassIdentifier: 
+<<<<<<< HEAD
   decision: {fileID: 11400000, guid: 54ea6f768601ad142bafb02849decd9e, type: 2}
+=======
+  decision: {fileID: 11400000, guid: cbd089a02d3e4c448892bd5cd8a5e817, type: 2}
+>>>>>>> parent of 592e66d (A.I. working)
   action: {fileID: 0}
   targetState: {fileID: 11400000, guid: 183e1b51d085ba34ab03ea80d24d2822, type: 2}

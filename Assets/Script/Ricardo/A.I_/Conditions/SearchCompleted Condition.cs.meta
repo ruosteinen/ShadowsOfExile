@@ -1,5 +1,9 @@
 fileFormatVersion: 2
+<<<<<<< HEAD
 guid: b148f53ee70cea2458734a1b6e3c28d9
+=======
+guid: 5c934221ecaa4b843ba76fd88dbe2708
+>>>>>>> parent of 592e66d (A.I. working)
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2

@@ -14,8 +14,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   entryAction: {fileID: 0}
   stateActions:
-  - {fileID: 11400000, guid: 5085710c00801f246b552becb07a8258, type: 2}
-  exitAction: {fileID: 11400000, guid: 8683e324cbd56ea41a00322f2d09fe81, type: 2}
+  - {fileID: 11400000, guid: 789c79441f7f1b540a58c3583533a205, type: 2}
+  exitAction: {fileID: 11400000, guid: 757ed2a4c36c22640bda801bed73138b, type: 2}
   transitions:
   - {fileID: 11400000, guid: b6c1e3841037d0944bea8cd02730c93b, type: 2}
+<<<<<<< HEAD
   - {fileID: 11400000, guid: ec53d1b07f32d2a42a80076016e28989, type: 2}
+=======
+  - {fileID: 11400000, guid: fa65097b0e410574386cdeb9edbb089d, type: 2}
+  - {fileID: 11400000, guid: 469b277adf0fe1a449d84f48ae83f599, type: 2}
+>>>>>>> parent of 592e66d (A.I. working)

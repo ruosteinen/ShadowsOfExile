@@ -20,7 +20,7 @@ public class KnockbackWater : MonoBehaviour, IHitable
     private void KnockbackEntity(Transform executionSource)
     {
         Vector3 dir = (transform.position - executionSource.transform.position).normalized;
-        float knockbackForce = 100.0f;
+        float knockbackForce = 10.0f;
         rb.AddForce(dir * knockbackForce, ForceMode.Impulse);
     }
 }
