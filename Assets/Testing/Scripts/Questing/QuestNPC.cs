@@ -52,9 +52,8 @@ public class QuestNPC : MonoBehaviour
         else // Interacting with the NPC after the first time
         {
 
-        }
+        } 
         
-
     }
 
     private void StartQuestInitialDialog()

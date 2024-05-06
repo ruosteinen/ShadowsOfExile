@@ -22,6 +22,9 @@ public class BallThrow : MonoBehaviour
     public Texture2D waterballTexture;
     private float scaleFireFactor = 1.5f;
     private float scaleWaterFactor = 1.5f;
+    
+    public PlayStats playStats;
+    
     void Start()
     {
         currentBallPrefab = fireballPrefab;
@@ -30,7 +33,7 @@ public class BallThrow : MonoBehaviour
 
     private void Update()
     {
-        if (playerCamera != null && !PauseMenuSingleton.Instance.IsPaused && playerController.mana >= manaCost)
+        if (playerCamera != null && !PauseMenuSingleton.Instance.IsPaused && playStats.currentMana >= manaCost)
         {
             if (Input.GetAxis("Mouse ScrollWheel") > 0)
             {
@@ -59,24 +62,24 @@ public class BallThrow : MonoBehaviour
         Vector3 throwPosition = playerController.transform.position;
         GameObject ball = Instantiate(ballPrefab, spawnPoint, Quaternion.identity);
 
-        if (ballPrefab == fireballPrefab && playerController.mana >= manaCost)
+        if (ballPrefab == fireballPrefab && playStats.currentMana >= manaCost)
         {
             FireBall fireBallScript = ball.GetComponent<FireBall>();
             if (fireBallScript != null) fireBallScript.Initialize(throwPosition);
         }
 
-        if (ballPrefab == waterballPrefab && playerController.mana >= manaCost)
+        if (ballPrefab == waterballPrefab && playStats.currentMana >= manaCost)
         {
             WaterBall waterBallScript = ball.GetComponent<WaterBall>();
             if (waterBallScript != null) waterBallScript.Initialize(throwPosition);
         }
 
         Rigidbody ballRB = ball.GetComponent<Rigidbody>();
-        if (ballRB != null && playerController.mana >= manaCost)
+        if (ballRB != null && playStats.currentMana >= manaCost)
         {
             Vector3 playerVel = playerController.playerVelocity;
             ballRB.velocity = (ray.direction * ballSpeed) + playerVel;
-            playerController.mana -= manaCost;
+            playStats.currentMana -= manaCost;
         }
     }
     

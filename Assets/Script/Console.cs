@@ -25,6 +25,8 @@ public class Console : MonoBehaviour
             if (consoleInputField.gameObject.activeSelf)
             {
                 consoleInputField.ActivateInputField();
+                Time.timeScale = 0f;
+                PauseMenuSingleton.Instance.IsPaused = true;
             }
         }
     }
@@ -62,7 +64,6 @@ public class Console : MonoBehaviour
                         if (playerController.armor != null)
                         {
                             playerController.armor.weight = value;
-                            Debug.Log("IDI NAKHUI!!!!!!!!!!");
                         }
                     }
                     else
@@ -70,10 +71,32 @@ public class Console : MonoBehaviour
                         Debug.LogError("Command not found.");
                     }
                     break;
+                
+                case "p":
+                    if (parts.Length > 1 && int.TryParse(parts[1], out int increment))
+                    {
+                        PotionMakerScript potionMaker = FindObjectOfType<PotionMakerScript>();
+                        if (potionMaker != null)
+                        {
+                            potionMaker.potionAmount += increment;
+                            Debug.Log("Potion amount updated: " + potionMaker.potionAmount);
+                        }
+                        else
+                        {
+                            Debug.LogError("PotionMakerScript not found.");
+                        }
+                    }
+                    else
+                    {
+                        Debug.LogError("Invalid command format. Usage: p [amount]");
+                    }
+                    break;
             }
         }
 
         consoleInputField.text = "";
         consoleInputField.gameObject.SetActive(false);
+        Time.timeScale = 1f;
+        PauseMenuSingleton.Instance.IsPaused = false;
     }
 }

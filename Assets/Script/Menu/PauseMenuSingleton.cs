@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -10,11 +11,15 @@ public sealed class PauseMenuSingleton : MonoBehaviour
     
     private bool _isPaused;  //false by default
 
+    private DialogueSystem dialogueSystemInstance;
     public bool IsPaused
     {
         get { return _isPaused; }
        set { _isPaused = value; }
     }
+
+    private void Start() => dialogueSystemInstance = DialogueSystem.Instance;
+    
 
     private void Awake()
     {
@@ -29,7 +34,7 @@ public sealed class PauseMenuSingleton : MonoBehaviour
     {
         PotionMakerScript potionMaker = FindObjectOfType<PotionMakerScript>();
 
-        if (Input.GetKeyDown(KeyCode.Escape) && !potionMaker.isPotionMaking)
+        if (Input.GetKeyDown(KeyCode.Escape) && !potionMaker.isPotionMaking && !dialogueSystemInstance.questUIActive)
         {
             if (IsPaused)
                 Resume();

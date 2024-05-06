@@ -7,11 +7,11 @@ using UnityEngine.UI;
 
 public class PlayStats : MonoBehaviour
 {
-    [SerializeField] private float maxHealth;
+    public float maxHealth;
     [SerializeField] private float defense;
     [SerializeField] public float attack;
     [SerializeField] private TMP_Text healthValue;
-    [SerializeField] private float maxMana;
+    public float maxMana;
     [SerializeField] private TMP_Text manaValue;
 
     private float currentHealth;
@@ -40,6 +40,9 @@ public class PlayStats : MonoBehaviour
     [Range(7f, 14f)]
     public float divisionMultiplier = 7;
 
+    
+    public PotionMakerScript potionMakerScript;
+    public GameObject GameOverScreen;
     void Start()
     {
         currentHealth = maxHealth;
@@ -62,12 +65,30 @@ public class PlayStats : MonoBehaviour
             GainExperienceFlatRate(2000);
         if (currentXp > requiredXp)
             LevelUp();
+        
+        
+        if (Input.GetKeyDown(KeyCode.P) && potionMakerScript.potionAmount >= 1)
+        {
+            if (currentHealth < maxHealth)
+            {
+                Heal(30);
+                potionMakerScript.potionAmount--;
+            }
+        }
     }
 
     public void TakeDamage(float amount)
     {
-        currentHealth -= amount - defense;
+        currentHealth += (amount - defense);
         healthBar.SetSlider(currentHealth);
+        UpdateHealthText();
+        
+        if (currentHealth <= 0) Die();
+    }
+    
+    public void Heal(int amount)
+    {
+        currentHealth = Mathf.Min(currentHealth + amount, maxHealth); 
         UpdateHealthText();
     }
 
@@ -87,7 +108,8 @@ public class PlayStats : MonoBehaviour
 
     private void UpdateHealthText()
     {
-        healthValue.text = $"{(int)currentHealth} / {(int)maxHealth}";
+        int displayedHealth = Mathf.Max((int)currentHealth, 0);
+        healthValue.text = $"{displayedHealth} / {(int)maxHealth}";
     }
 
     private void UpdateManaText()
@@ -165,5 +187,15 @@ public class PlayStats : MonoBehaviour
             SolveForRequiredXp += (int)Mathf.Floor(levelCycle + additionMultiplier * Mathf.Pow(powerMultiplier, levelCycle / divisionMultiplier));
         }
         return SolveForRequiredXp / 4;
+    }
+    
+    
+    private void Die()
+    {
+        Time.timeScale = 0f;
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
+        PauseMenuSingleton.Instance.IsPaused = true;
+        GameOverScreen.SetActive(true);
     }
 }

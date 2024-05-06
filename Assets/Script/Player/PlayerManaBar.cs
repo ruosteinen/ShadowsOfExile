@@ -5,7 +5,7 @@ using TMPro;
 
 public class PlayerManaBar : MonoBehaviour
 {
-    public ManaBar manaBar; 
+   /* public ManaBar manaBar; 
     public PlayerQ3LikeController playerController;
     public TextMeshProUGUI manaText;
 
@@ -31,7 +31,6 @@ public class PlayerManaBar : MonoBehaviour
     }
    public void SetMana(int amount)
     {
-        // Устанавливаем значение маны через ManaBar
         manaBar.SetSlider(amount);
         playerController.mana = (int)amount;
         UpdateManaBar();
