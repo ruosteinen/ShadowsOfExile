@@ -31,8 +31,13 @@ public class HealthSystem : MonoBehaviour
 
     private bool isEnemy;
 
+    public int expOnDeath = 150;
+
+    private PlayStats playStats;
+
     private void Start()
     {
+        playStats = FindObjectOfType<PlayStats>();
         health = maxHealth;
         isEnemy = gameObject.CompareTag("Enemy");
         droidSource = gameObject.GetComponent<AudioSource>();
@@ -98,7 +103,7 @@ public class HealthSystem : MonoBehaviour
     {
         if (gameObject.CompareTag("Player") && !playerInvincible || isEnemy)
         {
-            health -= damage;
+            health -= damage * playStats.attack;
         }
 
         UpdateHealthBar();
@@ -128,6 +133,11 @@ public class HealthSystem : MonoBehaviour
 
     private void KillEnemy()
     {
+        
+        if(playStats != null)
+        {
+            playStats.GainExperienceFlatRate(expOnDeath);
+        }
         if (Drops.Length > 0)
         {
             int n = Random.Range(1, 3);
@@ -139,10 +149,7 @@ public class HealthSystem : MonoBehaviour
         else
         {
             Debug.LogError("Drops array does not have any elements.");
-        }
-
-
-
+}
         // Destroy the enemy GameObject
         Destroy(gameObject);
     }
