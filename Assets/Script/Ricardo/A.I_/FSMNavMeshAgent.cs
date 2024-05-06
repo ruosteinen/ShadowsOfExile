@@ -22,6 +22,7 @@ public class FSMNavMeshAgent : MonoBehaviour
     public float tdcHealthHolder;
 
     public int meleeDamage = 20;
+    public int contactDamage = 5; 
     public int meleeTimeInterval = 2;
     private bool doMeleeBool = false;
 
@@ -151,26 +152,16 @@ public class FSMNavMeshAgent : MonoBehaviour
     }
 
 
-    private void OnTriggerEnter(Collider other)
+    private void OnCollisionEnter(Collision collision)
     {
-        if (other.CompareTag("Player"))
+        if (collision.gameObject.CompareTag("Player"))
         {
             // Access the player's health system and deal damage
-            other.GetComponent<PlayerHealthSystem>().TakeDamage(meleeDamage);
-
-            // Disable the collider temporarily
-            GetComponent<Collider>().enabled = false;
-
-            // Optionally, set a delay and re-enable the collider
-            StartCoroutine(EnableColliderAfterDelay());
+            collision.gameObject.GetComponent<PlayerHealthSystem>().TakeDamage(contactDamage);
+            //Debug.Log("work plz");
         }
     }
 
-    private IEnumerator EnableColliderAfterDelay()
-    {
-        yield return new WaitForSeconds(1f); // Adjust the delay as needed
-        GetComponent<Collider>().enabled = true;
-    }
 
 
     public void MeleeAttack()
@@ -194,6 +185,7 @@ public class FSMNavMeshAgent : MonoBehaviour
                     {
                         // Call the TakeDamage method of the player's health system
                         hitColliders[i].GetComponentInParent<PlayerHealthSystem>().TakeDamage(meleeDamage);
+                        Debug.Log("dam");
                     }
                     i++;
                 }

@@ -313,6 +313,9 @@ MonoBehaviour:
     m_Bits: 8
   Crosshair: {fileID: 0}
   windSpellInUse: 0
+  townWaypoint: {fileID: 0}
+  forestWaypoint: {fileID: 0}
+  mountainWaypoint: {fileID: 0}
 --- !u!114 &1104542506198366382
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -457,8 +460,6 @@ MonoBehaviour:
   playerRecoverTime: 2
   target: 1
   Drops: []
-  droidSounds: []
-  playerAudioSource: {fileID: 0}
   playerInvincible: 0
 --- !u!1 &4185482088061308991
 GameObject:
