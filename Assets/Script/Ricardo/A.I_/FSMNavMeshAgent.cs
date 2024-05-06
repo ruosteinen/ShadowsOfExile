@@ -136,10 +136,20 @@ public class FSMNavMeshAgent : MonoBehaviour
 
     private void InstantiateBullet()
     {
-        Vector3 direction = (target.position - transform.position).normalized;
-        GameObject bullet = Instantiate(bulletPrefab, transform.position + transform.forward + transform.right / 2, Quaternion.identity);
+        // Define the distance in front of the enemy to spawn the bullet
+        float spawnDistance = 2f; // Adjust as needed
+
+        // Calculate the position in front of the enemy
+        Vector3 spawnPosition = transform.position + transform.forward * spawnDistance;
+
+        // Instantiate the bullet at the calculated position
+        GameObject bullet = Instantiate(bulletPrefab, spawnPosition, Quaternion.identity);
+
+        // Add force to the bullet in the direction of the target
+        Vector3 direction = (target.position - spawnPosition).normalized;
         bullet.GetComponent<Rigidbody>().AddForce(direction * (1000 * 3));
     }
+
 
     private void OnTriggerEnter(Collider other)
     {
