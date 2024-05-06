@@ -1,8 +1,6 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.AI;
 
 public class FiniteStateMachine : MonoBehaviour
 {
@@ -17,58 +15,57 @@ public class FiniteStateMachine : MonoBehaviour
 
         if (navMeshAgent == null)
         {
-            Debug.LogError("FSMNavMeshAgent component not found!");
-            // Handle the absence of the FSMNavMeshAgent component
+            Debug.LogWarning("FSMNavMeshAgent component not found! Adding it now...");
+            navMeshAgent = gameObject.AddComponent<FSMNavMeshAgent>();
         }
     }
 
+
     private void Update()
     {
-        Transition triggeredTrasition = null;
-        foreach(Transition t in currentState.getTransitions())
+        Transition triggeredTransition = null;
+        foreach (Transition t in currentState.getTransitions())
         {
             if (t.IsTriggered(this))
             {
-                triggeredTrasition = t;
+                triggeredTransition = t;
                 break;
             }
         }
         List<Action> actions = new List<Action>();
-        if(triggeredTrasition != null)
+        if (triggeredTransition != null)
         {
             actions.Add(currentState.getExitAction());
-            actions.Add(triggeredTrasition.GetAction());
-            actions.Add(triggeredTrasition.GetTargetState().getEntryAction());
-            currentState = triggeredTrasition.GetTargetState();
+            actions.Add(triggeredTransition.GetAction());
+            actions.Add(triggeredTransition.GetTargetState().getEntryAction());
+            currentState = triggeredTransition.GetTargetState();
         }
         else
         {
-            foreach(Action action in currentState.getStateActions())
-            { 
-                actions.Add(action); 
+            foreach (Action action in currentState.getStateActions())
+            {
+                actions.Add(action);
             }
         }
 
         DoActions(actions);
-<<<<<<< HEAD
         //Debug.Log("Current State: " + currentState.name);
-=======
->>>>>>> parent of 592e66d (A.I. working)
     }
 
     void DoActions(List<Action> actions)
     {
-        foreach(Action action in actions)
+        foreach (Action action in actions)
         {
-            if(action != null)
+            if (action != null)
             {
                 action.Act(this);
+                //Debug.Log("Action: " + action.GetType().Name);
             }
         }
     }
 
-    public FSMNavMeshAgent GetNavMeshAgent() 
-    { 
+    public FSMNavMeshAgent GetNavMeshAgent()
+    {
         return navMeshAgent;
     }
 

@@ -12,10 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 931c4f975e37a9d469df16e1f910aef7, type: 3}
   m_Name: Search to Chase Transition
   m_EditorClassIdentifier: 
-<<<<<<< HEAD
   decision: {fileID: 11400000, guid: 232f35294b2f44f4a848f6e62cbd707c, type: 2}
-=======
-  decision: {fileID: 11400000, guid: 84ce56494441d73419d23a3dcf0c64ab, type: 2}
->>>>>>> parent of 592e66d (A.I. working)
   action: {fileID: 0}
   targetState: {fileID: 11400000, guid: 03384eb654218bc4987c482699896b57, type: 2}

@@ -12,7 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6af2e5abcfe3b1c4ea51a10aba4238c5, type: 3}
   m_Name: Search State
   m_EditorClassIdentifier: 
-<<<<<<< HEAD
   entryAction: {fileID: 11400000, guid: 5c677c3e23997834d97894b1f85900a7, type: 2}
   stateActions:
   - {fileID: 11400000, guid: 0be7a59702887684aaca39a720bbe19c, type: 2}
@@ -21,14 +20,3 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 6af6f4bf1f3654a419fb0e1230ff7a02, type: 2}
   - {fileID: 11400000, guid: 47729069c28a51d4984417e679fbd681, type: 2}
   - {fileID: 11400000, guid: 08f74a808a69fb04a8245018d1c2dcb0, type: 2}
-=======
-  entryAction: {fileID: 11400000, guid: b8965af4ed1c4e344b1472183bca49fa, type: 2}
-  stateActions:
-  - {fileID: 11400000, guid: cb711d4e423cbfa4282233ed62206d38, type: 2}
-  exitAction: {fileID: 0}
-  transitions:
-  - {fileID: 11400000, guid: c30b514c675a75a428b85a698b067e12, type: 2}
-  - {fileID: 11400000, guid: da21750de66b9b841afb90b15a3ee26e, type: 2}
-  - {fileID: 11400000, guid: a6f9ec22c0d0e0a4f93402c6312cbe8b, type: 2}
-  - {fileID: 11400000, guid: 12450ac2103add74a97141aaa5d25116, type: 2}
->>>>>>> parent of 592e66d (A.I. working)

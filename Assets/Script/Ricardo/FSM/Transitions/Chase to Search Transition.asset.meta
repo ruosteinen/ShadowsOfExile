@@ -1,15 +1,8 @@
 fileFormatVersion: 2
-<<<<<<< HEAD
 guid: ec53d1b07f32d2a42a80076016e28989
 NativeFormatImporter:
   externalObjects: {}
   mainObjectFileID: 0
-=======
-guid: 469b277adf0fe1a449d84f48ae83f599
-NativeFormatImporter:
-  externalObjects: {}
-  mainObjectFileID: 11400000
->>>>>>> parent of 592e66d (A.I. working)
   userData: 
   assetBundleName: 
   assetBundleVariant: 
