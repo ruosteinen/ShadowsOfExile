@@ -47,8 +47,9 @@ public class FiniteStateMachine : MonoBehaviour
                 actions.Add(action);
             }
         }
+
         DoActions(actions);
-        Debug.Log("Current State: " + currentState.name);
+        //Debug.Log("Current State: " + currentState.name);
     }
 
     void DoActions(List<Action> actions)
