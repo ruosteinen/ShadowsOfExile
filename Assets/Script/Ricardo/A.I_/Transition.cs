@@ -11,7 +11,17 @@ public class Transition : ScriptableObject
 
     public bool IsTriggered(FiniteStateMachine fsm)
     {
-        return decision.Test(fsm);
+        // Debugging statement to log the name of the current state
+        //Debug.Log("Current State: " + fsm.GetCurrentState().name);
+
+        // Debugging statement to log the decision being tested
+        //Debug.Log("Testing decision: " + decision.GetType().Name);
+
+        // Debugging statement to log the result of the decision test
+        bool result = decision.Test(fsm);
+        //Debug.Log("Decision result: " + result);
+
+        return result;
     }
 
     public Action GetAction() 

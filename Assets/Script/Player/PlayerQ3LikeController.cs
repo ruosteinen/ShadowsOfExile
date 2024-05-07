@@ -112,6 +112,12 @@ public class PlayerQ3LikeController : MonoBehaviour
     //PlayStats link 
     public PlayStats playStats;
     
+    //teleport cheat
+    public GameObject townWaypoint;
+    public GameObject forestWaypoint;
+    public GameObject mountainWaypoint;
+
+
     private void Start()
     {
 
@@ -146,7 +152,7 @@ public class PlayerQ3LikeController : MonoBehaviour
        //Crosshair.gameObject.SetActive(true);
     }
 
-    
+
     private void HandleInput()
     {
         _rotX -= Input.GetAxisRaw("Mouse Y") * xMouseSensitivity * 0.02f;
@@ -173,7 +179,20 @@ public class PlayerQ3LikeController : MonoBehaviour
             //Debug.Log("paused"); // Check if this log is showing only when the game is paused
             return;
         }
-        
+
+        if (Input.GetKeyDown(KeyCode.Alpha8))
+        {
+            TeleportTo(townWaypoint);
+        }
+        else if (Input.GetKeyDown(KeyCode.Alpha9))
+        {
+            TeleportTo(forestWaypoint);
+        }
+        else if (Input.GetKeyDown(KeyCode.Alpha0))
+        {
+            TeleportTo(mountainWaypoint);
+        }
+
         HandleInput();
 
         //RaycastHit hit;
@@ -295,7 +314,22 @@ public class PlayerQ3LikeController : MonoBehaviour
         }
         else _raycastDistance = 1f;
     }
-    
+
+    void TeleportTo(GameObject waypoint)
+    {
+        if (waypoint != null)
+        {
+            //Debug.Log("Teleporting to " + waypoint.name);
+            // Move the player to the waypoint's position
+            transform.position = waypoint.transform.position;
+            //Debug.Log("Player position after teleport: " + transform.position);
+        }
+        else
+        {
+            Debug.Log("Invalid waypoint");
+        }
+    }
+
     private void SetMovementDir()
     {
         _dirs.ToForward = Input.GetAxisRaw("Vertical");

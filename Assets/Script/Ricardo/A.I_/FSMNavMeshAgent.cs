@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
-using static UnityEngine.GridBrushBase;
 
 public class FSMNavMeshAgent : MonoBehaviour
 {
@@ -13,27 +12,19 @@ public class FSMNavMeshAgent : MonoBehaviour
     public Transform target;
 
     [Header("Shooting Settings")]
-    [SerializeField] private GameObject arrowPrefab;
+    [SerializeField] private GameObject bulletPrefab;
     public float shootTimeInterval = 2;
     private float shootTimer = 0;
-    public int shootAmmountToHide = 5;
     public int shootCounter = 0;
 
     [Header("Enemy Settings")]
     public int health = 100;
-    public int healthToRecover = 20;
-
-    public float recoverTimeInterval = 2f;
-    private float recoverTimer;
-
-    public int runAwayTimeInterval = 1;
-    private float runAwayTimer = 0;
-    private int prevWaypoint;
     public float tdcHealthHolder;
 
-    public int meleeDamage = 20;
+    private int meleeDamage = -20;
+    public int contactDamage = 10; 
     public int meleeTimeInterval = 2;
-    private bool doMeeleBool = false;
+    private bool doMeleeBool = false;
 
     // Search Variables to be changed
     public float rotateSpeed = 2f;
@@ -49,15 +40,18 @@ public class FSMNavMeshAgent : MonoBehaviour
     public int rotationNum = 0;
 
     //----
-    public LayerMask m_LayerMask;
-    //----
-
     public EnemyType type;
     public enum EnemyType
     {
         Melee,
         Ranged
     }
+    
+    
+    
+    public float meleeDistanceThreshold = 2f;
+    public float meleeCooldown = 0.9f;
+    private float lastMeleeTime;
 
     void Start()
     {
@@ -65,15 +59,11 @@ public class FSMNavMeshAgent : MonoBehaviour
         healthSystem = GetComponent<HealthSystem>();
 
         healthSystem.maxHealth = health;
-        tdcHealthHolder = health;
     }
 
     private void Update()
     {
-        if (IsAtDestination())
-        {
-            GoToNextPatrolWaypoint();
-        }
+        
     }
 
     public bool IsAtDestination()
@@ -94,11 +84,7 @@ public class FSMNavMeshAgent : MonoBehaviour
     public void GoToNextPatrolWaypoint()
     {
         int rnd = Random.Range(0, patrolWaypoints.Length);
-        if (rnd != prevWaypoint)
-        {
-            prevWaypoint = rnd;
-            agent.SetDestination(patrolWaypoints[rnd].position);
-        }
+        agent.SetDestination(patrolWaypoints[rnd].position);
     }
 
     public void Stop()
@@ -107,10 +93,17 @@ public class FSMNavMeshAgent : MonoBehaviour
         agent.ResetPath();
     }
 
-    public void GoToTarget()
+    public void GoToTarget(float stoppingDistance)
     {
-        agent.SetDestination(target.position);
+        float distanceToTarget = Vector3.Distance(transform.position, target.position);
+        if (distanceToTarget > stoppingDistance)
+        {
+            Vector3 direction = (target.position - transform.position).normalized;
+            Vector3 destination = target.position - direction * stoppingDistance;
+            agent.SetDestination(destination);
+        }
     }
+
 
     public void ResetShootCounter()
     {
@@ -118,14 +111,13 @@ public class FSMNavMeshAgent : MonoBehaviour
     }
 
     private void RotateToTarget()
-    {
-        float singleStep = rotateSpeed * Time.deltaTime;
-        newDirection = (target.position - transform.position).normalized;
+{
+    Vector3 direction = target.position - transform.position;
+    direction.y = 0; // Set the y-component to 0 to prevent up and down rotation
+    Quaternion rotation = Quaternion.LookRotation(direction);
+    transform.rotation = Quaternion.Slerp(transform.rotation, rotation, Time.deltaTime * rotateSpeed);
+}
 
-        Quaternion lookRotation = Quaternion.LookRotation(newDirection);
-
-        transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, singleStep);
-    }
 
     public void RangedAttack()
     {
@@ -136,44 +128,70 @@ public class FSMNavMeshAgent : MonoBehaviour
         }
         else if (shootTimer > shootTimeInterval)
         {
-            StartCoroutine(StopAttack(shootTimeInterval - 0.5f));
-            //shoot bullet on the right time of the animation
-            StartCoroutine(ShootBullet(.6f));
+            StopAttack(shootTimeInterval - 0.5f);
+            ShootBullet(.6f);
 
             shootTimer = 0;
             shootCounter++;
         }
     }
 
-    private IEnumerator ShootBullet(float time)
+    private void ShootBullet(float time)
     {
-        yield return new WaitForSeconds(time);
-        Vector3 diretion = (target.position - transform.position).normalized;
-        GameObject arrow = Instantiate(arrowPrefab, transform.position + transform.forward + transform.right / 2, Quaternion.identity);
-        arrow.GetComponent<Rigidbody>().AddForce(diretion * (1000 * 3));
+        Invoke("InstantiateBullet", time);
     }
 
-    public void MeleeAttack()
+    private void InstantiateBullet()
+    {
+        // Define the distance in front of the enemy to spawn the bullet
+        float spawnDistance = 2f; // Adjust as needed
+
+        // Calculate the position in front of the enemy
+        Vector3 spawnPosition = transform.position + transform.forward * spawnDistance;
+
+        // Instantiate the bullet at the calculated position
+        GameObject bullet = Instantiate(bulletPrefab, spawnPosition, Quaternion.identity);
+
+        // Add force to the bullet in the direction of the target
+        Vector3 direction = (target.position - spawnPosition).normalized;
+        bullet.GetComponent<Rigidbody>().AddForce(direction * (1000 * 3));
+    }
+
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.CompareTag("Player"))
+        {
+            // Access the player's health system and deal damage
+            collision.gameObject.GetComponent<PlayStats>().TakeDamage(-contactDamage);
+            //Debug.Log("work plz");
+        }
+    }
+
+
+
+    /*public void MeleeAttack()
     {
         RotateToTarget();
 
         shootTimer += Time.deltaTime;
         if (shootTimer > meleeTimeInterval)
         {
-            StartCoroutine(StopAttack(meleeTimeInterval - 0.5f));
-            StartCoroutine(DoMelee(.5f));
+            StopAttack(meleeTimeInterval - 0.5f);
+            DoMelee(.5f);
 
-            if (doMeeleBool)
+            if (doMeleeBool)
             {
-
-                Collider[] hitColliders = Physics.OverlapBox(transform.position + transform.forward * 3, transform.localScale * 1.5f, Quaternion.identity, m_LayerMask);
+                Collider[] hitColliders = Physics.OverlapBox(transform.position + transform.forward * 3, transform.localScale * 1.5f);
                 int i = 0;
 
                 while (i < hitColliders.Length)
                 {
                     if (hitColliders[i].CompareTag("Player"))
                     {
-                        hitColliders[i].GetComponentInParent<HealthSystem>().TakeDamage(meleeDamage);
+                        // Call the TakeDamage method of the player's health system
+                        hitColliders[i].GetComponentInParent<PlayStats>().TakeDamage(meleeDamage);
+                        Debug.Log("dam");
                     }
                     i++;
                 }
@@ -183,86 +201,52 @@ public class FSMNavMeshAgent : MonoBehaviour
                 }
             }
         }
-        else if (doMeeleBool)
+        else if (doMeleeBool)
         {
-            doMeeleBool = false;
+            doMeleeBool = false;
         }
     }
 
-    private IEnumerator DoMelee(float time)
+    private void DoMelee(float time)
     {
-        yield return new WaitForSeconds(time);
-        doMeeleBool = true;
+        Invoke("SetDoMeleeTrue", time);
+    }*/
+    
+    
+    public void MeleeAttack()
+    {
+        RotateToTarget();
 
+        if (Time.time - lastMeleeTime > meleeCooldown)
+        {
+            RaycastHit hit;
+            
+            if (Physics.Raycast(transform.position, transform.forward, out hit, meleeDistanceThreshold))
+            {
+                if (hit.collider.CompareTag("Player"))
+                {
+                    DealMeleeDamage();
+                    lastMeleeTime = Time.time;
+                }
+            }
+        }
+    }
+
+
+    private void DealMeleeDamage()
+    {
+        target.GetComponent<PlayStats>().TakeDamage(meleeDamage);
+    }
+    
+
+    private void SetDoMeleeTrue()
+    {
+        doMeleeBool = true;
     }
 
     private void OnDrawGizmosSelected()
     {
         Gizmos.DrawWireSphere(transform.position + transform.forward * 3, transform.localScale.magnitude * 1.5f);
-    }
-
-    public void Recover()
-    {
-        if (agent.velocity.magnitude < 0.1f)
-        {
-            recoverTimer += Time.deltaTime;
-            if (healthSystem.health < healthSystem.maxHealth && recoverTimer > recoverTimeInterval)
-            {
-                healthSystem.RecoverHealth(healthToRecover);
-                UpdateHealthHolder();
-                recoverTimer = 0;
-            }
-        }
-    }
-
-    public void Search()
-    {
-        float singleStep = rotateSpeed * Time.deltaTime;
-
-        if (Quaternion.Angle(transform.rotation, Quaternion.LookRotation(rotationDirection[rotationNum])) <= 2)
-        {
-            if (rotationNum < rotationDirection.Length - 1)
-            {
-                rotationNum++;
-            }
-            else
-            {
-                rotationComplete = true;
-            }
-        }
-        else
-        {
-            if (Quaternion.Angle(transform.rotation, Quaternion.LookRotation(rotationDirection[rotationNum])) >= 2 && rotationNum < rotationDirection.Length)
-            {
-                newDirection = Vector3.RotateTowards(transform.forward, rotationDirection[rotationNum], singleStep, 0.0f);
-
-                transform.rotation = Quaternion.LookRotation(newDirection);
-            }
-        }
-    }
-
-    public void RunAway()
-    {
-        if (!agent.hasPath)
-        {
-            runAwayTimer += Time.deltaTime;
-            if (runAwayTimer > runAwayTimeInterval)
-            {
-                Transform point = null;
-                float maxDist = 0;
-                foreach (Transform w in patrolWaypoints)
-                {
-                    float dist = Vector3.Distance(w.position, target.position);
-                    if (maxDist < dist)
-                    {
-                        point = w;
-                        maxDist = dist;
-                    }
-                }
-                agent.SetDestination(point.position);
-                runAwayTimer = 0;
-            }
-        }
     }
 
     public bool DirectContactWithPlayer()
@@ -284,12 +268,47 @@ public class FSMNavMeshAgent : MonoBehaviour
 
     }
 
+    public void Search()
+    {
+        float singleStep = rotateSpeed * Time.deltaTime; // Calculate rotation speed
+
+        if (Quaternion.Angle(transform.rotation, Quaternion.LookRotation(rotationDirection[rotationNum])) <= 90)
+        {
+            // If the angle between the current rotation and the target rotation is less than or equal to 90 degrees
+            if (rotationNum < rotationDirection.Length - 1)
+            {
+                // If there are more rotation directions left in the array
+                rotationNum++; // Move to the next rotation direction
+            }
+            else
+            {
+                rotationComplete = true; // Mark rotation as complete
+            }
+        }
+        else
+        {
+            // If the angle between the current rotation and the target rotation is greater than 90 degrees
+            if (Quaternion.Angle(transform.rotation, Quaternion.LookRotation(rotationDirection[rotationNum])) >= 90 && rotationNum < rotationDirection.Length)
+            {
+                // If there are more rotation directions left in the array
+                newDirection = Vector3.RotateTowards(transform.forward, rotationDirection[rotationNum], singleStep, 0.0f); // Calculate new direction to rotate towards
+                transform.rotation = Quaternion.LookRotation(newDirection); // Rotate towards the new direction
+            }
+        }
+    }
+
+
+
     public void SetSearchDir()
     {
         rotationDirection[0] = transform.right;
         rotationDirection[1] = -transform.right;
         rotationDirection[2] = -transform.forward;
         rotationDirection[3] = transform.forward;
+    }
+
+    public void UpdateHealthHolder()
+    {
     }
 
     public float GetHealth()
@@ -299,23 +318,6 @@ public class FSMNavMeshAgent : MonoBehaviour
     public float GetMaxHealth()
     {
         return healthSystem.maxHealth;
-    }
-
-    public void UpdateHealthHolder()
-    {
-        tdcHealthHolder = GetHealth();
-    }
-
-    public bool CanHide()
-    {
-        if (shootCounter >= shootAmmountToHide)
-        {
-            return true;
-        }
-        else
-        {
-            return false;
-        }
     }
 
     public bool CheckEnemyType(EnemyType enemyType)
@@ -330,14 +332,9 @@ public class FSMNavMeshAgent : MonoBehaviour
         }
     }
 
-    IEnumerator StopAttack(float time)
+    private void StopAttack(float time)
     {
-        yield return new WaitForSeconds(time);
-        Debug.Log("Stopattack");
-    }
-
-    IEnumerator WaitFor(float time)
-    {
-        yield return new WaitForSeconds(time);
+        // No need for delay, directly reset the timer
+        shootTimer = 0;
     }
 }

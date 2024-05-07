@@ -11,6 +11,7 @@ TagManager:
   - WaterBall
   - Loot
   - BurntAreaPrefab
+  - Ground
   layers:
   - Default
   - TransparentFX
@@ -19,9 +20,9 @@ TagManager:
   - Water
   - UI
   - Wall
-  - 
-  - 
-  - 
+  - Enemy
+  - Player
+  - Bullet
   - 
   - 
   - 
