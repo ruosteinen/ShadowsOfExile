@@ -21,8 +21,8 @@ public class FSMNavMeshAgent : MonoBehaviour
     public int health = 100;
     public float tdcHealthHolder;
 
-    public int meleeDamage = 20;
-    public int contactDamage = 5; 
+    private int meleeDamage = -20;
+    public int contactDamage = 10; 
     public int meleeTimeInterval = 2;
     private bool doMeleeBool = false;
 
@@ -46,6 +46,12 @@ public class FSMNavMeshAgent : MonoBehaviour
         Melee,
         Ranged
     }
+    
+    
+    
+    public float meleeDistanceThreshold = 2f;
+    public float meleeCooldown = 0.9f;
+    private float lastMeleeTime;
 
     void Start()
     {
@@ -157,14 +163,14 @@ public class FSMNavMeshAgent : MonoBehaviour
         if (collision.gameObject.CompareTag("Player"))
         {
             // Access the player's health system and deal damage
-            collision.gameObject.GetComponent<PlayerHealthSystem>().TakeDamage(contactDamage);
+            collision.gameObject.GetComponent<PlayStats>().TakeDamage(-contactDamage);
             //Debug.Log("work plz");
         }
     }
 
 
 
-    public void MeleeAttack()
+    /*public void MeleeAttack()
     {
         RotateToTarget();
 
@@ -184,7 +190,7 @@ public class FSMNavMeshAgent : MonoBehaviour
                     if (hitColliders[i].CompareTag("Player"))
                     {
                         // Call the TakeDamage method of the player's health system
-                        hitColliders[i].GetComponentInParent<PlayerHealthSystem>().TakeDamage(meleeDamage);
+                        hitColliders[i].GetComponentInParent<PlayStats>().TakeDamage(meleeDamage);
                         Debug.Log("dam");
                     }
                     i++;
@@ -204,7 +210,34 @@ public class FSMNavMeshAgent : MonoBehaviour
     private void DoMelee(float time)
     {
         Invoke("SetDoMeleeTrue", time);
+    }*/
+    
+    
+    public void MeleeAttack()
+    {
+        RotateToTarget();
+
+        if (Time.time - lastMeleeTime > meleeCooldown)
+        {
+            RaycastHit hit;
+            
+            if (Physics.Raycast(transform.position, transform.forward, out hit, meleeDistanceThreshold))
+            {
+                if (hit.collider.CompareTag("Player"))
+                {
+                    DealMeleeDamage();
+                    lastMeleeTime = Time.time;
+                }
+            }
+        }
     }
+
+
+    private void DealMeleeDamage()
+    {
+        target.GetComponent<PlayStats>().TakeDamage(meleeDamage);
+    }
+    
 
     private void SetDoMeleeTrue()
     {

@@ -224,6 +224,7 @@ GameObject:
   - component: {fileID: 4495736331712575867}
   - component: {fileID: 7076410989971673595}
   - component: {fileID: -8636869376524194915}
+  - component: {fileID: 8924855334295107303}
   m_Layer: 7
   m_Name: Enemy Goblin
   m_TagString: Enemy
@@ -365,12 +366,11 @@ MonoBehaviour:
   reduceSpeed: 2
   playerToRecoverTime: 10
   playerRecoverTime: 2
-  playerToRecoverTime: 10
-  playerRecoverTime: 2
   target: 1
   Drops:
   - {fileID: 4612572099064300880, guid: 05ac41d1b9eda0744825612708f1038a, type: 3}
   playerInvincible: 0
+  expOnDeath: 150
 --- !u!114 &4495736331712575867
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -398,18 +398,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   patrolWaypoints: []
   target: {fileID: 0}
-  arrowPrefab: {fileID: 0}
+  bulletPrefab: {fileID: 0}
   shootTimeInterval: 2
   shootCounter: 0
   health: 100
   tdcHealthHolder: 0
-  meleeDamage: 20
   contactDamage: 5
-  meleeTimeInterval: 2
+  meleeTimeInterval: 0.5
   rotateSpeed: 2
   rotationComplete: 0
   rotationNum: 0
   type: 0
+  meleeDistanceThreshold: 0.1
+  meleeCooldown: 0.3
 --- !u!195 &-8636869376524194915
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -445,7 +446,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   slowFactor: 0.1
-  knockbackForce: 10
+  slowDuration: 5
 --- !u!1 &8032739336185620718
 GameObject:
   m_ObjectHideFlags: 0

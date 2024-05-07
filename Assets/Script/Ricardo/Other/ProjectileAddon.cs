@@ -21,7 +21,7 @@ public class ProjectileAddon : MonoBehaviour
         }
         else if (other.gameObject.CompareTag("Player"))
         {
-            PlayerHealthSystem playerHealth = other.gameObject.GetComponent<PlayerHealthSystem>();
+            PlayStats playerHealth = other.gameObject.GetComponent<PlayStats>();
             if (playerHealth != null)
             {
                 playerHealth.TakeDamage(damage);
