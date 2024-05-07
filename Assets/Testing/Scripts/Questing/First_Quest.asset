@@ -17,7 +17,7 @@ MonoBehaviour:
     a problem to big for us villagers.
   - A hunter told that the monsters and shadows started coming from deep in the forest.
   - Will you find the cause and stop it?
-  accepOption: Very well. I shall deal with the shadows and monster.
+  acceptOption: I accept!
   acceptAnswer: 'Thank you! The hunter believed the monsters and shadows are coming
     from a cave in the forest.
 
