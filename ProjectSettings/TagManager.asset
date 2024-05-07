@@ -11,6 +11,7 @@ TagManager:
   - WaterBall
   - Loot
   - BurntAreaPrefab
+  - Ground
   layers:
   - Default
   - TransparentFX

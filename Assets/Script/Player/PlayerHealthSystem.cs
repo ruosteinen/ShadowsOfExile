@@ -27,7 +27,7 @@ public class PlayerHealthSystem : MonoBehaviour
     private void Die()
     {
         // Load the main menu scene
-        SceneManager.LoadScene("MainMenu");
+        //SceneManager.LoadScene("MainMenu");
         Debug.Log("Player died!");
     }
 }
