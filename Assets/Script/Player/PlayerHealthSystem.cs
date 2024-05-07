@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PlayerHealthSystem : MonoBehaviour
 {
@@ -9,18 +10,20 @@ public class PlayerHealthSystem : MonoBehaviour
     public GameObject GameOverScreen;
 
     private void Start() => currentHealth = maxHealth;
-    
+
     public void Heal(int amount)
     {
-        currentHealth = Mathf.Min(currentHealth + amount, maxHealth); 
+        currentHealth = Mathf.Min(currentHealth + amount, maxHealth);
         UpdateHealthBar();
     }
+
     public void TakeDamage(int amount)
     {
         currentHealth = Mathf.Max(currentHealth - amount, 0);
         UpdateHealthBar();
         if (currentHealth <= 0) Die();
     }
+
     private void UpdateHealthBar() => healthBar.SetSlider(currentHealth);
 
     private void Update()
@@ -35,6 +38,7 @@ public class PlayerHealthSystem : MonoBehaviour
         }
     }
 
+
     private void Die()
     {
         Time.timeScale = 0f;
@@ -42,5 +46,8 @@ public class PlayerHealthSystem : MonoBehaviour
         Cursor.visible = true;
         PauseMenuSingleton.Instance.IsPaused = true;
         GameOverScreen.SetActive(true);
+        // Load the main menu scene
+        //SceneManager.LoadScene("MainMenu");
+        Debug.Log("Player died!");
     }
 }

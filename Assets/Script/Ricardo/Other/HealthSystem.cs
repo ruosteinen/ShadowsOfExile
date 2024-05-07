@@ -19,8 +19,6 @@ public class HealthSystem : MonoBehaviour
 
     public float target = 1;
     [SerializeField] private GameObject[] Drops;
-    [SerializeField] private AudioClip[] droidSounds;
-    [SerializeField] private AudioSource playerAudioSource;
 
     private AudioSource droidSource;
     private Canvas healthbarCanvas;

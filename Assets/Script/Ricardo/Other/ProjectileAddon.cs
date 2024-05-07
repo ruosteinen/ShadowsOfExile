@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class ProjectileAddon : MonoBehaviour
@@ -13,43 +11,28 @@ public class ProjectileAddon : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-
-        if (other.gameObject.GetComponent<HealthSystem>() != null || other.gameObject.CompareTag("Player"))
+        if (other.gameObject.CompareTag("Enemy"))
         {
-            if (other.gameObject.name.Contains(gameObject.tag) && other.gameObject.CompareTag("Enemy"))
+            HealthSystem enemyHealth = other.gameObject.GetComponent<HealthSystem>();
+            if (enemyHealth != null)
             {
-                DoDamage(other);
-            }
-            else if (other.gameObject.CompareTag("Player"))
-            {
-                HealthSystem player = other.gameObject.GetComponentInParent<HealthSystem>();
-
-                player.TakeDamage(damage);
-
-                Destroy(gameObject);
-            }
-            else
-            {
-                Destroy(gameObject);
+                enemyHealth.TakeDamage(damage);
             }
         }
-        else
+        else if (other.gameObject.CompareTag("Player"))
         {
-            Destroy(gameObject);
+            PlayStats playerHealth = other.gameObject.GetComponent<PlayStats>();
+            if (playerHealth != null)
+            {
+                playerHealth.TakeDamage(damage);
+            }
         }
+
+        Destroy(gameObject);
     }
 
     private void DestroyBullet()
     {
-        Destroy(gameObject);
-    }
-
-    private void DoDamage(Collider other)
-    {
-        HealthSystem enemy = other.gameObject.GetComponent<HealthSystem>();
-
-        enemy.TakeDamage(damage);
-
         Destroy(gameObject);
     }
 }
