@@ -87,11 +87,11 @@ public class BallThrow : MonoBehaviour
     {
         if (currentBallPrefab == fireballPrefab)
         {
-            GUI.DrawTexture(new Rect(180, 260, 50 * scaleFireFactor, 50 * scaleFireFactor), fireballTexture); 
+            GUI.DrawTexture(new Rect(180, 400, 50 * scaleFireFactor, 50 * scaleFireFactor), fireballTexture); 
         }
         else if (currentBallPrefab == waterballPrefab)
         {
-            GUI.DrawTexture(new Rect(180, 260, 50 * scaleWaterFactor , 50 * scaleWaterFactor), waterballTexture);
+            GUI.DrawTexture(new Rect(180, 400, 50 * scaleWaterFactor , 50 * scaleWaterFactor), waterballTexture);
         }
     }
 }

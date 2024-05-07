@@ -674,7 +674,7 @@ public class PlayerQ3LikeController : MonoBehaviour
         
         if (windSpellInUse)
         {
-            GUI.DrawTexture(new Rect(335, 260, 50 * scaleWindFactor, 50 * scaleWindFactor), windTexture); 
+            GUI.DrawTexture(new Rect(335, 400, 50 * scaleWindFactor, 50 * scaleWindFactor), windTexture); 
         }
     }
 }

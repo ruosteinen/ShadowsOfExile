@@ -19,14 +19,14 @@ public class PotionImg : MonoBehaviour
     {
         float width = imageTexture.width * scale;
         float height = imageTexture.height * scale;
-        GUI.DrawTexture(new Rect(50, 250, width, height), imageTexture);
+        GUI.DrawTexture(new Rect(50, 380, width, height), imageTexture);
         
         if (potionMakerScript != null)
         {
             GUIStyle style = new GUIStyle(GUI.skin.label);
             style.fontSize = fontSize;
             
-            GUI.Label(new Rect(110, 180 + height + 10, 400, 50), "" + potionMakerScript.potionAmount, style);
+            GUI.Label(new Rect(110, 300 + height + 10, 400, 50), "" + potionMakerScript.potionAmount, style);
         }
     }
 }
