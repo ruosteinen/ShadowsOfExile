@@ -1,0 +1,37 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4413fbe3789f77849bdb8a92bdf8b843, type: 3}
+  m_Name: First_Quest
+  m_EditorClassIdentifier: 
+  initialDialog:
+  - The Shadows spreading around and the increasing number of monsters have become
+    a problem to big for us villagers.
+  - A hunter told that the monsters and shadows started coming from deep in the forest.
+  - Will you find the cause and stop it?
+  acceptOption: I accept!
+  acceptAnswer: 'Thank you! The hunter believed the monsters and shadows are coming
+    from a cave in the forest.
+
+    Best of luck!'
+  declineOption: I'm sorry but I don't think I'm ready for that.
+  declineAnswer: It's alright. I'm asking too much from you.
+  comebackAfterDecline: It appears you've changed your mind.
+  comebackInProgress: it is fine return to better access the situation.
+  comebackCompleted: Thank you very much for the help!
+  finalWords: This isn't much but I hope it'll assist you in the future.
+  coinReward: 25
+  rewardItem1: 
+  rewardItem2: 
+  firstRequirementItem: Dark Cristal
+  firstRequirementAmount: 1
+  secondRequirementItem: 
+  secondRequirementAmount: 0

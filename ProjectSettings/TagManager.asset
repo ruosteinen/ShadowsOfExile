@@ -3,18 +3,26 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - Flammable
+  - Enemy
+  - FireBall
+  - Undefined
+  - WaterBall
+  - Loot
+  - BurntAreaPrefab
+  - Ground
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - Ground
   - Water
   - UI
-  - 
-  - 
-  - 
-  - 
+  - Wall
+  - Enemy
+  - Player
+  - Bullet
   - 
   - 
   - 
