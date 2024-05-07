@@ -6,6 +6,8 @@ public class PlayerHealthSystem : MonoBehaviour
     public int maxHealth = 100;
     public int currentHealth;
     public HealthBar healthBar;
+    public PotionMakerScript potionMakerScript;
+    public GameObject GameOverScreen;
 
     private void Start() => currentHealth = maxHealth;
 
@@ -24,8 +26,26 @@ public class PlayerHealthSystem : MonoBehaviour
 
     private void UpdateHealthBar() => healthBar.SetSlider(currentHealth);
 
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.P) && potionMakerScript.potionAmount >= 1)
+        {
+            if (currentHealth < maxHealth)
+            {
+                Heal(30);
+                potionMakerScript.potionAmount--;
+            }
+        }
+    }
+
+
     private void Die()
     {
+        Time.timeScale = 0f;
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
+        PauseMenuSingleton.Instance.IsPaused = true;
+        GameOverScreen.SetActive(true);
         // Load the main menu scene
         //SceneManager.LoadScene("MainMenu");
         Debug.Log("Player died!");

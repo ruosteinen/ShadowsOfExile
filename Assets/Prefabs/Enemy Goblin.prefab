@@ -365,6 +365,8 @@ MonoBehaviour:
   reduceSpeed: 2
   playerToRecoverTime: 10
   playerRecoverTime: 2
+  playerToRecoverTime: 10
+  playerRecoverTime: 2
   target: 1
   Drops:
   - {fileID: 4612572099064300880, guid: 05ac41d1b9eda0744825612708f1038a, type: 3}
@@ -396,7 +398,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   patrolWaypoints: []
   target: {fileID: 0}
-  bulletPrefab: {fileID: 0}
+  arrowPrefab: {fileID: 0}
   shootTimeInterval: 2
   shootCounter: 0
   health: 100
@@ -430,6 +432,20 @@ NavMeshAgent:
   m_BaseOffset: 1
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
+--- !u!114 &8924855334295107303
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7857923591202791137}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d24b29cc3a57b7094bd5efc3218d7f75, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  slowFactor: 0.1
+  knockbackForce: 10
 --- !u!1 &8032739336185620718
 GameObject:
   m_ObjectHideFlags: 0

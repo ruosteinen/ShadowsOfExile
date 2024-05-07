@@ -155,6 +155,7 @@ GameObject:
   - component: {fileID: 5954785660854155097}
   - component: {fileID: 1176431973010941796}
   - component: {fileID: 815982727851092893}
+  - component: {fileID: 4615868722924777736}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -461,6 +462,19 @@ MonoBehaviour:
   target: 1
   Drops: []
   playerInvincible: 0
+--- !u!114 &4615868722924777736
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3177775606037457560}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 49812f88c74cd943299e4dbdf4c3c36f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  resourceAmount: 0
 --- !u!1 &4185482088061308991
 GameObject:
   m_ObjectHideFlags: 0
@@ -504,6 +518,7 @@ GameObject:
   - component: {fileID: 4573589331604656010}
   - component: {fileID: 4654520304566379219}
   - component: {fileID: 1386354553650310253}
+  - component: {fileID: 4040980805142579053}
   m_Layer: 0
   m_Name: PlayerBody
   m_TagString: Player
@@ -599,6 +614,19 @@ CapsuleCollider:
   m_Height: 2
   m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &4040980805142579053
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5634106413937794339}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 49812f88c74cd943299e4dbdf4c3c36f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  resourceAmount: 0
 --- !u!1 &6620983934208742492
 GameObject:
   m_ObjectHideFlags: 0
