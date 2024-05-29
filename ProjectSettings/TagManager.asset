@@ -12,6 +12,7 @@ TagManager:
   - Loot
   - BurntAreaPrefab
   - Ground
+  - Crystal
   layers:
   - Default
   - TransparentFX

@@ -15,33 +15,47 @@ public class FireBall : MonoBehaviour
         float distanceFromThrow = Vector3.Distance(throwPosition, transform.position);
         if (distanceFromThrow > maxDistance) Destroy(gameObject);
     }
-    
+
     private void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.CompareTag("Enemy"))
         {
             DoDamage(collision.collider);
         }
-        else if(collision.gameObject.CompareTag("Flammable"))
+        else if (collision.gameObject.CompareTag("Flammable"))
         {
             Flammable flammable = collision.gameObject.GetComponent<Flammable>();
             if (flammable != null && !flammable.isOnFire) flammable.Ignite();
         }
-        /*else if (groundLayer == (groundLayer | (1 << collision.gameObject.layer)))
+        else if (collision.gameObject.CompareTag("Crystal"))
         {
-            Collider[] colliders = Physics.OverlapSphere(collision.contacts[0].point, affectedRadius);
-            foreach (Collider col in colliders)
-            {
-                ParticleSystem ps = col.GetComponent<ParticleSystem>();
-                if (ps != null) ps.Play();
-            }
-        }*/
+            DoDamage(collision.collider);
+        }
+
         Destroy(gameObject);
-    } 
+    }
+
     private void DoDamage(Collider other)
     {
         HealthSystem enemy = other.gameObject.GetComponent<HealthSystem>();
-        enemy.TakeDamage(damage);
-        Destroy(gameObject);
+        if (enemy != null)
+        {
+            enemy.TakeDamage(damage);
+            Debug.Log("Damaged Enemy: " + other.gameObject.name);
+        }
+        else
+        {
+            DarkCrystalManager crystal = other.gameObject.GetComponent<DarkCrystalManager>();
+            if (crystal != null)
+            {
+                crystal.TakeDamage(damage);
+                Debug.Log("Damaged Crystal: " + other.gameObject.name);
+            }
+            else
+            {
+                Debug.Log("No valid component found on: " + other.gameObject.name);
+            }
+        }
     }
+
 }
