@@ -25,6 +25,16 @@ public class FSMNavMeshAgent : MonoBehaviour
     public int contactDamage = 10; 
     public int meleeTimeInterval = 2;
     private bool doMeleeBool = false;
+    
+    public int runAwayTimeInterval = 1;
+    private float runAwayTimer = 0;
+    
+    public float recoverTimeInterval = 2f;
+    private float recoverTimer;
+    
+    public int healthToRecover = 20;
+    
+    public int shootAmmountToHide = 5;
 
     // Search Variables to be changed
     public float rotateSpeed = 2f;
@@ -248,26 +258,7 @@ public class FSMNavMeshAgent : MonoBehaviour
     {
         Gizmos.DrawWireSphere(transform.position + transform.forward * 3, transform.localScale.magnitude * 1.5f);
     }
-
-    public bool DirectContactWithPlayer()
-    {
-        RaycastHit hit;
-        Physics.Raycast(transform.position + new Vector3(0, (transform.localScale.y / 3) * 2, 0), target.position - transform.position, out hit);
-        if (hit.collider != null)
-        {
-            if (hit.collider.CompareTag("Player"))
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-        }
-        else { return false; }
-
-    }
-
+    
     public void Search()
     {
         float singleStep = rotateSpeed * Time.deltaTime; // Calculate rotation speed
@@ -309,6 +300,75 @@ public class FSMNavMeshAgent : MonoBehaviour
 
     public void UpdateHealthHolder()
     {
+    }
+    
+    public void RunAway()
+    {
+        if (!agent.hasPath)
+        {
+            runAwayTimer += Time.deltaTime;
+            if (runAwayTimer > runAwayTimeInterval)
+            {
+                Transform point = null;
+                float maxDist = 0;
+                foreach (Transform w in patrolWaypoints)
+                {
+                    float dist = Vector3.Distance(w.position, target.position);
+                    if (maxDist < dist)
+                    {
+                        point = w;
+                        maxDist = dist;
+                    }
+                }
+                agent.SetDestination(point.position);
+                runAwayTimer = 0;
+            }
+        }
+    }
+    
+    public void Recover()
+    {
+        if(agent.velocity.magnitude < 0.1f)
+        {
+            recoverTimer += Time.deltaTime;
+            if(healthSystem.health < healthSystem.maxHealth && recoverTimer > recoverTimeInterval)
+            {
+                healthSystem.RecoverHealth(healthToRecover);
+                UpdateHealthHolder();
+                recoverTimer = 0;
+            }
+        }
+    }
+
+    public bool DirectContactWithPlayer()
+    {
+        RaycastHit hit;
+        Physics.Raycast(transform.position + new Vector3(0, (transform.localScale.y/3) *2, 0), target.position - transform.position, out hit);
+        if (hit.collider != null)
+        {
+            if (hit.collider.CompareTag("Player"))
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+        else { return false; }
+        
+    }
+    
+    public bool CanHide()
+    {
+        if (shootCounter >= shootAmmountToHide)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
     }
 
     public float GetHealth()

@@ -13,18 +13,17 @@ public class BallThrow : MonoBehaviour
     public float fireRate;
     public float waterRate;
     private float lastFireTime;
-    private float lastWaterTime;
 
     private GameObject currentBallPrefab;
     private float currentBallSpeed;
-    
+
     public Texture2D fireballTexture;
     public Texture2D waterballTexture;
     private float scaleFireFactor = 1.5f;
     private float scaleWaterFactor = 1.5f;
-    
+
     public PlayStats playStats;
-    
+
     void Start()
     {
         currentBallPrefab = fireballPrefab;
@@ -35,16 +34,7 @@ public class BallThrow : MonoBehaviour
     {
         if (playerCamera != null && !PauseMenuSingleton.Instance.IsPaused && playStats.currentMana >= manaCost)
         {
-            if (Input.GetAxis("Mouse ScrollWheel") > 0)
-            {
-                currentBallPrefab = fireballPrefab;
-                currentBallSpeed = fireBallSpeed;
-            }
-            else if (Input.GetAxis("Mouse ScrollWheel") < 0)
-            {
-                currentBallPrefab = waterballPrefab;
-                currentBallSpeed = waterBallSpeed;
-            }
+            HandleBallSelection();
 
             if (Input.GetMouseButtonDown(0) && Time.time > lastFireTime + fireRate)
             {
@@ -54,45 +44,72 @@ public class BallThrow : MonoBehaviour
         }
     }
 
+    private void HandleBallSelection()
+    {
+        if (Input.GetAxis("Mouse ScrollWheel") > 0)
+        {
+            currentBallPrefab = fireballPrefab;
+            currentBallSpeed = fireBallSpeed;
+        }
+        else if (Input.GetAxis("Mouse ScrollWheel") < 0)
+        {
+            currentBallPrefab = waterballPrefab;
+            currentBallSpeed = waterBallSpeed;
+        }
+    }
+
     private void SpawnAndThrowBall(GameObject ballPrefab, float ballSpeed)
     {
+        if (playStats.currentMana < manaCost)
+        {
+            return;
+        }
+
         Vector3 screenCenter = new Vector3(Screen.width / 2f, Screen.height / 2f, 0f);
         Ray ray = playerCamera.ScreenPointToRay(screenCenter);
-        Vector3 spawnPoint = ray.origin + ray.direction * spawnDistance;
-        Vector3 throwPosition = playerController.transform.position;
+        Vector3 spawnPoint = playerCamera.transform.position + ray.direction * spawnDistance;
+
         GameObject ball = Instantiate(ballPrefab, spawnPoint, Quaternion.identity);
 
-        if (ballPrefab == fireballPrefab && playStats.currentMana >= manaCost)
-        {
-            FireBall fireBallScript = ball.GetComponent<FireBall>();
-            if (fireBallScript != null) fireBallScript.Initialize(throwPosition);
-        }
-
-        if (ballPrefab == waterballPrefab && playStats.currentMana >= manaCost)
-        {
-            WaterBall waterBallScript = ball.GetComponent<WaterBall>();
-            if (waterBallScript != null) waterBallScript.Initialize(throwPosition);
-        }
+        InitializeBall(ball, ballPrefab);
 
         Rigidbody ballRB = ball.GetComponent<Rigidbody>();
-        if (ballRB != null && playStats.currentMana >= manaCost)
+        if (ballRB != null)
         {
-            Vector3 playerVel = playerController.playerVelocity;
-            ballRB.velocity = (ray.direction * ballSpeed) + playerVel;
+            ballRB.velocity = ray.direction * ballSpeed;
             playStats.currentMana -= manaCost;
         }
     }
-    
+
+    private void InitializeBall(GameObject ball, GameObject ballPrefab)
+    {
+        if (ballPrefab == fireballPrefab)
+        {
+            FireBall fireBallScript = ball.GetComponent<FireBall>();
+            if (fireBallScript != null)
+            {
+                fireBallScript.Initialize(playerController.transform.position);
+            }
+        }
+        else if (ballPrefab == waterballPrefab)
+        {
+            WaterBall waterBallScript = ball.GetComponent<WaterBall>();
+            if (waterBallScript != null)
+            {
+                waterBallScript.Initialize(playerController.transform.position);
+            }
+        }
+    }
+
     void OnGUI()
     {
         if (currentBallPrefab == fireballPrefab)
         {
-            GUI.DrawTexture(new Rect(180, 400, 50 * scaleFireFactor, 50 * scaleFireFactor), fireballTexture); 
+            GUI.DrawTexture(new Rect(180, 400, 50 * scaleFireFactor, 50 * scaleFireFactor), fireballTexture);
         }
         else if (currentBallPrefab == waterballPrefab)
         {
-            GUI.DrawTexture(new Rect(180, 400, 50 * scaleWaterFactor , 50 * scaleWaterFactor), waterballTexture);
+            GUI.DrawTexture(new Rect(180, 400, 50 * scaleWaterFactor, 50 * scaleWaterFactor), waterballTexture);
         }
     }
 }
-
