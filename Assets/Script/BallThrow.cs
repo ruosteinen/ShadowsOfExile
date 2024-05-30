@@ -11,7 +11,6 @@ public class BallThrow : MonoBehaviour
     public PlayerQ3LikeController playerController;
     public int manaCost = 10;
     public float fireRate;
-    public float waterRate;
     private float lastFireTime;
 
     private GameObject currentBallPrefab;
@@ -60,15 +59,9 @@ public class BallThrow : MonoBehaviour
 
     private void SpawnAndThrowBall(GameObject ballPrefab, float ballSpeed)
     {
-        if (playStats.currentMana < manaCost)
-        {
-            return;
-        }
-
-        Vector3 screenCenter = new Vector3(Screen.width / 2f, Screen.height / 2f, 0f);
-        Ray ray = playerCamera.ScreenPointToRay(screenCenter);
-        Vector3 spawnPoint = playerCamera.transform.position + ray.direction * spawnDistance;
-
+        if (playStats.currentMana < manaCost) return;
+        
+        Vector3 spawnPoint = playerCamera.transform.position + playerCamera.transform.forward * spawnDistance;
         GameObject ball = Instantiate(ballPrefab, spawnPoint, Quaternion.identity);
 
         InitializeBall(ball, ballPrefab);
@@ -76,7 +69,7 @@ public class BallThrow : MonoBehaviour
         Rigidbody ballRB = ball.GetComponent<Rigidbody>();
         if (ballRB != null)
         {
-            ballRB.velocity = ray.direction * ballSpeed;
+            ballRB.velocity = playerCamera.transform.forward * ballSpeed;
             playStats.currentMana -= manaCost;
         }
     }

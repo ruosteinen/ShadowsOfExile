@@ -5,9 +5,9 @@ public class HideAction : Action
 {
     public override void Act(FiniteStateMachine fsm)
     {
-        if (fsm.GetNavMeshAgent().IsAtDestination() && fsm.GetNavMeshAgent().DirectContactWithPlayer())
-        {
+        //if (fsm.GetNavMeshAgent().IsAtDestination() && fsm.GetNavMeshAgent().DirectContactWithPlayer())
+        //{
             fsm.GetNavMeshAgent().RunAway();
-        }
+        //}
     }
 }

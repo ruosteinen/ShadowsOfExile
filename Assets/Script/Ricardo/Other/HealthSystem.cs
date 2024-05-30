@@ -11,7 +11,7 @@ public class HealthSystem : MonoBehaviour
     public float health = 100;
     public float reduceSpeed = 2;
 
-    private float playerHealthToRecover;
+    private float playerHealthToRecover = 50f;
     public float playerToRecoverTime = 10;
     public float playerRecoverTime = 2;
     private float playerRecoverTimer = 0;

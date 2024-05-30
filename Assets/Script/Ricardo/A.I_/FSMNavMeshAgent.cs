@@ -1,6 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -10,7 +9,8 @@ public class FSMNavMeshAgent : MonoBehaviour
     private HealthSystem healthSystem;
     public Transform[] patrolWaypoints;
     public Transform target;
-
+    public Transform[] farthestPatrolPoints;
+    
     [Header("Shooting Settings")]
     [SerializeField] private GameObject bulletPrefab;
     public float shootTimeInterval = 2;
@@ -35,7 +35,7 @@ public class FSMNavMeshAgent : MonoBehaviour
     public int healthToRecover = 20;
     
     public int shootAmmountToHide = 5;
-
+    
     // Search Variables to be changed
     public float rotateSpeed = 2f;
     public bool rotationComplete;
@@ -57,11 +57,11 @@ public class FSMNavMeshAgent : MonoBehaviour
         Ranged
     }
     
-    
-    
     public float meleeDistanceThreshold = 2f;
     public float meleeCooldown = 0.9f;
     private float lastMeleeTime;
+
+    private float originalSpeed;
 
     void Start()
     {
@@ -69,6 +69,7 @@ public class FSMNavMeshAgent : MonoBehaviour
         healthSystem = GetComponent<HealthSystem>();
 
         healthSystem.maxHealth = health;
+        originalSpeed = agent.speed;
     }
 
     private void Update()
@@ -114,20 +115,18 @@ public class FSMNavMeshAgent : MonoBehaviour
         }
     }
 
-
     public void ResetShootCounter()
     {
         shootCounter = 0;
     }
 
     private void RotateToTarget()
-{
-    Vector3 direction = target.position - transform.position;
-    direction.y = 0; // Set the y-component to 0 to prevent up and down rotation
-    Quaternion rotation = Quaternion.LookRotation(direction);
-    transform.rotation = Quaternion.Slerp(transform.rotation, rotation, Time.deltaTime * rotateSpeed);
-}
-
+    {
+        Vector3 direction = target.position - transform.position;
+        direction.y = 0; // Set the y-component to 0 to prevent up and down rotation
+        Quaternion rotation = Quaternion.LookRotation(direction);
+        transform.rotation = Quaternion.Slerp(transform.rotation, rotation, Time.deltaTime * rotateSpeed);
+    }
 
     public void RangedAttack()
     {
@@ -167,62 +166,15 @@ public class FSMNavMeshAgent : MonoBehaviour
         bullet.GetComponent<Rigidbody>().AddForce(direction * (1000 * 3));
     }
 
-
     private void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.CompareTag("Player"))
         {
             // Access the player's health system and deal damage
             collision.gameObject.GetComponent<PlayStats>().TakeDamage(-contactDamage);
-            //Debug.Log("work plz");
         }
     }
 
-
-
-    /*public void MeleeAttack()
-    {
-        RotateToTarget();
-
-        shootTimer += Time.deltaTime;
-        if (shootTimer > meleeTimeInterval)
-        {
-            StopAttack(meleeTimeInterval - 0.5f);
-            DoMelee(.5f);
-
-            if (doMeleeBool)
-            {
-                Collider[] hitColliders = Physics.OverlapBox(transform.position + transform.forward * 3, transform.localScale * 1.5f);
-                int i = 0;
-
-                while (i < hitColliders.Length)
-                {
-                    if (hitColliders[i].CompareTag("Player"))
-                    {
-                        // Call the TakeDamage method of the player's health system
-                        hitColliders[i].GetComponentInParent<PlayStats>().TakeDamage(meleeDamage);
-                        Debug.Log("dam");
-                    }
-                    i++;
-                }
-                if (i == hitColliders.Length)
-                {
-                    shootTimer = 0;
-                }
-            }
-        }
-        else if (doMeleeBool)
-        {
-            doMeleeBool = false;
-        }
-    }
-
-    private void DoMelee(float time)
-    {
-        Invoke("SetDoMeleeTrue", time);
-    }*/
-    
-    
     public void MeleeAttack()
     {
         RotateToTarget();
@@ -242,21 +194,9 @@ public class FSMNavMeshAgent : MonoBehaviour
         }
     }
 
-
     private void DealMeleeDamage()
     {
         target.GetComponent<PlayStats>().TakeDamage(meleeDamage);
-    }
-    
-
-    private void SetDoMeleeTrue()
-    {
-        doMeleeBool = true;
-    }
-
-    private void OnDrawGizmosSelected()
-    {
-        Gizmos.DrawWireSphere(transform.position + transform.forward * 3, transform.localScale.magnitude * 1.5f);
     }
     
     public void Search()
@@ -288,8 +228,6 @@ public class FSMNavMeshAgent : MonoBehaviour
         }
     }
 
-
-
     public void SetSearchDir()
     {
         rotationDirection[0] = transform.right;
@@ -304,39 +242,55 @@ public class FSMNavMeshAgent : MonoBehaviour
     
     public void RunAway()
     {
-        if (!agent.hasPath)
+        if (healthSystem.health <= healthSystem.maxHealth * 0.5f) // Проверка, если здоровье меньше или равно 50%
         {
-            runAwayTimer += Time.deltaTime;
-            if (runAwayTimer > runAwayTimeInterval)
+            agent.speed *= 3f;
+
+            if (farthestPatrolPoints != null && farthestPatrolPoints.Length > 0)
             {
-                Transform point = null;
-                float maxDist = 0;
-                foreach (Transform w in patrolWaypoints)
+                Transform nearestPoint = null;
+                float shortestDistance = Mathf.Infinity;
+                Vector3 currentPosition = transform.position;
+
+                foreach (Transform point in farthestPatrolPoints)
                 {
-                    float dist = Vector3.Distance(w.position, target.position);
-                    if (maxDist < dist)
+                    float distance = Vector3.Distance(currentPosition, point.position);
+                    if (distance < shortestDistance)
                     {
-                        point = w;
-                        maxDist = dist;
+                        shortestDistance = distance;
+                        nearestPoint = point;
                     }
                 }
-                agent.SetDestination(point.position);
-                runAwayTimer = 0;
+
+                if (nearestPoint != null)
+                {
+                    Debug.Log("Running away to: " + nearestPoint.position);
+                    agent.SetDestination(nearestPoint.position);
+                }
+                else
+                {
+                    Debug.LogWarning("No valid farthest patrol points found!");
+                }
+            }
+            else
+            {
+                Debug.LogWarning("Farthest Patrol Points are not set!");
             }
         }
+        else
+        {
+            agent.speed = originalSpeed; // Возвращаем исходную скорость
+        }
     }
-    
+
     public void Recover()
     {
-        if(agent.velocity.magnitude < 0.1f)
+        recoverTimer += Time.deltaTime;
+        if (healthSystem.health < healthSystem.maxHealth && recoverTimer > recoverTimeInterval)
         {
-            recoverTimer += Time.deltaTime;
-            if(healthSystem.health < healthSystem.maxHealth && recoverTimer > recoverTimeInterval)
-            {
-                healthSystem.RecoverHealth(healthToRecover);
-                UpdateHealthHolder();
-                recoverTimer = 0;
-            }
+            healthSystem.RecoverHealth(healthToRecover);
+            UpdateHealthHolder();
+            recoverTimer = 0;
         }
     }
 
@@ -356,7 +310,6 @@ public class FSMNavMeshAgent : MonoBehaviour
             }
         }
         else { return false; }
-        
     }
     
     public bool CanHide()

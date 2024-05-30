@@ -20,7 +20,6 @@ public class FiniteStateMachine : MonoBehaviour
         }
     }
 
-
     private void Update()
     {
         Transition triggeredTransition = null;
