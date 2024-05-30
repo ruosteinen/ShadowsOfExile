@@ -242,9 +242,9 @@ public class FSMNavMeshAgent : MonoBehaviour
     
     public void RunAway()
     {
-        if (healthSystem.health <= healthSystem.maxHealth * 0.5f) // Проверка, если здоровье меньше или равно 50%
+        if (healthSystem.health <= healthSystem.maxHealth * 0.5f) 
         {
-            agent.speed *= 3f;
+            //agent.speed *= 3f;
 
             if (farthestPatrolPoints != null && farthestPatrolPoints.Length > 0)
             {
@@ -277,10 +277,10 @@ public class FSMNavMeshAgent : MonoBehaviour
                 Debug.LogWarning("Farthest Patrol Points are not set!");
             }
         }
-        else
+        /*else
         {
-            agent.speed = originalSpeed; // Возвращаем исходную скорость
-        }
+            agent.speed = originalSpeed; 
+        }*/
     }
 
     public void Recover()
@@ -289,7 +289,6 @@ public class FSMNavMeshAgent : MonoBehaviour
         if (healthSystem.health < healthSystem.maxHealth && recoverTimer > recoverTimeInterval)
         {
             healthSystem.RecoverHealth(healthToRecover);
-            UpdateHealthHolder();
             recoverTimer = 0;
         }
     }

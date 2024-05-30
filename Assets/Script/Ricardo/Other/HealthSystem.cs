@@ -1,7 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.AI;
 using UnityEngine.UI;
 
 public class HealthSystem : MonoBehaviour
@@ -123,15 +120,12 @@ public class HealthSystem : MonoBehaviour
         if (health > maxHealth)
         {
             health = maxHealth;
-            if (isEnemy)
-                healthbarCanvas.enabled = false;
         }
         UpdateHealthBar();
     }
 
     private void KillEnemy()
     {
-        
         if(playStats != null)
         {
             playStats.GainExperienceFlatRate(expOnDeath);
@@ -147,7 +141,7 @@ public class HealthSystem : MonoBehaviour
         else
         {
             Debug.LogError("Drops array does not have any elements.");
-}
+        }
         // Destroy the enemy GameObject
         Destroy(gameObject);
     }
