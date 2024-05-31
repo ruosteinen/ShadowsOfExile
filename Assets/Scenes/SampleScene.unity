@@ -6718,7 +6718,7 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: e5bc488375114214b8731988e955e026,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: -130
+      value: -98.86
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: e5bc488375114214b8731988e955e026,
         type: 3}
@@ -12193,6 +12193,10 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 1940545554}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: d4e5804faa87b954b9c265f741cf0b5a,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1940545555}
   m_SourcePrefab: {fileID: 100100000, guid: d4e5804faa87b954b9c265f741cf0b5a, type: 3}
 --- !u!1 &1940545550 stripped
 GameObject:
@@ -12264,6 +12268,129 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!82 &1940545555
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1940545550}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 8300000, guid: 8ba6a528326ee9248b548ed9e6933ae9, type: 3}
+  m_PlayOnAwake: 1
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 1
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1.5
+  MaxDistance: 10
+  Pan2D: 0
+  rolloffMode: 1
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0.1
+      value: 1
+      inSlope: -10.0039835
+      outSlope: -10.0039835
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 0.27100676
+      value: 0.504364
+      inSlope: -0.9694306
+      outSlope: -0.9694306
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.9482537
+    - serializedVersion: 3
+      time: 0.45326844
+      value: 0.3416443
+      inSlope: -0.84454095
+      outSlope: -0.84454095
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.64867306
+      outWeight: 0.38413134
+    - serializedVersion: 3
+      time: 0.69642335
+      value: 0.09007263
+      inSlope: -0.4706361
+      outSlope: -0.4706361
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.38601807
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: -0.10003988
+      outSlope: -0.10003988
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!1 &1944332795 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1038014141948787833, guid: fedaf1e16a8c4a24b89a0e7c9a905f50,
@@ -14024,7 +14151,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxHealth: 100
   defense: 10
-  attack: 10
+  attack: 1
   healthValue: {fileID: 1321506569}
   maxMana: 100
   manaValue: {fileID: 1186301234}

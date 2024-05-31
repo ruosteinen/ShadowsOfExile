@@ -12,6 +12,8 @@ public class DarkCrystalManager : MonoBehaviour
     private float _currentHealth;
     [SerializeField] private CrystalHealthBar _healthbar;
 
+    private PlayStats playStats;
+
     private void Start()
     {
         // Initialize UI messages

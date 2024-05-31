@@ -19341,7 +19341,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxDistance: 60
-  damage: 10
+  damage: 50
 --- !u!54 &831608904039024216
 Rigidbody:
   m_ObjectHideFlags: 0
