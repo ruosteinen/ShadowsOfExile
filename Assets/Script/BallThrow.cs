@@ -60,16 +60,20 @@ public class BallThrow : MonoBehaviour
     private void SpawnAndThrowBall(GameObject ballPrefab, float ballSpeed)
     {
         if (playStats.currentMana < manaCost) return;
-        
+
         Vector3 spawnPoint = playerCamera.transform.position + playerCamera.transform.forward * spawnDistance;
         GameObject ball = Instantiate(ballPrefab, spawnPoint, Quaternion.identity);
 
         InitializeBall(ball, ballPrefab);
 
+        Vector3 screenCenter = new Vector3(Screen.width / 2, Screen.height / 2, playerCamera.farClipPlane);
+        Vector3 targetPoint = playerCamera.ScreenToWorldPoint(screenCenter);
+
+        ball.transform.LookAt(targetPoint);
         Rigidbody ballRB = ball.GetComponent<Rigidbody>();
         if (ballRB != null)
         {
-            ballRB.velocity = playerCamera.transform.forward * ballSpeed;
+            ballRB.velocity = ball.transform.forward * ballSpeed;
             playStats.currentMana -= manaCost;
         }
     }
