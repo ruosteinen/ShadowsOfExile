@@ -12,7 +12,8 @@ public class DarkCrystalManager : MonoBehaviour
     private float _currentHealth;
     [SerializeField] private CrystalHealthBar _healthbar;
 
-    private PlayStats playStats;
+    public AudioSource ambientAudioSource; // Reference to the ambient audio source
+    public AudioSource objectiveAchievedAudioSource; // Reference to the objective achieved audio source
 
     private void Start()
     {
@@ -21,23 +22,53 @@ public class DarkCrystalManager : MonoBehaviour
         message2Text.text = "";
         _currentHealth = _maxHealth;
         _healthbar.UpdateHealthBar(_maxHealth, _currentHealth);
+
+        // Play the ambient sound
+        if (ambientAudioSource != null)
+        {
+            ambientAudioSource.Play();
+        }
     }
 
     // Call this method when the crystal takes damage
-    public void TakeDamage(int damage)
+    public void TakeDamage(float damage)
     {
         _currentHealth -= damage;
-        _healthbar.UpdateHealthBar(_maxHealth, _currentHealth);
 
         if (_currentHealth <= 0)
         {
             _currentHealth = 0;
             DestroyCrystal();
         }
+
+        UpdateHealthBar();
+    }
+
+    private void UpdateHealthBar()
+    {
+        _healthbar.UpdateHealthBar(_maxHealth, _currentHealth);
     }
 
     private void DestroyCrystal()
     {
+        // Stop the ambient sound
+        if (ambientAudioSource != null)
+        {
+            ambientAudioSource.Stop();
+            Debug.Log("Ambient audio stopped.");
+        }
+
+        // Play the objective achieved sound
+        if (objectiveAchievedAudioSource != null)
+        {
+            objectiveAchievedAudioSource.Play();
+            Debug.Log("Objective achieved audio is playing.");
+        }
+        else
+        {
+            Debug.LogError("Objective achieved audio source is null.");
+        }
+
         // Display the second message when the crystal is destroyed
         message1Text.text = "";
         message2Text.text = "More in the next update";
