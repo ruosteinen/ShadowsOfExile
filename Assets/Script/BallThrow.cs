@@ -1,20 +1,17 @@
 using UnityEngine;
 
-public class BallThrow : MonoBehaviour
+public class BallThrowSimplified : MonoBehaviour
 {
     public GameObject fireballPrefab;
     public GameObject waterballPrefab;
-    public float fireBallSpeed = 80f;
-    public float waterBallSpeed = 80f;
-    public float spawnDistance = 1f;
+    public float ballSpeed = 80f;
+    public Transform spawnTransform;
     public Camera playerCamera;
-    public PlayerQ3LikeController playerController;
     public int manaCost = 10;
-    public float fireRate;
+    public float fireRate = 0.5f;
     private float lastFireTime;
 
     private GameObject currentBallPrefab;
-    private float currentBallSpeed;
 
     public Texture2D fireballTexture;
     public Texture2D waterballTexture;
@@ -22,22 +19,23 @@ public class BallThrow : MonoBehaviour
     private float scaleWaterFactor = 1.5f;
 
     public PlayStats playStats;
+    public LayerMask aimColliderLayerMask;
+    public Transform debugTransform;
 
     void Start()
     {
         currentBallPrefab = fireballPrefab;
-        currentBallSpeed = fireBallSpeed;
     }
 
-    private void Update()
+    void Update()
     {
-        if (playerCamera != null && !PauseMenuSingleton.Instance.IsPaused && playStats.currentMana >= manaCost)
+        if (!PauseMenuSingleton.Instance.IsPaused && playStats.currentMana >= manaCost)
         {
             HandleBallSelection();
 
-            if (Input.GetMouseButtonDown(0) && Time.time > lastFireTime + fireRate)
+            if (Input.GetButtonDown("Fire1") && Time.time > lastFireTime + fireRate)
             {
-                SpawnAndThrowBall(currentBallPrefab, currentBallSpeed);
+                Shoot();
                 lastFireTime = Time.time;
             }
         }
@@ -48,52 +46,67 @@ public class BallThrow : MonoBehaviour
         if (Input.GetAxis("Mouse ScrollWheel") > 0)
         {
             currentBallPrefab = fireballPrefab;
-            currentBallSpeed = fireBallSpeed;
         }
         else if (Input.GetAxis("Mouse ScrollWheel") < 0)
         {
             currentBallPrefab = waterballPrefab;
-            currentBallSpeed = waterBallSpeed;
         }
     }
 
-    private void SpawnAndThrowBall(GameObject ballPrefab, float ballSpeed)
+    private void Shoot()
     {
         if (playStats.currentMana < manaCost) return;
 
-        Vector3 spawnPoint = playerCamera.transform.position + playerCamera.transform.forward * spawnDistance;
-        GameObject ball = Instantiate(ballPrefab, spawnPoint, Quaternion.identity);
-
-        InitializeBall(ball, ballPrefab);
-
-        Vector3 screenCenter = new Vector3(Screen.width / 2, Screen.height / 2, playerCamera.farClipPlane);
-        Vector3 targetPoint = playerCamera.ScreenToWorldPoint(screenCenter);
-
-        ball.transform.LookAt(targetPoint);
+        GameObject ball = Instantiate(currentBallPrefab, spawnTransform.position, spawnTransform.rotation);
         Rigidbody ballRB = ball.GetComponent<Rigidbody>();
+
+        InitializeBall(ball);
+
         if (ballRB != null)
         {
-            ballRB.velocity = ball.transform.forward * ballSpeed;
+            Vector3 shootDirection = CalculateShootDirection();
+
+            ballRB.AddForce(shootDirection * ballSpeed, ForceMode.Impulse);
             playStats.currentMana -= manaCost;
         }
     }
 
-    private void InitializeBall(GameObject ball, GameObject ballPrefab)
+    private Vector3 CalculateShootDirection()
     {
-        if (ballPrefab == fireballPrefab)
+        Vector2 screenCenterPoint = new Vector2(Screen.width / 2f, Screen.height / 2f);
+        Ray ray = playerCamera.ScreenPointToRay(screenCenterPoint);
+
+        Vector3 targetPoint;
+        if (Physics.Raycast(ray, out RaycastHit raycastHit, 999f, aimColliderLayerMask))
+        {
+            debugTransform.position = raycastHit.point;
+            targetPoint = raycastHit.point;
+        }
+        else
+        {
+            targetPoint = ray.GetPoint(1000);
+        }
+
+        Vector3 shootDirection = (targetPoint - spawnTransform.position).normalized;
+        return shootDirection;
+    }
+
+    private void InitializeBall(GameObject ball)
+    {
+        if (currentBallPrefab == fireballPrefab)
         {
             FireBall fireBallScript = ball.GetComponent<FireBall>();
             if (fireBallScript != null)
             {
-                fireBallScript.Initialize(playerController.transform.position);
+                fireBallScript.Initialize(transform.position);
             }
         }
-        else if (ballPrefab == waterballPrefab)
+        else if (currentBallPrefab == waterballPrefab)
         {
             WaterBall waterBallScript = ball.GetComponent<WaterBall>();
             if (waterBallScript != null)
             {
-                waterBallScript.Initialize(playerController.transform.position);
+                waterBallScript.Initialize(transform.position);
             }
         }
     }
