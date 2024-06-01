@@ -45,6 +45,11 @@ public class WaterBall : MonoBehaviour
             }
             else Debug.Log("Flammable obj not found on: " + collision.gameObject.name);
         }
+        else if (collision.gameObject.CompareTag("Crystal"))
+        {
+            DoDamage(collision.collider);
+        }
+
         Destroy(gameObject);
     }
 
@@ -52,7 +57,23 @@ public class WaterBall : MonoBehaviour
     private void DoDamage(Collider other)
     {
         HealthSystem enemy = other.gameObject.GetComponent<HealthSystem>();
-        enemy.TakeDamage(damage);
-        Destroy(gameObject);
+        if (enemy != null)
+        {
+            enemy.TakeDamage(damage);
+            Debug.Log("Damaged Enemy: " + other.gameObject.name);
+        }
+        else
+        {
+            DarkCrystalManager crystal = other.gameObject.GetComponent<DarkCrystalManager>();
+            if (crystal != null)
+            {
+                crystal.TakeDamage(damage);
+                Debug.Log("Damaged Crystal: " + other.gameObject.name);
+            }
+            else
+            {
+                Debug.Log("No valid component found on: " + other.gameObject.name);
+            }
+        }
     }
 }
