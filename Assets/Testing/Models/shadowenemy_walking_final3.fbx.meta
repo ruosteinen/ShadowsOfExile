@@ -1,9 +1,24 @@
 fileFormatVersion: 2
-guid: 24bb5367565e6d440903acc87ab582e8
+guid: a04e2cb73eb5f3e43913b8092abcc739
 ModelImporter:
   serializedVersion: 22200
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Material.007
+    second: {fileID: 2100000, guid: d6b78c21692023449939a0f01c9f376c, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Smoke Domain Material
+    second: {fileID: 2100000, guid: 9d6c85dfb884e854984aa5416dc671c5, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: glowing
+    second: {fileID: 2100000, guid: e31a7ea17791d4c4a8086aebdd2710ea, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0
