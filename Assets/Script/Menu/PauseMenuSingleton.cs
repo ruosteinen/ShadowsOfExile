@@ -34,7 +34,7 @@ public sealed class PauseMenuSingleton : MonoBehaviour
     {
         PotionMakerScript potionMaker = FindObjectOfType<PotionMakerScript>();
 
-        if (Input.GetKeyDown(KeyCode.Escape) && !potionMaker.isPotionMaking && !dialogueSystemInstance.questUIActive)
+        if (Input.GetKeyDown(KeyCode.Escape) /*&& !potionMaker.isPotionMaking && !dialogueSystemInstance.questUIActive*/)
         {
             if (IsPaused)
                 Resume();
