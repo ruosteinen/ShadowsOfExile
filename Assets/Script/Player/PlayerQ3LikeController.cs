@@ -14,7 +14,7 @@ public class PlayerQ3LikeController : MonoBehaviour
     public Transform firstPersonView;
     //public Transform thirdPersonView;
     private Transform _currentView;
-    [SerializeField]private float playerViewYOffset = 0.6f; // The height at which the camera is bound to
+    //[SerializeField]private float playerViewYOffset = 0.6f; // The height at which the camera is bound to
 
     public float xMouseSensitivity;
     public float yMouseSensitivity;
@@ -138,7 +138,7 @@ public class PlayerQ3LikeController : MonoBehaviour
 
         // Put the camera inside the capsule collider
         Vector3 currentPosition = transform.position;
-        _currentView.position = new Vector3(currentPosition.x, currentPosition.y + playerViewYOffset, currentPosition.z);
+        _currentView.position = new Vector3(currentPosition.x, currentPosition.y /*+ playerViewYOffset*/, currentPosition.z);
         _controller = GetComponent<CharacterController>();
 
         float sensitivity = PlayerPrefs.GetFloat("MouseSensitivity");
@@ -234,7 +234,7 @@ public class PlayerQ3LikeController : MonoBehaviour
 
         Vector3 currentPosition = transform.position;
         _currentView.position = new Vector3(currentPosition.x,
-            currentPosition.y + playerViewYOffset,
+            currentPosition.y /*+ playerViewYOffset*/,
             currentPosition.z);
 
 

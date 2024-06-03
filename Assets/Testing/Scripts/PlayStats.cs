@@ -20,7 +20,7 @@ public class PlayStats : MonoBehaviour
 
     public HealthBar healthBar;
     public ManaBar manaBar;
-
+    /*
     public int level;
     public float currentXp;
     public float requiredXp;
@@ -39,7 +39,7 @@ public class PlayStats : MonoBehaviour
     public float powerMultiplier = 2;
     [Range(7f, 14f)]
     public float divisionMultiplier = 7;
-
+    */
     
     public PotionMakerScript potionMakerScript;
     public GameObject GameOverScreen;
@@ -51,21 +51,21 @@ public class PlayStats : MonoBehaviour
         UpdateManaText();
         healthBar.SetSliderMax(maxHealth);
         manaBar.SetSliderMax(maxMana);
-        FrontExpBar.fillAmount = currentXp / requiredXp;
+        /*FrontExpBar.fillAmount = currentXp / requiredXp;
         BackExpBar.fillAmount = currentXp / requiredXp;
         requiredXp = CalculateRequiredXP();
-        Level.text = "Level " + level;
+        Level.text = "Level " + level;*/
     }
 
     void Update()
     {
         RegenerateMana();
-        UpdateXpUI();
+        /*UpdateXpUI();
         if (Input.GetKeyDown(KeyCode.E))
             GainExperienceFlatRate(2000);
         if (currentXp > requiredXp)
             LevelUp();
-        
+        */
         
         if (Input.GetKeyDown(KeyCode.P) && potionMakerScript.potionAmount >= 1)
         {
@@ -116,7 +116,7 @@ public class PlayStats : MonoBehaviour
     {
         manaValue.text = $"{(int)currentMana} / {(int)maxMana}";
     }
-
+    /*
     public void UpdateXpUI()
     {
         float xpFraction = currentXp / requiredXp;
@@ -188,7 +188,7 @@ public class PlayStats : MonoBehaviour
         }
         return SolveForRequiredXp / 4;
     }
-    
+    */
     
     private void Die()
     {
