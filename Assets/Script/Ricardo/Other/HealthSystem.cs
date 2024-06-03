@@ -128,7 +128,7 @@ public class HealthSystem : MonoBehaviour
     {
         if(playStats != null)
         {
-            playStats.GainExperienceFlatRate(expOnDeath);
+            //playStats.GainExperienceFlatRate(expOnDeath);
         }
         if (Drops.Length > 0)
         {

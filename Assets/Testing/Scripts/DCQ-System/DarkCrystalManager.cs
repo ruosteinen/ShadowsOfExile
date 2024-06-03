@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 
@@ -63,15 +62,23 @@ public class DarkCrystalManager : MonoBehaviour
         {
             objectiveAchievedAudioSource.Play();
             Debug.Log("Objective achieved audio is playing.");
+            StartCoroutine(DestroyAfterSound());
         }
         else
         {
             Debug.LogError("Objective achieved audio source is null.");
+            Destroy(gameObject);
         }
 
         // Display the second message when the crystal is destroyed
         message1Text.text = "";
         message2Text.text = "More in the next update";
+    }
+
+    private IEnumerator DestroyAfterSound()
+    {
+        // Wait until the audio has finished playing
+        yield return new WaitForSeconds(objectiveAchievedAudioSource.clip.length);
         Destroy(gameObject);
     }
 }

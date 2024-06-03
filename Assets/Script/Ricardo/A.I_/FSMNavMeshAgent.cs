@@ -7,6 +7,9 @@ public class FSMNavMeshAgent : MonoBehaviour
 {
     private NavMeshAgent agent;
     private HealthSystem healthSystem;
+
+    private Animator animator;
+
     public Transform[] patrolWaypoints;
     public Transform target;
     public Transform[] farthestPatrolPoints;
@@ -67,7 +70,7 @@ public class FSMNavMeshAgent : MonoBehaviour
     {
         agent = GetComponent<NavMeshAgent>();
         healthSystem = GetComponent<HealthSystem>();
-
+        animator = GetComponentInChildren<Animator>();
         healthSystem.maxHealth = health;
         originalSpeed = agent.speed;
     }
@@ -96,12 +99,14 @@ public class FSMNavMeshAgent : MonoBehaviour
     {
         int rnd = Random.Range(0, patrolWaypoints.Length);
         agent.SetDestination(patrolWaypoints[rnd].position);
+        animator.SetBool("isWalking", true);
     }
 
     public void Stop()
     {
         agent.isStopped = true;
         agent.ResetPath();
+        animator.SetBool("isWalking", false);
     }
 
     public void GoToTarget(float stoppingDistance)
@@ -112,6 +117,11 @@ public class FSMNavMeshAgent : MonoBehaviour
             Vector3 direction = (target.position - transform.position).normalized;
             Vector3 destination = target.position - direction * stoppingDistance;
             agent.SetDestination(destination);
+            animator.SetBool("isWalking", true);
+        }
+        else
+        {
+            animator.SetBool("isWalking", false);
         }
     }
 
@@ -142,6 +152,7 @@ public class FSMNavMeshAgent : MonoBehaviour
 
             shootTimer = 0;
             shootCounter++;
+            animator.SetTrigger("Shoot");
         }
     }
 
