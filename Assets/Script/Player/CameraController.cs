@@ -3,13 +3,13 @@ using UnityEngine;
 public class CameraController : MonoBehaviour
 {
     [SerializeField] private Camera firstPersonCamera;
-    [SerializeField] private Camera thirdPersonCamera;
-    [SerializeField] private Vector3 thirdPersonCameraOffset = new Vector3(0, 2, -3);
+   //[SerializeField] private Camera thirdPersonCamera;
+    //[SerializeField] private Vector3 thirdPersonCameraOffset = new Vector3(0, 2, -3);
     [SerializeField] private float minZoom = -2f;
     [SerializeField] private float maxZoom = -10f;
     [SerializeField] private float zoomSensitivity = 2f;
 
-    private void Start() => thirdPersonCamera.enabled = false; // Initially disable third person camera
+    //private void Start() => thirdPersonCamera.enabled = false; // Initially disable third person camera
     
     /*private void Update()
     {

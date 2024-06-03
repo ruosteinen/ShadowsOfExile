@@ -117,42 +117,56 @@ public class PlayerQ3LikeController : MonoBehaviour
     public GameObject forestWaypoint;
     public GameObject mountainWaypoint;
 
+    public Vector3 fixedOffset = new Vector3(0, 0.7f, 1f);
+
 
     private void Start()
     {
-
+        // Set the initial view to the first person view
         _currentView = firstPersonView;
         firstPersonView.gameObject.SetActive(true);
-        //thirdPersonView.gameObject.SetActive(false);
 
         // Hide the cursor
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
-       
-        if (firstPersonView  == null)
+
+        // Ensure the firstPersonView is not null
+        if (firstPersonView == null)
         {
             Camera mainCamera = Camera.main;
             if (mainCamera != null)
                 firstPersonView = mainCamera.gameObject.transform;
         }
 
-        // Put the camera inside the capsule collider
+        // Ensure the current view is correctly positioned
         Vector3 currentPosition = transform.position;
-        _currentView.position = new Vector3(currentPosition.x, currentPosition.y /*+ playerViewYOffset*/, currentPosition.z);
+        _currentView.position = currentPosition  + fixedOffset;
+
+        // Get the CharacterController component
         _controller = GetComponent<CharacterController>();
 
+        // Set mouse sensitivity from player preferences
         float sensitivity = PlayerPrefs.GetFloat("MouseSensitivity");
         xMouseSensitivity = sensitivity;
         yMouseSensitivity = sensitivity;
 
-        armor = GetComponent<Armor>();  
+        // Get the Armor component
+        armor = GetComponent<Armor>();
 
-       //Crosshair = GameObject.FindObjectOfType<Image>();
-
-       //Crosshair.gameObject.SetActive(true);
+        // Ensure the Crosshair is enabled if needed
+        //Crosshair = GameObject.FindObjectOfType<Image>();
+        //Crosshair.gameObject.SetActive(true);
     }
 
-
+    
+    private void LateUpdate()
+    {
+        // Update the camera position relative to the player
+        if (_currentView != null)
+        {
+            _currentView.position = transform.position + transform.rotation * fixedOffset;
+        }
+    }
     private void HandleInput()
     {
         _rotX -= Input.GetAxisRaw("Mouse Y") * xMouseSensitivity * 0.02f;
@@ -160,8 +174,10 @@ public class PlayerQ3LikeController : MonoBehaviour
 
         _rotX = Mathf.Clamp(_rotX, -90, 90);
 
+        // Rotate the player around the Y axis
         transform.rotation = Quaternion.Euler(0, _rotY, 0);
-        _currentView.rotation = Quaternion.Euler(_rotX, _rotY, 0);
+        // Rotate the camera around the X axis
+        _currentView.localRotation = Quaternion.Euler(_rotX, 0, 0);
     }
     
     private void Update()
