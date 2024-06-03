@@ -183,6 +183,7 @@ public class FSMNavMeshAgent : MonoBehaviour
         {
             // Access the player's health system and deal damage
             collision.gameObject.GetComponent<PlayStats>().TakeDamage(-contactDamage);
+            animator.SetTrigger("Attack");
         }
     }
 
@@ -200,6 +201,7 @@ public class FSMNavMeshAgent : MonoBehaviour
                 {
                     DealMeleeDamage();
                     lastMeleeTime = Time.time;
+                    animator.SetTrigger("Attack");
                 }
             }
         }

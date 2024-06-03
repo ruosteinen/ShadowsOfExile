@@ -10701,17 +10701,17 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: 46f311046d2104da8b56be3d0a49a119,
         type: 3}
       propertyPath: m_LocalScale.x
-      value: 2
+      value: 1.9
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 46f311046d2104da8b56be3d0a49a119,
         type: 3}
       propertyPath: m_LocalScale.y
-      value: 2
+      value: 1.9
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 46f311046d2104da8b56be3d0a49a119,
         type: 3}
       propertyPath: m_LocalScale.z
-      value: 2
+      value: 1.9
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 46f311046d2104da8b56be3d0a49a119,
         type: 3}
@@ -10721,7 +10721,7 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: 46f311046d2104da8b56be3d0a49a119,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: -1.146
+      value: -1.059
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 46f311046d2104da8b56be3d0a49a119,
         type: 3}
@@ -14244,14 +14244,14 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 6707634277533506674}
-    - targetCorrespondingSourceObject: {fileID: 1038014141948787833, guid: fedaf1e16a8c4a24b89a0e7c9a905f50,
-        type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1944332799}
     - targetCorrespondingSourceObject: {fileID: 6722951245516074277, guid: fedaf1e16a8c4a24b89a0e7c9a905f50,
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 141553765}
+    - targetCorrespondingSourceObject: {fileID: 1038014141948787833, guid: fedaf1e16a8c4a24b89a0e7c9a905f50,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1944332799}
   m_SourcePrefab: {fileID: 100100000, guid: fedaf1e16a8c4a24b89a0e7c9a905f50, type: 3}
 --- !u!1 &6707634277533506673 stripped
 GameObject:
@@ -14280,16 +14280,6 @@ MonoBehaviour:
   currentMana: 100
   healthBar: {fileID: 1871554802}
   manaBar: {fileID: 607263414}
-  level: 1
-  currentXp: 0
-  requiredXp: 0
-  FrontExpBar: {fileID: 1481785601}
-  BackExpBar: {fileID: 245199268}
-  Level: {fileID: 688713965}
-  Exp: {fileID: 2103174914}
-  additionMultiplier: 300
-  powerMultiplier: 2
-  divisionMultiplier: 7
   potionMakerScript: {fileID: 447016626}
   GameOverScreen: {fileID: 349223402}
 --- !u!1660057539 &9223372036854775807
