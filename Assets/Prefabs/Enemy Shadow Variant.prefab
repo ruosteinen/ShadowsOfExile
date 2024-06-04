@@ -132,6 +132,12 @@ PrefabInstance:
       propertyPath: type
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 7076410989971673595, guid: 8303ecc284049144182724ccba8181bd,
+        type: 3}
+      propertyPath: bulletPrefab
+      value: 
+      objectReference: {fileID: 8136009723290675954, guid: 5bdc9d3df9fd878438dbb86b4c5133e1,
+        type: 3}
     - target: {fileID: 7488854860131220065, guid: 8303ecc284049144182724ccba8181bd,
         type: 3}
       propertyPath: m_Height
