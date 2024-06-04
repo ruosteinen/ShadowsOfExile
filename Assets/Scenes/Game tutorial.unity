@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.12731749, g: 0.13414757, b: 0.1210787, a: 1}
+  m_IndirectSpecularColor: {r: 0.12731749, g: 0.13414757, b: 0.12107873, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -1674,7 +1674,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 358054375}
         m_TargetAssemblyTypeName: PotionMakerScript, Assembly-CSharp
         m_MethodName: PlayGame
         m_Mode: 1
@@ -3158,6 +3158,7 @@ GameObject:
   - component: {fileID: 358054370}
   - component: {fileID: 358054369}
   - component: {fileID: 358054368}
+  - component: {fileID: 358054375}
   m_Layer: 0
   m_Name: Canvas
   m_TagString: Untagged
@@ -3294,6 +3295,25 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
+--- !u!114 &358054375
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 358054367}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 521f41d72f8349a83930d055dad51620, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  interactionText: Press U to use
+  fontSize: 30
+  potionMakerScreen: {fileID: 0}
+  RequiredAmountText: {fileID: 0}
+  CurrentAmountText: {fileID: 0}
+  isPotionMaking: 0
+  potionAmount: 0
 --- !u!1001 &379534819
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -19629,7 +19649,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   imageTexture: {fileID: 2800000, guid: 1f9291c40a72db922b3d9aeb28faf911, type: 3}
-  potionMakerScript: {fileID: 0}
+  potionMakerScript: {fileID: 358054375}
 --- !u!4 &2032264143 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 357478072314351367, guid: a8acfdda1f8f6064bbf4e2fe34b27e67,

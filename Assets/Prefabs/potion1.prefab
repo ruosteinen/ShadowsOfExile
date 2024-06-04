@@ -78,6 +78,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: potion1
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 3af292cd063e3c04c8099a4b8a45a514,
+        type: 3}
+      propertyPath: m_TagString
+      value: Loot
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects:
     - {fileID: 65702495048144492, guid: 3af292cd063e3c04c8099a4b8a45a514, type: 3}
