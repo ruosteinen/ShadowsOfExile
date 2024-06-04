@@ -4844,4 +4844,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   particleSystem: {fileID: 3191664991863909830}
-  damage: 1
+  damage: 2
