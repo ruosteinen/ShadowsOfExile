@@ -60,7 +60,7 @@ public class FSMNavMeshAgent : MonoBehaviour
         Ranged
     }
     
-    public float meleeDistanceThreshold = 2f;
+    public float meleeDistanceThreshold = 1f;
     public float meleeCooldown = 0.9f;
     private float lastMeleeTime;
 

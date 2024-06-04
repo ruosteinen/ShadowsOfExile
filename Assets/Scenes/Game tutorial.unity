@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.12731749, g: 0.13414757, b: 0.12107873, a: 1}
+  m_IndirectSpecularColor: {r: 0.12731749, g: 0.13414757, b: 0.1210787, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -1014,7 +1014,7 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4294967295
+    rgba: 4278716671
   m_fontColor: {r: 0.99982035, g: 0.030727409, b: 0.030727409, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
@@ -1633,7 +1633,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 400, y: -300}
+  m_AnchoredPosition: {x: -401, y: -300}
   m_SizeDelta: {x: 160, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &161735709
@@ -5508,7 +5508,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -400, y: -300}
+  m_AnchoredPosition: {x: -400, y: -256}
   m_SizeDelta: {x: 160, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &669164871
@@ -16613,6 +16613,11 @@ PrefabInstance:
       objectReference: {fileID: 1912110791}
     - target: {fileID: 4631461036858640329, guid: 5652b9947b6d69949b0ac8bb3e2bb337,
         type: 3}
+      propertyPath: meleeDistanceThreshold
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4631461036858640329, guid: 5652b9947b6d69949b0ac8bb3e2bb337,
+        type: 3}
       propertyPath: patrolWaypoints.Array.size
       value: 7
       objectReference: {fileID: 0}
@@ -19107,7 +19112,7 @@ PrefabInstance:
     - target: {fileID: 5968457026527855613, guid: fedaf1e16a8c4a24b89a0e7c9a905f50,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 1.02
+      value: 1.312
       objectReference: {fileID: 0}
     - target: {fileID: 5968457026527855613, guid: fedaf1e16a8c4a24b89a0e7c9a905f50,
         type: 3}
