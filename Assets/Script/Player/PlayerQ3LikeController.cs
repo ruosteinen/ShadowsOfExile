@@ -10,11 +10,8 @@ struct Directions
 
 public class PlayerQ3LikeController : MonoBehaviour
 {
-    // Camera
     public Transform firstPersonView;
-    //public Transform thirdPersonView;
     private Transform _currentView;
-    //[SerializeField]private float playerViewYOffset = 0.6f; // The height at which the camera is bound to
 
     public float xMouseSensitivity;
     public float yMouseSensitivity;
@@ -22,115 +19,90 @@ public class PlayerQ3LikeController : MonoBehaviour
     public float gravity;
     public bool useCustomGravity;
     public float customGravity;
-    private bool _previousUseCustomGravity;
     [SerializeField] private float defaultGravity = 20f;
-    [SerializeField]private float groundFriction = 6;
+    [SerializeField] private float groundFriction = 6;
 
-    [SerializeField]private float speedOnGround = 7.0f;
-    [SerializeField]private float runAcceleration = 14.0f;
-    [SerializeField]private float runDeacceleration = 10.0f;
-    [SerializeField]private float airAcceleration = 2.0f;
-    [SerializeField]private float airDecceleration = 2.0f;           //Deacceleration experienced when oposite strafing
-    [SerializeField]private float airControl = 0.3f;                //How precise air control is
-    [SerializeField]private float sideStrafeAcceleration = 50.0f;  //How fast acceleration occurs to get up to sideStrafeSpeed when
-    [SerializeField]private float sideStrafeSpeed = 1.0f;         //What the max speed to generate when side strafing
-    [SerializeField]private float jumpSpeed = 8.0f;              //The speed at which the character's up axis gains when hitting jump
-    [SerializeField]private bool holdJumpToBhop;                //Enables bhop when the jump button is pressed
+    [SerializeField] private float speedOnGround = 7.0f;
+    [SerializeField] private float runAcceleration = 14.0f;
+    [SerializeField] private float runDeacceleration = 10.0f;
+    [SerializeField] private float airAcceleration = 2.0f;
+    [SerializeField] private float airDecceleration = 2.0f;
+    [SerializeField] private float airControl = 0.3f;
+    [SerializeField] private float sideStrafeAcceleration = 50.0f;
+    [SerializeField] private float sideStrafeSpeed = 1.0f;
+    [SerializeField] private float jumpSpeed = 8.0f;
+    [SerializeField] private bool holdJumpToBhop;
 
-    // Q3: players can queue the next jump just before he hits the ground
-    private bool _wishJump; //false by default
-
-    //Running
+    private bool _wishJump;
     private bool _isRunning;
-    //public float mana = 100f;
-    //[SerializeField]private float maxMana = 100f;
-    [SerializeField]private float manaDrainRate = 10f;
-    [SerializeField]private float manaRecoveryRate = 8f;
-    [SerializeField]private float runMultiplier = 5f;
+    [SerializeField] private float manaDrainRate = 10f;
+    [SerializeField] private float manaRecoveryRate = 8f;
+    [SerializeField] private float runMultiplier = 5f;
 
     public Armor armor;
-    private Console _console;
-    public GUIStyle style;
     private CharacterController _controller;
 
-    //Wall handler
     public LayerMask whatIsWall;
-    private bool _isWallRight, _isWallLeft,_isWallBack,_isWallFront;
+    private bool _isWallRight, _isWallLeft, _isWallBack, _isWallFront;
     private bool _isWallRunning;
     public float maxWallRunCameraTilt;
-    private float _jumpReleaseTime,_jumpPressTime; 
+    private float _jumpReleaseTime, _jumpPressTime;
     private float maxWallSpeed = 35f;
-    
-    //FPS
-    public float fpsDisplayRate = 4.0f; // 4 updates per sec
-    private int _frameCount; //0 by default
-    private float _dt;      //0.0f by default
-    private float _fps;    //0.0f by default
 
-    // Camera rotations
-    private float _rotX; //0.0f by default
+    public float fpsDisplayRate = 4.0f;
+    private int _frameCount;
+    private float _dt;
+    private float _fps;
 
-    private float _rotY; //0.0f by default
-    // Player commands, stores wish commands that the player asks for (Forward, Right)
+    private float _rotX;
+    private float _rotY;
     private Directions _dirs;
     private Vector3 _moveDirectionNorm = Vector3.zero;
     public Vector3 playerVelocity = Vector3.zero;
-    private float _playerTopVelocity;//0.0f by default
+    private float _playerTopVelocity;
 
-    // Used to display real time fricton values
-    private float _playerFriction;//0.0f by default
-    
-    //Сoefficients
-    //private float _jumpPowerCoeff = 2f;
+    private float _playerFriction;
+
     private float _wallJumpCostCoeff = 90f;
     private float _wallRunCostCoeff = 0.8f;
     private float _wallRunVelocityMultiplier = 1.03f;
     private float _windJumpCostCoeff = 25f;
-    
-    // Wall contact 
+
     private Vector3 _wallContactNormal;
-    
+
     public Transform groundCheck;
     public float groundDistance = 0.1f;
-    //public float sphereRadius = 0.5f; 
     public LayerMask groundMask;
     private bool isGrounded;
 
     public Image Crosshair;
-     
+
     private float _raycastDistance = 1f;
     private bool _isWallJumping;
 
-    //Spells
     public bool windSpellInUse;
-    //public bool fireSpellInUse;
 
-    //Spell pic
     public Texture2D windTexture;
     private float scaleWindFactor = 1.5f;
-    
-    //PlayStats link 
+
     public PlayStats playStats;
-    
-    //teleport cheat
+
     public GameObject townWaypoint;
     public GameObject forestWaypoint;
     public GameObject mountainWaypoint;
 
     public Vector3 fixedOffset = new Vector3(0, 0.7f, 1f);
 
+    private Animator animator;
 
     private void Start()
     {
-        // Set the initial view to the first person view
         _currentView = firstPersonView;
         firstPersonView.gameObject.SetActive(true);
 
-        // Hide the cursor
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
 
-        // Ensure the firstPersonView is not null
         if (firstPersonView == null)
         {
             Camera mainCamera = Camera.main;
@@ -138,35 +110,28 @@ public class PlayerQ3LikeController : MonoBehaviour
                 firstPersonView = mainCamera.gameObject.transform;
         }
 
-        // Ensure the current view is correctly positioned
         Vector3 currentPosition = transform.position;
-        _currentView.position = currentPosition  + fixedOffset;
+        _currentView.position = currentPosition + fixedOffset;
 
-        // Get the CharacterController component
         _controller = GetComponent<CharacterController>();
 
-        // Set mouse sensitivity from player preferences
         float sensitivity = PlayerPrefs.GetFloat("MouseSensitivity");
         xMouseSensitivity = sensitivity;
         yMouseSensitivity = sensitivity;
 
-        // Get the Armor component
         armor = GetComponent<Armor>();
 
-        // Ensure the Crosshair is enabled if needed
-        //Crosshair = GameObject.FindObjectOfType<Image>();
-        //Crosshair.gameObject.SetActive(true);
+        animator = GetComponent<Animator>();
     }
 
-    
     private void LateUpdate()
     {
-        // Update the camera position relative to the player
         if (_currentView != null)
         {
             _currentView.position = transform.position + transform.rotation * fixedOffset;
         }
     }
+
     private void HandleInput()
     {
         _rotX -= Input.GetAxisRaw("Mouse Y") * xMouseSensitivity * 0.02f;
@@ -174,12 +139,10 @@ public class PlayerQ3LikeController : MonoBehaviour
 
         _rotX = Mathf.Clamp(_rotX, -90, 90);
 
-        // Rotate the player around the Y axis
         transform.rotation = Quaternion.Euler(0, _rotY, 0);
-        // Rotate the camera around the X axis
         _currentView.localRotation = Quaternion.Euler(_rotX, 0, 0);
     }
-    
+
     private void Update()
     {
         if (!PauseMenuSingleton.Instance.IsPaused)
@@ -187,12 +150,10 @@ public class PlayerQ3LikeController : MonoBehaviour
             xMouseSensitivity = PlayerPrefs.GetFloat("MouseSensitivity");
             yMouseSensitivity = PlayerPrefs.GetFloat("MouseSensitivity");
             if (Crosshair != null) Crosshair.gameObject.SetActive(true);
-            //Debug.Log("not paused"); // Check if this log is always showing
         }
         else
         {
             if (Crosshair != null) Crosshair.gameObject.SetActive(false);
-            //Debug.Log("paused"); // Check if this log is showing only when the game is paused
             return;
         }
 
@@ -211,17 +172,10 @@ public class PlayerQ3LikeController : MonoBehaviour
 
         HandleInput();
 
-        //RaycastHit hit;
-        // Vector3 sphereCastOrigin = groundCheck.position + Vector3.up * sphereRadius;
-        //Vector3 direction = -Vector3.up;
-        //isGrounded = Physics.SphereCast(sphereCastOrigin, sphereRadius, direction, out hit, groundDistance + sphereRadius, groundMask);
         isGrounded = Physics.Raycast(groundCheck.position, -Vector3.up, groundDistance, groundMask);
-        
-        //Spells 
-        if (Input.GetKeyDown(KeyCode.Alpha1)) windSpellInUse = !windSpellInUse;  //Button 1
-        //if (Input.GetKeyDown(KeyCode.Alpha2)) fireSpellInUse = !fireSpellInUse;  //Button 2
-        
-        //FPS calculation
+
+        if (Input.GetKeyDown(KeyCode.Alpha1)) windSpellInUse = !windSpellInUse;
+
         _frameCount++;
         _dt += Time.deltaTime;
         if (_dt > 1.0 / fpsDisplayRate)
@@ -231,40 +185,19 @@ public class PlayerQ3LikeController : MonoBehaviour
             _dt -= 1.0f / fpsDisplayRate;
         }
 
-        //Cursor locking
-        //if (Cursor.lockState != CursorLockMode.Locked)
-        //    if (Input.GetButtonDown("Fire1")) Cursor.lockState = CursorLockMode.Locked;
-        
-        if(!windSpellInUse)QueueJump();
+        if (!windSpellInUse) QueueJump();
 
-        if(isGrounded) GroundMove();
-        else if(!isGrounded) AirMove();
+        if (isGrounded) GroundMove();
+        else if (!isGrounded) AirMove();
 
-        // Move the controller
         _controller.Move(playerVelocity * Time.deltaTime);
 
-        //Top velocity calc
         Vector3 udp = playerVelocity;
         udp.y = 0.0f;
-        if(udp.magnitude > _playerTopVelocity) _playerTopVelocity = udp.magnitude;
+        if (udp.magnitude > _playerTopVelocity) _playerTopVelocity = udp.magnitude;
 
         Vector3 currentPosition = transform.position;
-        _currentView.position = new Vector3(currentPosition.x,
-            currentPosition.y /*+ playerViewYOffset*/,
-            currentPosition.z);
-
-
-        /*if (Input.GetKeyDown(KeyCode.C)) {
-            if (_currentView == firstPersonView) {
-                firstPersonView.gameObject.SetActive(false);
-                thirdPersonView.gameObject.SetActive(true);
-                _currentView = thirdPersonView;
-            } else {
-                thirdPersonView.gameObject.SetActive(false);
-                firstPersonView.gameObject.SetActive(true);
-                _currentView = firstPersonView;
-            }
-        }*/
+        _currentView.position = new Vector3(currentPosition.x, currentPosition.y, currentPosition.z);
 
         playStats.currentMana = Mathf.Clamp(playStats.currentMana, 0, playStats.maxMana);
 
@@ -274,7 +207,7 @@ public class PlayerQ3LikeController : MonoBehaviour
             if (playStats.currentMana >= manaCost)
             {
                 _isRunning = true;
-                playStats.currentMana -= manaCost*0.8f;
+                playStats.currentMana -= manaCost * 0.8f;
             }
             else
             {
@@ -291,54 +224,50 @@ public class PlayerQ3LikeController : MonoBehaviour
                 playStats.currentMana += manaRecoveryRate * recoveryMultiplier * Time.deltaTime;
             }
         }
-        
+
         if (windSpellInUse)
         {
-            // CheckForWall();
             CheckForWall();
             WallRunInput();
             WindSpellJump();
         }
-        
-        
-        if (_isWallRunning && windSpellInUse && !isGrounded)
-	    {
-	        if (_isWallRight || _isWallLeft)
-	        {
-		        float tiltDirection = _isWallRight ? 1 : -1;
-		        float targetTilt = maxWallRunCameraTilt * tiltDirection;
-		        float targetVerticalRotation = _currentView.localRotation.eulerAngles.x;
 
-		        Quaternion targetRotation = Quaternion.Euler(targetVerticalRotation, 0, targetTilt);
-		        _currentView.localRotation = Quaternion.Lerp(_currentView.localRotation, targetRotation, 225f);
-	        }
+        if (_isWallRunning && windSpellInUse && !isGrounded)
+        {
+            if (_isWallRight || _isWallLeft)
+            {
+                float tiltDirection = _isWallRight ? 1 : -1;
+                float targetTilt = maxWallRunCameraTilt * tiltDirection;
+                float targetVerticalRotation = _currentView.localRotation.eulerAngles.x;
+
+                Quaternion targetRotation = Quaternion.Euler(targetVerticalRotation, 0, targetTilt);
+                _currentView.localRotation = Quaternion.Lerp(_currentView.localRotation, targetRotation, 225f);
+            }
             else gravity = 0f;
-	        if (windSpellInUse) WallJump();
-	    }
-	    else
-	    {
-	        if (useCustomGravity) gravity = customGravity;
-	        else gravity = defaultGravity;
-	    }
-        
-       if (_isWallJumping) _raycastDistance = 0f;
-        
+            if (windSpellInUse) WallJump();
+        }
+        else
+        {
+            if (useCustomGravity) gravity = customGravity;
+            else gravity = defaultGravity;
+        }
+
+        if (_isWallJumping) _raycastDistance = 0f;
         else if (_isWallRunning && windSpellInUse && !isGrounded)
         {
             playerVelocity.y = 0f;
             _raycastDistance = 3f;
         }
         else _raycastDistance = 1f;
+
+        UpdateAnimator();
     }
 
     void TeleportTo(GameObject waypoint)
     {
         if (waypoint != null)
         {
-            //Debug.Log("Teleporting to " + waypoint.name);
-            // Move the player to the waypoint's position
             transform.position = waypoint.transform.position;
-            //Debug.Log("Player position after teleport: " + transform.position);
         }
         else
         {
@@ -352,28 +281,25 @@ public class PlayerQ3LikeController : MonoBehaviour
         _dirs.ToRight = Input.GetAxisRaw("Horizontal");
     }
 
-     //Queues the next jump just like in Q3
-     private void QueueJump()
+    private void QueueJump()
     {
-        if(holdJumpToBhop)
+        if (holdJumpToBhop)
         {
             _wishJump = Input.GetButton("Jump");
             return;
         }
 
-        if(Input.GetButtonDown("Jump") && !_wishJump) _wishJump = true;
-        if(Input.GetButtonUp("Jump")) _wishJump = false;
+        if (Input.GetButtonDown("Jump") && !_wishJump) _wishJump = true;
+        if (Input.GetButtonUp("Jump")) _wishJump = false;
     }
 
-   //Execs when the player is in the air
     private void AirMove()
     {
         Vector3 wishdir;
-        //float wishvel = airAcceleration;
         float accel;
 
         SetMovementDir();
-        wishdir =  new Vector3(_dirs.ToRight, 0, _dirs.ToForward);
+        wishdir = new Vector3(_dirs.ToRight, 0, _dirs.ToForward);
         wishdir = transform.TransformDirection(wishdir);
 
         float wishspeed = wishdir.magnitude;
@@ -387,10 +313,9 @@ public class PlayerQ3LikeController : MonoBehaviour
         if (Vector3.Dot(playerVelocity, wishdir) < 0) accel = airDecceleration;
         else accel = airAcceleration;
 
-        // If the player is ONLY strafing left or right
-        if(_dirs.ToForward == 0 && _dirs.ToRight != 0)
+        if (_dirs.ToForward == 0 && _dirs.ToRight != 0)
         {
-            if(wishspeed > sideStrafeSpeed)
+            if (wishspeed > sideStrafeSpeed)
                 wishspeed = sideStrafeSpeed;
 
             accel = sideStrafeAcceleration;
@@ -398,17 +323,11 @@ public class PlayerQ3LikeController : MonoBehaviour
 
         Accelerate(wishdir, wishspeed, accel);
 
-        if(airControl > 0) AirControl(wishdir, wishspeed2);
+        if (airControl > 0) AirControl(wishdir, wishspeed2);
 
-        // Apply gravity
         playerVelocity.y -= gravity * Time.deltaTime;
     }
 
-    /*
-     Air control occurs when the player is in the air, it allows
-     players to move side to side much faster rather than being
-      'sluggish' when it comes to cornering.
-     */
     private void AirControl(Vector3 wishdir, float wishspeed)
     {
         float zSpeed;
@@ -416,8 +335,7 @@ public class PlayerQ3LikeController : MonoBehaviour
         float dotProd;
         float k;
 
-        // Can't control movement if not moving forward or backward
-        if(Mathf.Abs(_dirs.ToForward) < 0.001 || Mathf.Abs(wishspeed) < 0.001) return;
+        if (Mathf.Abs(_dirs.ToForward) < 0.001 || Mathf.Abs(wishspeed) < 0.001) return;
 
         zSpeed = playerVelocity.y;
         playerVelocity.y = 0;
@@ -428,7 +346,6 @@ public class PlayerQ3LikeController : MonoBehaviour
         k = 32;
         k *= airControl * dotProd * dotProd * Time.deltaTime;
 
-        // Change direction while slowing down
         if (dotProd > 0)
         {
             playerVelocity.x = playerVelocity.x * speed + wishdir.x * k;
@@ -443,13 +360,10 @@ public class PlayerQ3LikeController : MonoBehaviour
         playerVelocity.z *= speed;
     }
 
-
-    //Called every frame when the engine detects that the player is on the ground
     private void GroundMove()
     {
         Vector3 wishdir;
 
-        // Do not apply friction if the player is queueing up the next jump
         if (!_wishJump) ApplyFriction(1.0f);
         else ApplyFriction(0);
 
@@ -466,7 +380,6 @@ public class PlayerQ3LikeController : MonoBehaviour
 
         Accelerate(wishdir, wishspeed, runAcceleration);
 
-        // Reset the gravity velocity
         playerVelocity.y = -gravity * Time.deltaTime;
 
         if (!windSpellInUse)
@@ -478,35 +391,27 @@ public class PlayerQ3LikeController : MonoBehaviour
             }
         }
         else WindSpellJump();
-        
-        //Zeroing the velocity vector if the player does not press keys to move
-        if (_dirs.ToForward == 0 && _dirs.ToRight == 0)  
+
+        if (_dirs.ToForward == 0 && _dirs.ToRight == 0)
         {
             playerVelocity.x = 0f;
             playerVelocity.z = 0f;
         }
     }
 
-
-     //Applies friction to the player everywhere
     private void ApplyFriction(float t)
     {
-        /*Any changes made to vec after this assignment
-         will not affect the original _playerVelocity vector,
-         since vec is a separate copy of vec*/
-
         Vector3 vec = playerVelocity;
         float speed;
         float newSpeed;
         float control;
         float drop;
-       
+
         vec.y = 0.0f;
         speed = vec.magnitude;
         drop = 0.0f;
 
-        //Only if the player is on the ground
-        if(isGrounded)
+        if (isGrounded)
         {
             control = speed < runDeacceleration ? runDeacceleration : speed;
             drop = control * groundFriction * Time.deltaTime * t;
@@ -515,8 +420,8 @@ public class PlayerQ3LikeController : MonoBehaviour
         newSpeed = speed - drop;
         _playerFriction = newSpeed;
 
-        if(newSpeed < 0) newSpeed = 0;
-        if(speed > 0) newSpeed /= speed;
+        if (newSpeed < 0) newSpeed = 0;
+        if (speed > 0) newSpeed /= speed;
 
         playerVelocity.x *= newSpeed;
         playerVelocity.z *= newSpeed;
@@ -531,49 +436,41 @@ public class PlayerQ3LikeController : MonoBehaviour
         currentSpeed = Vector3.Dot(playerVelocity, wishdir);
         addSpeed = wishspeed - currentSpeed;
 
-        if(addSpeed <= 0) return;
+        if (addSpeed <= 0) return;
 
         accelSpeed = accel * Time.deltaTime * wishspeed;
 
-        if(accelSpeed > addSpeed) accelSpeed = addSpeed;
+        if (accelSpeed > addSpeed) accelSpeed = addSpeed;
 
         playerVelocity.x += accelSpeed * wishdir.x;
         playerVelocity.z += accelSpeed * wishdir.z;
     }
 
-
-    private void WallRunInput() //make sure to call in Update()
+    private void WallRunInput()
     {
         if (_isWallRight) StartWallRun();
         if (_isWallLeft) StartWallRun();
-        if(_isWallBack) StartWallRun();
-        if(_isWallFront) StartWallRun();
-        
+        if (_isWallBack) StartWallRun();
+        if (_isWallFront) StartWallRun();
     }
 
     private void StartWallRun()
     {
         float manaCost = manaDrainRate * _wallRunCostCoeff * Time.deltaTime;
-        
-        
+
         if (playStats.currentMana >= manaCost && windSpellInUse)
         {
             playerVelocity.y = 0;
             _isWallRunning = true;
-            
-            //raycastDistance = 1.5f;    
-            
-            // Check if the player is moving forward or sideways
+
             bool movingForward = Mathf.Abs(_dirs.ToForward) > 0.1f;
             bool movingSideways = Mathf.Abs(_dirs.ToRight) > 0.1f;
 
-            if (movingForward || movingSideways) // Check if player is moving on the wall
+            if (movingForward || movingSideways)
             {
-                // WALL SUPER RUN EPTA
                 if (Input.GetKey(KeyCode.LeftShift))
                 {
                     playerVelocity.x *= _wallRunVelocityMultiplier;
-                    // Clamp the horizontal velocity to the maximum run speed
                     playerVelocity.x = Mathf.Clamp(playerVelocity.x, -maxWallSpeed, maxWallSpeed);
                     playStats.currentMana -= manaCost;
                 }
@@ -587,54 +484,45 @@ public class PlayerQ3LikeController : MonoBehaviour
             playerVelocity.y = -gravity;
         }
 
-        if(playStats.currentMana < manaCost) Debug.Log("Not enough mana to wall run");
+        if (playStats.currentMana < manaCost) Debug.Log("Not enough mana to wall run");
     }
 
-    
     private void WallJump()
     {
         if (!_isWallRunning) return;
 
         if (Input.GetButtonDown("Jump")) _jumpPressTime = Time.time;
-    
+
         if (Input.GetButtonUp("Jump"))
         {
             _jumpReleaseTime = Time.time;
-            
-            // Zeroing out the stored velocity momentum in a collision with a wall
+
             playerVelocity = Vector3.zero;
 
-            
             _isWallJumping = true;
 
             StartCoroutine(ResetWallJumpFlag());
-            
-            
-            // Calculate jump force based on how long the jump button was held
+
             float jumpPressDuration = _jumpReleaseTime - _jumpPressTime;
-            float maxJumpPressDuration = 1.0f; // Maximum duration for full jump force
-            float jumpForce = Mathf.Lerp(35f, 75f, jumpPressDuration / maxJumpPressDuration); // Linearly interpolate jump force based on press duration
+            float maxJumpPressDuration = 1.0f;
+            float jumpForce = Mathf.Lerp(35f, 75f, jumpPressDuration / maxJumpPressDuration);
             float maxJumpDuration = 0.5f;
 
             float jumpDuration = _jumpReleaseTime - _jumpPressTime;
             jumpDuration = Mathf.Clamp(jumpDuration, 0f, maxJumpDuration);
 
-            // Get the direction from player to the point they're looking at
             Vector3 lookAtPoint = transform.position + Camera.main.transform.forward;
             Vector3 jumpDirection = (lookAtPoint - transform.position).normalized;
 
-            // Calculate jump height based on jump duration
             float jumpHeight = (jumpDuration * jumpForce) / 2.5f;
 
-            float maxJumpHeight = 5f; 
+            float maxJumpHeight = 5f;
             jumpHeight = Mathf.Clamp(jumpHeight, 0f, maxJumpHeight);
 
-            // Calculate mana cost based on jump distance relative to max jump distance
             float maxJumpDistance = 10f;
             float jumpDistance = Mathf.Min(jumpHeight, maxJumpDistance);
             float manaCost = jumpDistance / maxJumpDistance * _wallJumpCostCoeff;
 
-        
             if (playStats.currentMana >= manaCost)
             {
                 Vector3 jumpVelocity = jumpDirection * jumpForce + Vector3.up * jumpHeight;
@@ -642,27 +530,24 @@ public class PlayerQ3LikeController : MonoBehaviour
                 _controller.Move(playerVelocity * Time.deltaTime);
                 playStats.currentMana -= manaCost;
                 StartCoroutine(DicreaseJump());
+
+                animator.SetTrigger("WindJump");
             }
             else Debug.Log("Not enough mana for wall jump");
         }
     }
-    
-
 
     private IEnumerator DicreaseJump()
     {
         yield return new WaitForSeconds(0.8f);
-        playerVelocity -= Vector3.up * (playerVelocity.y * 2f); 
+        playerVelocity -= Vector3.up * (playerVelocity.y * 2f);
     }
-    
-    
+
     private IEnumerator ResetWallJumpFlag()
     {
-        yield return new WaitForSeconds(0.1f); 
+        yield return new WaitForSeconds(0.1f);
         _isWallJumping = false;
     }
-    
-    
 
     private void WindSpellJump()
     {
@@ -679,18 +564,19 @@ public class PlayerQ3LikeController : MonoBehaviour
             float jumpDuration = _jumpReleaseTime - _jumpPressTime;
             float jumpDistance = Mathf.Min(jumpDuration * maxJumpDistance / minJumpDuration, maxJumpDistance);
 
-            // Calculate mana consumption based on actual jump duration
-            float manaCost = jumpDistance / maxJumpDistance *_windJumpCostCoeff;
-            //Debug.Log(manaCost);
+            float manaCost = jumpDistance / maxJumpDistance * _windJumpCostCoeff;
+
             if (playStats.currentMana >= manaCost)
             {
                 playerVelocity.y = jumpDistance;
                 playStats.currentMana -= manaCost;
-            }else Debug.Log("Not enough mana for wind jump");
+
+                animator.SetTrigger("WindJump");
+            }
+            else Debug.Log("Not enough mana for wind jump");
         }
     }
 
-   
     private void CheckForWall()
     {
         Vector3 playerPosition = transform.position;
@@ -702,26 +588,29 @@ public class PlayerQ3LikeController : MonoBehaviour
 
         if (!_isWallLeft && !_isWallRight && !_isWallBack && !_isWallFront) _isWallRunning = false;
         else if (_isWallJumping) playerVelocity = Vector3.zero;
-    } 
+    }
 
 
+    private void UpdateAnimator()
+    {
+        animator.SetBool("IsGrounded", true);
+        
+        bool isMovingForward = Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.UpArrow);
+        bool isMovingBackward = Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.DownArrow);
+        bool isMovingLeft = Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.LeftArrow);
+        bool isMovingRight = Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.RightArrow);
+
+        animator.SetBool("IsMovingForward", isMovingForward);
+        animator.SetBool("IsMovingBackward", isMovingBackward);
+        animator.SetBool("IsMovingLeft", isMovingLeft);
+        animator.SetBool("IsMovingRight", isMovingRight);
+        
+        float moveSpeed = (isMovingForward || isMovingBackward || isMovingLeft || isMovingRight) ? 1f : 0f;
+        animator.SetFloat("Speed", moveSpeed);
+    }
+    
     private void OnGUI()
     {
-      /*  var ups = _controller.velocity;
-        ups.y = 0;
-        string windSpell = windSpellInUse ? "Wind Spell in use" : "Wind Spell not in use";
-        string ground = isGrounded ? "Grounded" : "Not Grounded";
-       // string fireSpell = fireSpellInUse ? "Fire Spell in use" : "Fire Spell not in use";
-
-        GUI.Label(new Rect(0, 600, 400, 100), "FPS: " + _fps, style);
-        GUI.Label(new Rect(0, 615, 400, 100), "Speed: " + Mathf.Round(ups.magnitude * 100) / 100, style);
-        GUI.Label(new Rect(0, 630, 400, 100), "Top Speed: " + Mathf.Round(_playerTopVelocity * 100) / 100 , style);
-        GUI.Label(new Rect(0, 645, 400, 100), "Mana: " + playStats.currentMana , style);
-        GUI.Label(new Rect(0, 660, 400, 100), windSpell, style);
-        //GUI.Label(new Rect(0, 75, 400, 100), fireSpell, style);
-        GUI.Label(new Rect(0, 675, 400, 100), ground, style);
-        */
-        
         if (windSpellInUse)
         {
             GUI.DrawTexture(new Rect(335, 400, 50 * scaleWindFactor, 50 * scaleWindFactor), windTexture); 

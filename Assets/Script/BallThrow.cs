@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class BallThrowSimplified : MonoBehaviour
+public class BallThrow : MonoBehaviour
 {
     public GameObject fireballPrefab;
     public GameObject waterballPrefab;
@@ -22,9 +22,12 @@ public class BallThrowSimplified : MonoBehaviour
     public LayerMask aimColliderLayerMask;
     public Transform debugTransform;
 
+    private Animator animator;
+
     void Start()
     {
         currentBallPrefab = fireballPrefab;
+        animator = GetComponent<Animator>();
     }
 
     void Update()
@@ -64,6 +67,15 @@ public class BallThrowSimplified : MonoBehaviour
 
         if (ballRB != null)
         {
+            if (currentBallPrefab == fireballPrefab)
+            {
+                animator.SetTrigger("ThrowFireball");
+            }
+            else if (currentBallPrefab == waterballPrefab)
+            {
+                animator.SetTrigger("ThrowWaterball");
+            }
+            
             Vector3 shootDirection = CalculateShootDirection();
 
             ballRB.AddForce(shootDirection * ballSpeed, ForceMode.Impulse);
