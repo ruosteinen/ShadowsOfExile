@@ -368,7 +368,7 @@ MonoBehaviour:
   playerRecoverTime: 2
   target: 1
   Drops:
-  - {fileID: 4612572099064300880, guid: 05ac41d1b9eda0744825612708f1038a, type: 3}
+  - {fileID: 7200927917085466066, guid: a84a636a35a83fe408bd4b3d8c2b8058, type: 3}
   playerInvincible: 0
   expOnDeath: 150
 --- !u!114 &4495736331712575867
@@ -398,13 +398,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   patrolWaypoints: []
   target: {fileID: 0}
+  farthestPatrolPoints: []
   bulletPrefab: {fileID: 0}
   shootTimeInterval: 2
   shootCounter: 0
   health: 100
   tdcHealthHolder: 0
   contactDamage: 5
-  meleeTimeInterval: 0.5
+  meleeTimeInterval: 0
+  runAwayTimeInterval: 1
+  recoverTimeInterval: 2
+  healthToRecover: 20
+  shootAmmountToHide: 5
   rotateSpeed: 2
   rotationComplete: 0
   rotationNum: 0
