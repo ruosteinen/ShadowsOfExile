@@ -19,8 +19,6 @@ public class BallThrow : MonoBehaviour
     private float scaleWaterFactor = 1.5f;
 
     public PlayStats playStats;
-    public LayerMask aimColliderLayerMask;
-    public Transform debugTransform;
 
     private Animator animator;
 
@@ -75,7 +73,7 @@ public class BallThrow : MonoBehaviour
             {
                 animator.SetTrigger("ThrowWaterball");
             }
-            
+
             Vector3 shootDirection = CalculateShootDirection();
 
             ballRB.AddForce(shootDirection * ballSpeed, ForceMode.Impulse);
@@ -85,20 +83,8 @@ public class BallThrow : MonoBehaviour
 
     private Vector3 CalculateShootDirection()
     {
-        Vector2 screenCenterPoint = new Vector2(Screen.width / 2f, Screen.height / 2f);
-        Ray ray = playerCamera.ScreenPointToRay(screenCenterPoint);
-
-        Vector3 targetPoint;
-        if (Physics.Raycast(ray, out RaycastHit raycastHit, 999f, aimColliderLayerMask))
-        {
-            debugTransform.position = raycastHit.point;
-            targetPoint = raycastHit.point;
-        }
-        else
-        {
-            targetPoint = ray.GetPoint(1000);
-        }
-
+        Ray ray = playerCamera.ScreenPointToRay(new Vector3(Screen.width / 2f, Screen.height / 2f, 0));
+        Vector3 targetPoint = ray.GetPoint(1000f);
         Vector3 shootDirection = (targetPoint - spawnTransform.position).normalized;
         return shootDirection;
     }

@@ -88,6 +88,8 @@ public class PlayStats : MonoBehaviour
     private IEnumerator DeathCoroutine()
     {
         animator.SetTrigger("Deth");
+        GameOverScreen.SetActive(true);
+        PauseMenuSingleton.Instance.IsPaused = true;
         yield return new WaitForSeconds(1f);
         OnDeathAnimationFinished();
     }
@@ -96,8 +98,6 @@ public class PlayStats : MonoBehaviour
     {
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
-        GameOverScreen.SetActive(true);
-        PauseMenuSingleton.Instance.IsPaused = true;
         Time.timeScale = 0f;
     }
 }
