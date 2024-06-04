@@ -435,6 +435,74 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 44611714}
   m_CullTransparentMesh: 1
+--- !u!1001 &49352659
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 7857923591202791137, guid: 8303ecc284049144182724ccba8181bd,
+        type: 3}
+      propertyPath: m_Name
+      value: Enemy Goblin
+      objectReference: {fileID: 0}
+    - target: {fileID: 9099820084872642004, guid: 8303ecc284049144182724ccba8181bd,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 18.498428
+      objectReference: {fileID: 0}
+    - target: {fileID: 9099820084872642004, guid: 8303ecc284049144182724ccba8181bd,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.95
+      objectReference: {fileID: 0}
+    - target: {fileID: 9099820084872642004, guid: 8303ecc284049144182724ccba8181bd,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -3.0790446
+      objectReference: {fileID: 0}
+    - target: {fileID: 9099820084872642004, guid: 8303ecc284049144182724ccba8181bd,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9099820084872642004, guid: 8303ecc284049144182724ccba8181bd,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9099820084872642004, guid: 8303ecc284049144182724ccba8181bd,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9099820084872642004, guid: 8303ecc284049144182724ccba8181bd,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9099820084872642004, guid: 8303ecc284049144182724ccba8181bd,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9099820084872642004, guid: 8303ecc284049144182724ccba8181bd,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9099820084872642004, guid: 8303ecc284049144182724ccba8181bd,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 8303ecc284049144182724ccba8181bd, type: 3}
 --- !u!1 &52862065
 GameObject:
   m_ObjectHideFlags: 0
@@ -744,7 +812,7 @@ PrefabInstance:
     - target: {fileID: 7969972704443782057, guid: 3ef94e73d5607784fbcbba8de4155b1e,
         type: 3}
       propertyPath: m_TagString
-      value: Ground
+      value: Untagged
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -1602,7 +1670,7 @@ PrefabInstance:
     - target: {fileID: 1477119232930726878, guid: 6cb084713de342d4d94969b0f4ad068f,
         type: 3}
       propertyPath: m_TagString
-      value: Ground
+      value: Untagged
       objectReference: {fileID: 0}
     - target: {fileID: 1477119232930766846, guid: 6cb084713de342d4d94969b0f4ad068f,
         type: 3}
@@ -1931,6 +1999,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Dungeon_Big_Wall
+      objectReference: {fileID: 0}
+    - target: {fileID: 7969972704443782057, guid: 3ef94e73d5607784fbcbba8de4155b1e,
+        type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 7969972704443782057, guid: 3ef94e73d5607784fbcbba8de4155b1e,
+        type: 3}
+      propertyPath: m_TagString
+      value: Untagged
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -2388,6 +2466,16 @@ PrefabInstance:
       propertyPath: m_Name
       value: Dungeon_Big_Wall (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 7969972704443782057, guid: 3ef94e73d5607784fbcbba8de4155b1e,
+        type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 7969972704443782057, guid: 3ef94e73d5607784fbcbba8de4155b1e,
+        type: 3}
+      propertyPath: m_TagString
+      value: Untagged
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -2446,6 +2534,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Torch_Wall (5)
+      objectReference: {fileID: 0}
+    - target: {fileID: 7586093321967142111, guid: 4b437f1c2454a2c409b1b7f35e69d661,
+        type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 7586093321967142111, guid: 4b437f1c2454a2c409b1b7f35e69d661,
+        type: 3}
+      propertyPath: m_TagString
+      value: Untagged
       objectReference: {fileID: 0}
     - target: {fileID: 7586093321967573247, guid: 4b437f1c2454a2c409b1b7f35e69d661,
         type: 3}
@@ -3570,6 +3668,16 @@ PrefabInstance:
       propertyPath: m_Name
       value: Torch_Wall (4)
       objectReference: {fileID: 0}
+    - target: {fileID: 7586093321967142111, guid: 4b437f1c2454a2c409b1b7f35e69d661,
+        type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 7586093321967142111, guid: 4b437f1c2454a2c409b1b7f35e69d661,
+        type: 3}
+      propertyPath: m_TagString
+      value: Untagged
+      objectReference: {fileID: 0}
     - target: {fileID: 7586093321967573247, guid: 4b437f1c2454a2c409b1b7f35e69d661,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -4013,6 +4121,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: Hallway_Curve_Long (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 100000, guid: 110316f0afd06df48ac55aee949522bc, type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 100000, guid: 110316f0afd06df48ac55aee949522bc, type: 3}
+      propertyPath: m_TagString
+      value: Untagged
+      objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 110316f0afd06df48ac55aee949522bc, type: 3}
       propertyPath: m_LocalScale.x
       value: 2
@@ -4228,6 +4344,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Dungeon_Big_Passage
+      objectReference: {fileID: 0}
+    - target: {fileID: 8011076794459216232, guid: b78909d98814b3d42aa488a008c30001,
+        type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 8011076794459216232, guid: b78909d98814b3d42aa488a008c30001,
+        type: 3}
+      propertyPath: m_TagString
+      value: Untagged
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -4775,6 +4901,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Stool_round (5)
       objectReference: {fileID: 0}
+    - target: {fileID: 357478072314647335, guid: a8acfdda1f8f6064bbf4e2fe34b27e67,
+        type: 3}
+      propertyPath: m_TagString
+      value: Flammable
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -5080,7 +5211,7 @@ PrefabInstance:
     - target: {fileID: 7969972704443782057, guid: 3ef94e73d5607784fbcbba8de4155b1e,
         type: 3}
       propertyPath: m_TagString
-      value: Ground
+      value: Untagged
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -5246,7 +5377,7 @@ GameObject:
   - component: {fileID: 654891347}
   m_Layer: 3
   m_Name: Multiple EMENIES
-  m_TagString: Ground
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -5508,7 +5639,7 @@ PrefabInstance:
     - target: {fileID: 1477119232930726878, guid: 6cb084713de342d4d94969b0f4ad068f,
         type: 3}
       propertyPath: m_TagString
-      value: Ground
+      value: Untagged
       objectReference: {fileID: 0}
     - target: {fileID: 1477119232930766846, guid: 6cb084713de342d4d94969b0f4ad068f,
         type: 3}
@@ -5690,6 +5821,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Table_Big
       objectReference: {fileID: 0}
+    - target: {fileID: 490335350711660523, guid: 0a7f51b5f4ba6294a889f661114da0d3,
+        type: 3}
+      propertyPath: m_TagString
+      value: Flammable
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -5772,6 +5908,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Hallway_Full
+      objectReference: {fileID: 0}
+    - target: {fileID: 2254754913457795574, guid: bd271741385672b478a33a0d372490ea,
+        type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 2254754913457795574, guid: bd271741385672b478a33a0d372490ea,
+        type: 3}
+      propertyPath: m_TagString
+      value: Untagged
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -6685,6 +6831,16 @@ PrefabInstance:
       propertyPath: m_Name
       value: Hallway_Full (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 2254754913457795574, guid: bd271741385672b478a33a0d372490ea,
+        type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 2254754913457795574, guid: bd271741385672b478a33a0d372490ea,
+        type: 3}
+      propertyPath: m_TagString
+      value: Untagged
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -7323,6 +7479,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Torch_Wall (7)
+      objectReference: {fileID: 0}
+    - target: {fileID: 7586093321967142111, guid: 4b437f1c2454a2c409b1b7f35e69d661,
+        type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 7586093321967142111, guid: 4b437f1c2454a2c409b1b7f35e69d661,
+        type: 3}
+      propertyPath: m_TagString
+      value: Untagged
       objectReference: {fileID: 0}
     - target: {fileID: 7586093321967573247, guid: 4b437f1c2454a2c409b1b7f35e69d661,
         type: 3}
@@ -8017,6 +8183,16 @@ PrefabInstance:
       propertyPath: m_Name
       value: Dungeon_Big_Passage (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 8011076794459216232, guid: b78909d98814b3d42aa488a008c30001,
+        type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 8011076794459216232, guid: b78909d98814b3d42aa488a008c30001,
+        type: 3}
+      propertyPath: m_TagString
+      value: Untagged
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -8179,6 +8355,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Stool_round (2)
+      objectReference: {fileID: 0}
+    - target: {fileID: 357478072314647335, guid: a8acfdda1f8f6064bbf4e2fe34b27e67,
+        type: 3}
+      propertyPath: m_TagString
+      value: Flammable
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -8494,6 +8675,16 @@ PrefabInstance:
       propertyPath: m_Name
       value: Dungeon_Big_Wall
       objectReference: {fileID: 0}
+    - target: {fileID: 7969972704443782057, guid: 3ef94e73d5607784fbcbba8de4155b1e,
+        type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 7969972704443782057, guid: 3ef94e73d5607784fbcbba8de4155b1e,
+        type: 3}
+      propertyPath: m_TagString
+      value: Untagged
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -8643,6 +8834,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Stool_round (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 357478072314647335, guid: a8acfdda1f8f6064bbf4e2fe34b27e67,
+        type: 3}
+      propertyPath: m_TagString
+      value: Flammable
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -8834,6 +9030,16 @@ PrefabInstance:
       propertyPath: m_Name
       value: Hallway_Full (2)
       objectReference: {fileID: 0}
+    - target: {fileID: 2254754913457795574, guid: bd271741385672b478a33a0d372490ea,
+        type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 2254754913457795574, guid: bd271741385672b478a33a0d372490ea,
+        type: 3}
+      propertyPath: m_TagString
+      value: Untagged
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -8922,6 +9128,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Hallway_Full
+      objectReference: {fileID: 0}
+    - target: {fileID: 2254754913457795574, guid: bd271741385672b478a33a0d372490ea,
+        type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 2254754913457795574, guid: bd271741385672b478a33a0d372490ea,
+        type: 3}
+      propertyPath: m_TagString
+      value: Untagged
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -9278,7 +9494,7 @@ GameObject:
   - component: {fileID: 1172934083}
   m_Layer: 3
   m_Name: Hallway Sections
-  m_TagString: Ground
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -9466,7 +9682,7 @@ PrefabInstance:
     - target: {fileID: 8011076794459216232, guid: b78909d98814b3d42aa488a008c30001,
         type: 3}
       propertyPath: m_TagString
-      value: Ground
+      value: Untagged
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -9828,6 +10044,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Dungeon_Big
+      objectReference: {fileID: 0}
+    - target: {fileID: 1477119232930726878, guid: 6cb084713de342d4d94969b0f4ad068f,
+        type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 1477119232930726878, guid: 6cb084713de342d4d94969b0f4ad068f,
+        type: 3}
+      propertyPath: m_TagString
+      value: Untagged
       objectReference: {fileID: 0}
     - target: {fileID: 1477119232930766846, guid: 6cb084713de342d4d94969b0f4ad068f,
         type: 3}
@@ -10638,7 +10864,7 @@ PrefabInstance:
     - target: {fileID: 8011076794459216232, guid: b78909d98814b3d42aa488a008c30001,
         type: 3}
       propertyPath: m_TagString
-      value: Ground
+      value: Untagged
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -10788,6 +11014,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: Hallway_Double (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 100000, guid: 17a224d1aeb5e59439a4ddda2f1ef3a6, type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 100000, guid: 17a224d1aeb5e59439a4ddda2f1ef3a6, type: 3}
+      propertyPath: m_TagString
+      value: Untagged
+      objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 17a224d1aeb5e59439a4ddda2f1ef3a6, type: 3}
       propertyPath: m_LocalScale.x
       value: 2
@@ -10898,6 +11132,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Torch_Wall (6)
+      objectReference: {fileID: 0}
+    - target: {fileID: 7586093321967142111, guid: 4b437f1c2454a2c409b1b7f35e69d661,
+        type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 7586093321967142111, guid: 4b437f1c2454a2c409b1b7f35e69d661,
+        type: 3}
+      propertyPath: m_TagString
+      value: Untagged
       objectReference: {fileID: 0}
     - target: {fileID: 7586093321967573247, guid: 4b437f1c2454a2c409b1b7f35e69d661,
         type: 3}
@@ -11071,6 +11315,16 @@ PrefabInstance:
       propertyPath: m_Name
       value: Hallway_TCrossing
       objectReference: {fileID: 0}
+    - target: {fileID: 2603595325513756431, guid: 345c8a49d7186274cbb629bef82b473c,
+        type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 2603595325513756431, guid: 345c8a49d7186274cbb629bef82b473c,
+        type: 3}
+      propertyPath: m_TagString
+      value: Untagged
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -11144,6 +11398,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Stool_round (7)
+      objectReference: {fileID: 0}
+    - target: {fileID: 357478072314647335, guid: a8acfdda1f8f6064bbf4e2fe34b27e67,
+        type: 3}
+      propertyPath: m_TagString
+      value: Flammable
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -11354,6 +11613,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: Hallway_Double
       objectReference: {fileID: 0}
+    - target: {fileID: 100000, guid: 17a224d1aeb5e59439a4ddda2f1ef3a6, type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 100000, guid: 17a224d1aeb5e59439a4ddda2f1ef3a6, type: 3}
+      propertyPath: m_TagString
+      value: Untagged
+      objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 17a224d1aeb5e59439a4ddda2f1ef3a6, type: 3}
       propertyPath: m_LocalScale.x
       value: 2
@@ -11503,7 +11770,7 @@ PrefabInstance:
     - target: {fileID: 7969972704443782057, guid: 3ef94e73d5607784fbcbba8de4155b1e,
         type: 3}
       propertyPath: m_TagString
-      value: Ground
+      value: Untagged
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -11713,6 +11980,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Stool_round (4)
       objectReference: {fileID: 0}
+    - target: {fileID: 357478072314647335, guid: a8acfdda1f8f6064bbf4e2fe34b27e67,
+        type: 3}
+      propertyPath: m_TagString
+      value: Flammable
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -11894,7 +12166,7 @@ PrefabInstance:
     - target: {fileID: 1477119232930726878, guid: 6cb084713de342d4d94969b0f4ad068f,
         type: 3}
       propertyPath: m_TagString
-      value: Ground
+      value: Untagged
       objectReference: {fileID: 0}
     - target: {fileID: 1477119232930766846, guid: 6cb084713de342d4d94969b0f4ad068f,
         type: 3}
@@ -12436,7 +12708,7 @@ PrefabInstance:
     - target: {fileID: 7969972704443782057, guid: 3ef94e73d5607784fbcbba8de4155b1e,
         type: 3}
       propertyPath: m_TagString
-      value: Ground
+      value: Untagged
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -12606,6 +12878,16 @@ PrefabInstance:
       propertyPath: m_Name
       value: Dungeon_Big_Passage
       objectReference: {fileID: 0}
+    - target: {fileID: 8011076794459216232, guid: b78909d98814b3d42aa488a008c30001,
+        type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 8011076794459216232, guid: b78909d98814b3d42aa488a008c30001,
+        type: 3}
+      propertyPath: m_TagString
+      value: Untagged
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -12709,7 +12991,7 @@ PrefabInstance:
     - target: {fileID: 8011076794459216232, guid: b78909d98814b3d42aa488a008c30001,
         type: 3}
       propertyPath: m_TagString
-      value: Ground
+      value: Untagged
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -13238,6 +13520,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Barrel_Closed
+      objectReference: {fileID: 0}
+    - target: {fileID: 2317576605586580694, guid: 5adaedd4c0081614da171fecdf6bbd37,
+        type: 3}
+      propertyPath: m_TagString
+      value: Flammable
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -13938,7 +14225,7 @@ PrefabInstance:
     - target: {fileID: 7969972704443782057, guid: 3ef94e73d5607784fbcbba8de4155b1e,
         type: 3}
       propertyPath: m_TagString
-      value: Ground
+      value: Untagged
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -14520,7 +14807,7 @@ PrefabInstance:
     - target: {fileID: 7969972704443782057, guid: 3ef94e73d5607784fbcbba8de4155b1e,
         type: 3}
       propertyPath: m_TagString
-      value: Ground
+      value: Untagged
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -15347,7 +15634,7 @@ PrefabInstance:
     - target: {fileID: 2254754913457795574, guid: bd271741385672b478a33a0d372490ea,
         type: 3}
       propertyPath: m_TagString
-      value: Ground
+      value: Untagged
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -15610,7 +15897,7 @@ GameObject:
   - component: {fileID: 1799801876}
   m_Layer: 3
   m_Name: Ranged ENEMY
-  m_TagString: Ground
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -15700,6 +15987,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Stool_round (6)
+      objectReference: {fileID: 0}
+    - target: {fileID: 357478072314647335, guid: a8acfdda1f8f6064bbf4e2fe34b27e67,
+        type: 3}
+      propertyPath: m_TagString
+      value: Flammable
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -15995,6 +16287,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Table_Small
       objectReference: {fileID: 0}
+    - target: {fileID: 4179086729700039233, guid: ce285a7430946e24ca0a9218777a7805,
+        type: 3}
+      propertyPath: m_TagString
+      value: Flammable
+      objectReference: {fileID: 0}
     - target: {fileID: 4179086729700329057, guid: ce285a7430946e24ca0a9218777a7805,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -16133,6 +16430,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Dungeon_Big_Wall (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 7969972704443782057, guid: 3ef94e73d5607784fbcbba8de4155b1e,
+        type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 7969972704443782057, guid: 3ef94e73d5607784fbcbba8de4155b1e,
+        type: 3}
+      propertyPath: m_TagString
+      value: Untagged
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -16302,6 +16609,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Hallway_Full (2)
+      objectReference: {fileID: 0}
+    - target: {fileID: 2254754913457795574, guid: bd271741385672b478a33a0d372490ea,
+        type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 2254754913457795574, guid: bd271741385672b478a33a0d372490ea,
+        type: 3}
+      propertyPath: m_TagString
+      value: Untagged
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -16662,7 +16979,7 @@ PrefabInstance:
     - target: {fileID: 5968457026527855613, guid: fedaf1e16a8c4a24b89a0e7c9a905f50,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -40.35
+      value: -49.3
       objectReference: {fileID: 0}
     - target: {fileID: 5968457026527855613, guid: fedaf1e16a8c4a24b89a0e7c9a905f50,
         type: 3}
@@ -16672,7 +16989,7 @@ PrefabInstance:
     - target: {fileID: 5968457026527855613, guid: fedaf1e16a8c4a24b89a0e7c9a905f50,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: -79.04
+      value: -46.36
       objectReference: {fileID: 0}
     - target: {fileID: 5968457026527855613, guid: fedaf1e16a8c4a24b89a0e7c9a905f50,
         type: 3}
@@ -16879,7 +17196,7 @@ GameObject:
   - component: {fileID: 1914032675}
   m_Layer: 3
   m_Name: Starting area
-  m_TagString: Ground
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -17781,7 +18098,7 @@ PrefabInstance:
     - target: {fileID: 7969972704443782057, guid: 3ef94e73d5607784fbcbba8de4155b1e,
         type: 3}
       propertyPath: m_TagString
-      value: Ground
+      value: Untagged
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -17993,7 +18310,7 @@ GameObject:
   - component: {fileID: 2019429709}
   m_Layer: 3
   m_Name: Melee ENEMY
-  m_TagString: Ground
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -18089,6 +18406,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Dungeon_Big
+      objectReference: {fileID: 0}
+    - target: {fileID: 1477119232930726878, guid: 6cb084713de342d4d94969b0f4ad068f,
+        type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 1477119232930726878, guid: 6cb084713de342d4d94969b0f4ad068f,
+        type: 3}
+      propertyPath: m_TagString
+      value: Untagged
       objectReference: {fileID: 0}
     - target: {fileID: 1477119232930766846, guid: 6cb084713de342d4d94969b0f4ad068f,
         type: 3}
@@ -18284,6 +18611,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Dungeon_Big_Passage (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 8011076794459216232, guid: b78909d98814b3d42aa488a008c30001,
+        type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 8011076794459216232, guid: b78909d98814b3d42aa488a008c30001,
+        type: 3}
+      propertyPath: m_TagString
+      value: Untagged
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -18862,6 +19199,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Stool_round (3)
       objectReference: {fileID: 0}
+    - target: {fileID: 357478072314647335, guid: a8acfdda1f8f6064bbf4e2fe34b27e67,
+        type: 3}
+      propertyPath: m_TagString
+      value: Flammable
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -19191,6 +19533,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: Hallway_Curve_Long
       objectReference: {fileID: 0}
+    - target: {fileID: 100000, guid: 110316f0afd06df48ac55aee949522bc, type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 100000, guid: 110316f0afd06df48ac55aee949522bc, type: 3}
+      propertyPath: m_TagString
+      value: Untagged
+      objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 110316f0afd06df48ac55aee949522bc, type: 3}
       propertyPath: m_LocalScale.x
       value: 2
@@ -19457,3 +19807,4 @@ SceneRoots:
   - {fileID: 114833783}
   - {fileID: 72851197157267937}
   - {fileID: 1912110787}
+  - {fileID: 49352659}
