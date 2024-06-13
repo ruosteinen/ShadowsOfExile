@@ -31,7 +31,8 @@ Transform:
   m_LocalPosition: {x: 0, y: 0.9, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 3204722139800940953}
   m_Father: {fileID: 5968457026527855613}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!20 &2268799461048619316
@@ -177,11 +178,10 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 6858906737494940669}
-  - {fileID: 3703193207967383967}
   - {fileID: 5475668875828977856}
-  - {fileID: 7198206151711788637}
   - {fileID: 5506162054534237185}
-  - {fileID: 3204722139800940953}
+  - {fileID: 7198206151711788637}
+  - {fileID: 3703193207967383967}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &8847439806582462731
@@ -210,7 +210,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   firstPersonView: {fileID: 3703193207967383967}
-  playerViewYOffset: 0.9
   xMouseSensitivity: 30
   yMouseSensitivity: 30
   gravity: 20
@@ -228,8 +227,6 @@ MonoBehaviour:
   sideStrafeSpeed: 1
   jumpSpeed: 8
   holdJumpToBhop: 1
-  mana: 5
-  maxMana: 6
   manaDrainRate: 0.9
   manaRecoveryRate: 0.8
   runMultiplier: 5
@@ -314,9 +311,12 @@ MonoBehaviour:
     m_Bits: 8
   Crosshair: {fileID: 0}
   windSpellInUse: 0
+  windTexture: {fileID: 0}
+  playStats: {fileID: 0}
   townWaypoint: {fileID: 0}
   forestWaypoint: {fileID: 0}
   mountainWaypoint: {fileID: 0}
+  fixedOffset: {x: 0, y: 0.7, z: 1}
 --- !u!114 &1104542506198366382
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -330,8 +330,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   firstPersonCamera: {fileID: 2268799461048619316}
-  thirdPersonCamera: {fileID: 8341372221458936527}
-  thirdPersonCameraOffset: {x: 0, y: 2, z: -3}
   minZoom: -2
   maxZoom: -10
   zoomSensitivity: 2
@@ -377,14 +375,17 @@ MonoBehaviour:
     type: 3}
   waterballPrefab: {fileID: 7022740766292812956, guid: 9386084a13b20a5cfa17febc932c95e7,
     type: 3}
-  fireBallSpeed: 80
-  waterBallSpeed: 80
-  spawnDistance: 1
+  ballSpeed: 80
   playerCamera: {fileID: 2268799461048619316}
-  playerController: {fileID: 2997416305528207258}
   manaCost: 10
   fireRate: 0
-  waterRate: 0
+  fireballTexture: {fileID: 0}
+  waterballTexture: {fileID: 0}
+  playStats: {fileID: 0}
+  aimColliderLayerMask:
+    serializedVersion: 2
+    m_Bits: 0
+  debugTransform: {fileID: 0}
 --- !u!114 &3191281952952429316
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -400,6 +401,8 @@ MonoBehaviour:
   maxHealth: 100
   currentHealth: 100
   healthBar: {fileID: 0}
+  potionMakerScript: {fileID: 0}
+  GameOverScreen: {fileID: 0}
 --- !u!114 &5954785660854155097
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -412,9 +415,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2c14a270284325f00b844ac8adfa66aa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  manaBar: {fileID: 0}
-  playerController: {fileID: 0}
-  manaText: {fileID: 0}
 --- !u!54 &1176431973010941796
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -462,6 +462,7 @@ MonoBehaviour:
   target: 1
   Drops: []
   playerInvincible: 0
+  expOnDeath: 150
 --- !u!114 &4615868722924777736
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -499,12 +500,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4185482088061308991}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1, z: 2}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 1.4200001, y: 0.100000024, z: 2}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 5968457026527855613}
+  m_Father: {fileID: 3703193207967383967}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &5634106413937794339
 GameObject:
@@ -556,7 +557,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5634106413937794339}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
