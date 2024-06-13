@@ -698,6 +698,7 @@ GameObject:
   - component: {fileID: 527344862}
   - component: {fileID: 527344863}
   - component: {fileID: 527344864}
+  - component: {fileID: 527344865}
   m_Layer: 0
   m_Name: First Person Player
   m_TagString: Player
@@ -757,7 +758,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 527344859}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: dd2290d782e437d4e94f2018488d7bed, type: 3}
   m_Name: 
@@ -792,16 +793,6 @@ MonoBehaviour:
   currentMana: 100
   healthBar: {fileID: 1014490660}
   manaBar: {fileID: 34003798}
-  level: 1
-  currentXp: 0
-  requiredXp: 0
-  FrontExpBar: {fileID: 0}
-  BackExpBar: {fileID: 0}
-  Level: {fileID: 0}
-  Exp: {fileID: 0}
-  additionMultiplier: 300
-  powerMultiplier: 2
-  divisionMultiplier: 7
   potionMakerScript: {fileID: 0}
   GameOverScreen: {fileID: 0}
 --- !u!114 &527344864
@@ -824,6 +815,26 @@ MonoBehaviour:
   manaCostLeft: 10
   manaCostRight: 20
   playerStats: {fileID: 527344863}
+--- !u!114 &527344865
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 527344859}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 55d80b16630384d408323011bc6289cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerCamera: {fileID: 1461569740}
+  walkSpeed: 6
+  runSpeed: 12
+  jumpPower: 7
+  gravity: 10
+  lookSpeed: 2
+  lookXLimit: 45
+  canMove: 1
 --- !u!1 &556620732
 GameObject:
   m_ObjectHideFlags: 0
@@ -929,74 +940,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 556620732}
   m_Mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
---- !u!1001 &599756484
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: -8679921383154817045, guid: 24bb5367565e6d440903acc87ab582e8,
-        type: 3}
-      propertyPath: m_LocalPosition.x
-      value: -0.37
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: 24bb5367565e6d440903acc87ab582e8,
-        type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: 24bb5367565e6d440903acc87ab582e8,
-        type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 19.91
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: 24bb5367565e6d440903acc87ab582e8,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: 24bb5367565e6d440903acc87ab582e8,
-        type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: 24bb5367565e6d440903acc87ab582e8,
-        type: 3}
-      propertyPath: m_LocalRotation.y
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: 24bb5367565e6d440903acc87ab582e8,
-        type: 3}
-      propertyPath: m_LocalRotation.z
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: 24bb5367565e6d440903acc87ab582e8,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: 24bb5367565e6d440903acc87ab582e8,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: 24bb5367565e6d440903acc87ab582e8,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 919132149155446097, guid: 24bb5367565e6d440903acc87ab582e8,
-        type: 3}
-      propertyPath: m_Name
-      value: goblin_final
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: 24bb5367565e6d440903acc87ab582e8, type: 3}
 --- !u!1 &600073403
 GameObject:
   m_ObjectHideFlags: 0
@@ -2192,6 +2135,7 @@ GameObject:
   - component: {fileID: 1374823946}
   - component: {fileID: 1374823947}
   - component: {fileID: 1374823948}
+  - component: {fileID: 1374823949}
   m_Layer: 0
   m_Name: StaffPlace
   m_TagString: Untagged
@@ -2221,7 +2165,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1374823945}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0c70182f970063b43bf259edd78abd4c, type: 3}
   m_Name: 
@@ -2246,6 +2190,27 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cc99f79d6ec8dfa4f82af5fd97341d65, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1374823949
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1374823945}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 43e43a25c70dd834aaa5f54abd48bca8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bulletPrefab: {fileID: 2819493175751797466, guid: 24cab018887689247a170a80b048fa15,
+    type: 3}
+  bulletSpawn: {fileID: 1374823946}
+  bulletVelocity: 30
+  bulletPrefabLifeTime: 3
+  playerCamera: {fileID: 1461569740}
+  playerStats: {fileID: 527344863}
+  manaCost: 10
+  damage: 20
 --- !u!1 &1376395591
 GameObject:
   m_ObjectHideFlags: 0
@@ -2363,6 +2328,7 @@ GameObject:
   - component: {fileID: 1461569740}
   - component: {fileID: 1461569739}
   - component: {fileID: 1461569742}
+  - component: {fileID: 1461569743}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -2458,6 +2424,50 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mouseSensitivity: 750
   playerBody: {fileID: 527344861}
+--- !u!114 &1461569743
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1461569738}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a79441f348de89743a2939f4d699eac1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_RenderShadows: 1
+  m_RequiresDepthTextureOption: 2
+  m_RequiresOpaqueTextureOption: 2
+  m_CameraType: 0
+  m_Cameras: []
+  m_RendererIndex: -1
+  m_VolumeLayerMask:
+    serializedVersion: 2
+    m_Bits: 1
+  m_VolumeTrigger: {fileID: 0}
+  m_VolumeFrameworkUpdateModeOption: 2
+  m_RenderPostProcessing: 0
+  m_Antialiasing: 0
+  m_AntialiasingQuality: 2
+  m_StopNaN: 0
+  m_Dithering: 0
+  m_ClearDepth: 1
+  m_AllowXRRendering: 1
+  m_AllowHDROutput: 1
+  m_UseScreenCoordOverride: 0
+  m_ScreenSizeOverride: {x: 0, y: 0, z: 0, w: 0}
+  m_ScreenCoordScaleBias: {x: 0, y: 0, z: 0, w: 0}
+  m_RequiresDepthTexture: 0
+  m_RequiresColorTexture: 0
+  m_Version: 2
+  m_TaaSettings:
+    quality: 3
+    frameInfluence: 0.1
+    jitterScale: 1
+    mipBias: 0
+    varianceClampScale: 0.9
+    contrastAdaptiveSharpening: 0
 --- !u!1 &1561033303
 GameObject:
   m_ObjectHideFlags: 0
@@ -3205,7 +3215,6 @@ SceneRoots:
   - {fileID: 1590375310}
   - {fileID: 527344861}
   - {fileID: 279219114}
-  - {fileID: 599756484}
   - {fileID: 773960079}
   - {fileID: 1376395595}
   - {fileID: 1654634486}
