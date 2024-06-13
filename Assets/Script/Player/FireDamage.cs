@@ -28,6 +28,9 @@ public class FireDamage : MonoBehaviour
     private void TakeDamageToPlayer(Collider collider)
     {
         PlayStats playerHealth = collider.GetComponent<PlayStats>();
+        
+        
+        
         if (playerHealth != null) playerHealth.TakeDamage(damage);
     }
 

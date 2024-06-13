@@ -14,7 +14,8 @@ public class PotionMakerScript : MonoBehaviour
 
     public bool isPotionMaking = false;
     
-    public int potionAmount = 0;
+    public static int potionAmount = 0; 
+
     private void Start()
     {
         string reqText = "You need 2 resources to create a potion";
@@ -82,7 +83,7 @@ public class PotionMakerScript : MonoBehaviour
     public void PlayGame()
     {
         Time.timeScale = 1f;
-        SceneManager.LoadScene("SampleScene");
+        SceneManager.LoadScene("Game tutorial");
     }
     
     private void OnGUI()

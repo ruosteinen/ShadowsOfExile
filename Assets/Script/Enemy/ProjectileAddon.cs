@@ -25,6 +25,7 @@ public class ProjectileAddon : MonoBehaviour
             if (playerHealth != null)
             {
                 playerHealth.TakeDamage(damage);
+                Debug.Log(playerHealth);
             }
         }
 

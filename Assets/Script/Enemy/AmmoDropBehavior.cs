@@ -1,6 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class AmmoDropBehavior : MonoBehaviour
@@ -8,6 +7,7 @@ public class AmmoDropBehavior : MonoBehaviour
     [SerializeField] Transform player;
     [SerializeField] private bool doRandomJump;
     [SerializeField] private float range;
+
     private void Start()
     {
         player = GameObject.FindGameObjectWithTag("Player").transform;
@@ -20,7 +20,7 @@ public class AmmoDropBehavior : MonoBehaviour
 
             Vector3 point = new Vector3(pointEx.x, transform.position.y + 1.5f, pointEx.y);
 
-            rb.AddForce(point*2, ForceMode.Impulse);
+            rb.AddForce(point * 2, ForceMode.Impulse);
 
             point = new Vector3(point.x, Random.value, point.z);
             rb.AddTorque(point, ForceMode.Impulse);
@@ -39,7 +39,7 @@ public class AmmoDropBehavior : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Player"))
         {
-            
+            PotionMakerScript.potionAmount++; 
             Destroy(gameObject);
         }
     }

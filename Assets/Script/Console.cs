@@ -5,6 +5,7 @@ public class Console : MonoBehaviour
 {
     public TMP_InputField consoleInputField;
     public PlayerQ3LikeController playerController;
+
     void Start()
     {
         if (consoleInputField == null)
@@ -33,7 +34,6 @@ public class Console : MonoBehaviour
 
     void ExecuteCommand(string commandInput)
     {
-
         string[] parts = commandInput.Split(' ');
         if (parts.Length > 0)
         {
@@ -75,16 +75,8 @@ public class Console : MonoBehaviour
                 case "p":
                     if (parts.Length > 1 && int.TryParse(parts[1], out int increment))
                     {
-                        PotionMakerScript potionMaker = FindObjectOfType<PotionMakerScript>();
-                        if (potionMaker != null)
-                        {
-                            potionMaker.potionAmount += increment;
-                            Debug.Log("Potion amount updated: " + potionMaker.potionAmount);
-                        }
-                        else
-                        {
-                            Debug.LogError("PotionMakerScript not found.");
-                        }
+                        PotionMakerScript.potionAmount += increment; 
+                        Debug.Log("Potion amount updated: " + PotionMakerScript.potionAmount);
                     }
                     else
                     {

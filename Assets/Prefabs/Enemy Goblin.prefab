@@ -368,7 +368,7 @@ MonoBehaviour:
   playerRecoverTime: 2
   target: 1
   Drops:
-  - {fileID: 7200927917085466066, guid: a84a636a35a83fe408bd4b3d8c2b8058, type: 3}
+  - {fileID: 8254275696289694569, guid: ac88cb1385fb6b04891f057377f1649f, type: 3}
   playerInvincible: 0
   expOnDeath: 150
 --- !u!114 &4495736331712575867

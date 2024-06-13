@@ -4804,6 +4804,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2211126460430936001, guid: 257c304c754d3b247a51ef5bea7a90d0,
         type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2211126460430936001, guid: 257c304c754d3b247a51ef5bea7a90d0,
+        type: 3}
       propertyPath: m_Controller
       value: 
       objectReference: {fileID: 9100000, guid: 1664d965ff1dd9c49b3c2f9342456cdf, type: 2}
@@ -15419,7 +15424,7 @@ PrefabInstance:
     - target: {fileID: 5968457026527855613, guid: fedaf1e16a8c4a24b89a0e7c9a905f50,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 1.71
+      value: 1.16
       objectReference: {fileID: 0}
     - target: {fileID: 5968457026527855613, guid: fedaf1e16a8c4a24b89a0e7c9a905f50,
         type: 3}
@@ -15487,6 +15492,10 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 6707634277533506674}
+    - targetCorrespondingSourceObject: {fileID: 3177775606037457560, guid: fedaf1e16a8c4a24b89a0e7c9a905f50,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 6707634277533506682}
     - targetCorrespondingSourceObject: {fileID: 6722951245516074277, guid: fedaf1e16a8c4a24b89a0e7c9a905f50,
         type: 3}
       insertIndex: -1
@@ -15521,6 +15530,27 @@ MonoBehaviour:
   manaBar: {fileID: 607263414}
   potionMakerScript: {fileID: 447016626}
   GameOverScreen: {fileID: 349223402}
+--- !u!95 &6707634277533506682
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6707634277533506673}
+  m_Enabled: 1
+  m_Avatar: {fileID: 9000000, guid: 0308cf4e83cf517488b60af58b290fe0, type: 3}
+  m_Controller: {fileID: 9100000, guid: 1664d965ff1dd9c49b3c2f9342456cdf, type: 2}
+  m_CullingMode: 1
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 1
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
