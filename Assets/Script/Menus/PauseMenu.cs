@@ -9,6 +9,10 @@ public class PauseMenu : MonoBehaviour
     public GameObject pauseMenuUI;
     public MouseView mouseView; // Reference to the MouseView script
     public GameObject crosshairUI;
+    public GameObject healthUI;
+    public GameObject manaUI;
+    public GameObject questUI;
+    public GameObject potionUI;
 
     void Update()
     {
@@ -34,6 +38,10 @@ public class PauseMenu : MonoBehaviour
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
         crosshairUI.SetActive(true);
+        healthUI.SetActive(true);
+        manaUI.SetActive(true);
+        questUI.SetActive(true);
+        potionUI.SetActive(true);
     }
 
     void Pause()
@@ -45,6 +53,10 @@ public class PauseMenu : MonoBehaviour
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
         crosshairUI.SetActive(false);
+        healthUI.SetActive(false);
+        manaUI.SetActive(false);
+        questUI.SetActive(false);
+        potionUI.SetActive(false);
     }
 
     public void LoadMenu()

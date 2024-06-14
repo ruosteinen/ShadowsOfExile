@@ -36,12 +36,12 @@ public class PlayStats : MonoBehaviour
     void Update()
     {
         RegenerateMana();
-        if (Input.GetKeyDown(KeyCode.P) && PotionMakerScript.potionAmount >= 1) 
+        if (Input.GetKeyDown(KeyCode.F) && PotionMakerScript.potionAmount >= 1)
         {
             if (currentHealth < maxHealth)
             {
                 Heal(30);
-                PotionMakerScript.potionAmount--; 
+                PotionMakerScript.potionAmount--;
             }
         }
     }
@@ -59,6 +59,7 @@ public class PlayStats : MonoBehaviour
     public void Heal(int amount)
     {
         currentHealth = Mathf.Min(currentHealth + amount, maxHealth);
+        healthBar.SetSlider(currentHealth);
         UpdateHealthText();
     }
 

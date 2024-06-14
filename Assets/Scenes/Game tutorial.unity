@@ -3469,6 +3469,10 @@ MonoBehaviour:
   pauseMenuUI: {fileID: 1742738589}
   mouseView: {fileID: 1235014255}
   crosshairUI: {fileID: 1708202418}
+  healthUI: {fileID: 1667208634}
+  manaUI: {fileID: 2086683946}
+  questUI: {fileID: 482610647}
+  potionUI: {fileID: 2026951422}
 --- !u!1001 &379534819
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4595,7 +4599,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 358054370}
+      - m_Target: {fileID: 358054376}
         m_TargetAssemblyTypeName: PauseMenu, Assembly-CSharp
         m_MethodName: LoadMenu
         m_Mode: 1
@@ -4606,7 +4610,7 @@ MonoBehaviour:
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
-        m_CallState: 1
+        m_CallState: 2
 --- !u!114 &556784091
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -19552,7 +19556,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 358054370}
+      - m_Target: {fileID: 358054376}
         m_TargetAssemblyTypeName: PauseMenu, Assembly-CSharp
         m_MethodName: Resume
         m_Mode: 1
@@ -19563,7 +19567,7 @@ MonoBehaviour:
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
-        m_CallState: 1
+        m_CallState: 2
 --- !u!114 &1941606771
 MonoBehaviour:
   m_ObjectHideFlags: 0
