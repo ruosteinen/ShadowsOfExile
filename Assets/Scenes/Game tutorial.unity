@@ -3299,6 +3299,7 @@ GameObject:
   - component: {fileID: 358054369}
   - component: {fileID: 358054368}
   - component: {fileID: 358054375}
+  - component: {fileID: 358054376}
   m_Layer: 0
   m_Name: Canvas
   m_TagString: Untagged
@@ -3335,7 +3336,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 358054367}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7e83d2dcacda65eab89d72bb175a3ffa, type: 3}
   m_Name: 
@@ -3453,6 +3454,21 @@ MonoBehaviour:
   RequiredAmountText: {fileID: 0}
   CurrentAmountText: {fileID: 0}
   isPotionMaking: 0
+--- !u!114 &358054376
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 358054367}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f5698e7ae0eee8d4ebfd82d5718d6eb2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pauseMenuUI: {fileID: 1742738589}
+  mouseView: {fileID: 1235014255}
+  crosshairUI: {fileID: 1708202418}
 --- !u!1001 &379534819
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -7643,8 +7659,10 @@ MonoBehaviour:
   bulletVelocity: 15
   bulletPrefabLifeTime: 1.5
   playerCamera: {fileID: 1235014253}
-  manaCost: 15
   playerStats: {fileID: 1662347297}
+  manaCost: 15
+  maxDistance: 50
+  damage: 20
 --- !u!114 &912034200
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -16057,7 +16075,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxHealth: 100
   defense: 10
-  attack: 10
+  attack: 1
   healthValue: {fileID: 2081374461}
   maxMana: 100
   manaValue: {fileID: 835073322}

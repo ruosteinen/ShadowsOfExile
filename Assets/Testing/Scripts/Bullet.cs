@@ -7,6 +7,7 @@ public class Bullet : MonoBehaviour
     public int damage;
     private void OnCollisionEnter(Collision collision)
     {
+        Debug.Log("WaterBall collided with: " + collision.gameObject.name);
         if (collision.gameObject.CompareTag("Enemy"))
         {
             print("hit " + collision.gameObject.name + " !");
