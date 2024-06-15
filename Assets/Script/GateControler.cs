@@ -7,6 +7,7 @@ public class GateControler : MonoBehaviour
     private bool gateState;
     private Vector3 firstPos;
     private Vector3 nextPos;
+    public Animator gateAnimator;
 
     [Header("Activated Levers")]
     [SerializeField] private List<GameObject> activatedLevers = new List<GameObject>();
@@ -14,28 +15,19 @@ public class GateControler : MonoBehaviour
     [Header("Deactivated Levers")]
     [SerializeField] private List<GameObject> deactivatedLevers = new List<GameObject>();
 
-    // Start is called before the first frame update
+    private float gateMoveSpeed = 5f;
+
     void Start()
     {
-        firstPos = GetComponentInChildren<Transform>().position;
+        firstPos = transform.position;
         nextPos = new Vector3(firstPos.x, firstPos.y - 11, firstPos.z);
         CheckLeversState();
     }
 
-    // Update is called once per frame
     void Update()
     {
-        if (gateState)
-        {
-            var current = Vector3.MoveTowards(transform.position, nextPos, 5 * Time.deltaTime);
-            transform.position = current;
-
-        }
-        else
-        {
-            var current = Vector3.MoveTowards(transform.position, firstPos, 5 * Time.deltaTime);
-            transform.position = current;
-        }
+        Vector3 targetPosition = gateState ? nextPos : firstPos;
+        transform.position = Vector3.MoveTowards(transform.position, targetPosition, gateMoveSpeed * Time.deltaTime);
     }
 
     public void CheckLeversState()
@@ -43,33 +35,28 @@ public class GateControler : MonoBehaviour
         bool actvLever = true;
         bool deactvLever = false;
 
-        //Check is all the levers that need to be activated are
         foreach (GameObject lever in activatedLevers)
         {
-            if (lever.GetComponent<LeverActions>().GetLeverState() != true)
+            LeverActions leverActions = lever.GetComponent<LeverActions>();
+            gateAnimator.SetBool("isOn", true);
+            if (leverActions == null || !leverActions.GetLeverState())
             {
                 actvLever = false;
+                break;
             }
         }
 
-        //Check is all the levers that need to be deactivated are
         foreach (GameObject lever in deactivatedLevers)
         {
-            if (lever.GetComponent<LeverActions>().GetLeverState() != false)
+            LeverActions leverActions = lever.GetComponent<LeverActions>();
+            gateAnimator.SetBool("isOff", true);
+            if (leverActions == null || leverActions.GetLeverState())
             {
                 deactvLever = true;
+                break;
             }
         }
 
-        if (actvLever && !deactvLever)
-        {
-            gateState = true;
-            //gameObject.GetComponent<AudioSource>().Play();
-        }
-        else
-        {
-            gateState = false;
-            //gameObject.GetComponent<AudioSource>().Play();
-        }
+        gateState = actvLever && !deactvLever;
     }
 }

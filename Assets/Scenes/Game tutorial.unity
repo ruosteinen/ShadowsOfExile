@@ -13218,7 +13218,7 @@ Transform:
   m_GameObject: {fileID: 912034197}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0.704}
+  m_LocalPosition: {x: 0, y: 0, z: 1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -19121,6 +19121,12 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 4465823545879108231}
   m_PrefabAsset: {fileID: 0}
+--- !u!4 &1270514769 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 4223175317835344229, guid: ee1f96dea9781474aaed3a50cbbfee49,
+    type: 3}
+  m_PrefabInstance: {fileID: 4465823545879108231}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1271612330
 GameObject:
   m_ObjectHideFlags: 0
@@ -20084,6 +20090,12 @@ Canvas:
   m_SortingLayerID: 0
   m_SortingOrder: 0
   m_TargetDisplay: 0
+--- !u!1 &1316178732 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6561076446339017659, guid: ee1f96dea9781474aaed3a50cbbfee49,
+    type: 3}
+  m_PrefabInstance: {fileID: 4465823545879108231}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1346174974
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -28825,6 +28837,12 @@ MonoBehaviour:
   m_LightCookieSize: {x: 1, y: 1}
   m_LightCookieOffset: {x: 0, y: 0}
   m_SoftShadowQuality: 0
+--- !u!1 &1935494035 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6870501244369609453, guid: ee1f96dea9781474aaed3a50cbbfee49,
+    type: 3}
+  m_PrefabInstance: {fileID: 4465823545879108231}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1941606768
 GameObject:
   m_ObjectHideFlags: 0
@@ -32080,6 +32098,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2107579017}
   - component: {fileID: 2107579016}
+  - component: {fileID: 2107579018}
   m_Layer: 0
   m_Name: Gate
   m_TagString: Untagged
@@ -32099,6 +32118,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8d5e28b27ae62c6469a7ed9429e7dbe9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  gateAnimator: {fileID: 2107579018}
   activatedLevers:
   - {fileID: 1270514766}
   deactivatedLevers: []
@@ -32111,13 +32131,34 @@ Transform:
   m_GameObject: {fileID: 2107579015}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -61.935127, y: -23.769724, z: -30.60945}
+  m_LocalPosition: {x: -61.93513, y: -23.76972, z: -30.60945}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1011805341}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!95 &2107579018
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2107579015}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 392695dbe0fa5c64c935f73983872aef, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &2108715522
 GameObject:
   m_ObjectHideFlags: 0
@@ -32430,9 +32471,34 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7677764894061611163, guid: ee1f96dea9781474aaed3a50cbbfee49,
         type: 3}
+      propertyPath: leverOn
+      value: 
+      objectReference: {fileID: 1935494035}
+    - target: {fileID: 7677764894061611163, guid: ee1f96dea9781474aaed3a50cbbfee49,
+        type: 3}
+      propertyPath: leverOff
+      value: 
+      objectReference: {fileID: 1316178732}
+    - target: {fileID: 7677764894061611163, guid: ee1f96dea9781474aaed3a50cbbfee49,
+        type: 3}
       propertyPath: playerCam
       value: 
       objectReference: {fileID: 1235014257}
+    - target: {fileID: 7677764894061611163, guid: ee1f96dea9781474aaed3a50cbbfee49,
+        type: 3}
+      propertyPath: leverHandle
+      value: 
+      objectReference: {fileID: 1270514769}
+    - target: {fileID: 7677764894061611163, guid: ee1f96dea9781474aaed3a50cbbfee49,
+        type: 3}
+      propertyPath: leverOnRotation.z
+      value: -45
+      objectReference: {fileID: 0}
+    - target: {fileID: 7677764894061611163, guid: ee1f96dea9781474aaed3a50cbbfee49,
+        type: 3}
+      propertyPath: leverOffRotation.z
+      value: 45
+      objectReference: {fileID: 0}
     - target: {fileID: 7677764894061611163, guid: ee1f96dea9781474aaed3a50cbbfee49,
         type: 3}
       propertyPath: gateControler.Array.size

@@ -10,32 +10,30 @@ public class LeverActions : MonoBehaviour
     [SerializeField] private GameObject leverOn;
     [SerializeField] private GameObject leverOff;
 
-
     private bool leverState;
     private bool active;
 
     private float playerActivateDistance = 10f;
-    
+
     void Update()
     {
         RaycastHit hit;
         active = Physics.Raycast(playerCam.position, playerCam.TransformDirection(Vector3.forward), out hit, playerActivateDistance);
-        if (active && hit.collider.gameObject.name == this.name && Input.GetKeyDown(KeyCode.E))
+        if (active && hit.collider.gameObject == gameObject && Input.GetKeyDown(KeyCode.E))
         {
             leverState = !leverState;
             CallGateChecks();
 
-            //gameObject.GetComponent<AudioSource>().Play();
+            // gameObject.GetComponent<AudioSource>().Play();
             leverOn.SetActive(leverState);
             leverOff.SetActive(!leverState);
-            //Debug.Log(leverState);
+            // Debug.Log(leverState);
         }
-
     }
 
     public bool GetLeverState()
     {
-       return leverState;
+        return leverState;
     }
 
     private void CallGateChecks()
