@@ -20,6 +20,10 @@ public class PlayStats : MonoBehaviour
 
     public PotionMakerScript potionMakerScript;
     public GameObject GameOverScreen;
+    public GameObject HealthBar;
+    public GameObject ManaBar;
+    public GameObject CrystalManager;
+    public GameObject Cross;
     private Animator animator;
 
     void Start()
@@ -90,6 +94,10 @@ public class PlayStats : MonoBehaviour
     {
         animator.SetTrigger("Deth");
         GameOverScreen.SetActive(true);
+        HealthBar.SetActive(false);
+        ManaBar.SetActive(false);
+        CrystalManager.SetActive(false);
+        Cross.SetActive(false);
         PauseMenuSingleton.Instance.IsPaused = true;
         yield return new WaitForSeconds(1f);
         OnDeathAnimationFinished();
