@@ -13,6 +13,7 @@ TagManager:
   - BurntAreaPrefab
   - Ground
   - Crystal
+  - Lever
   layers:
   - Default
   - TransparentFX

@@ -25,9 +25,10 @@ public class LeverActions : MonoBehaviour
             leverState = !leverState;
             CallGateChecks();
 
-            gameObject.GetComponent<AudioSource>().Play();
+            //gameObject.GetComponent<AudioSource>().Play();
             leverOn.SetActive(leverState);
             leverOff.SetActive(!leverState);
+            //Debug.Log(leverState);
         }
 
     }
