@@ -48,6 +48,12 @@ public class PlayStats : MonoBehaviour
                 PotionMakerScript.potionAmount--;
             }
         }
+
+        if (Input.GetKeyDown(KeyCode.M))
+        {
+            maxMana = 1000;
+            currentMana = 1000;
+        }
     }
 
     public void TakeDamage(float amount)
