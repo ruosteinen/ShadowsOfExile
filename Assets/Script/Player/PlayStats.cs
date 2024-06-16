@@ -51,6 +51,8 @@ public class PlayStats : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.M))
         {
+            maxHealth = 1000;
+            currentHealth = 1000;
             maxMana = 1000;
             currentMana = 1000;
         }
