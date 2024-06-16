@@ -47,9 +47,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerCam: {fileID: 0}
-  gateControler: []
-  leverOn: {fileID: 6561076446339017659}
-  leverOff: {fileID: 6870501244369609453}
+  gateControler:
+  - {fileID: 2988777463565079371, guid: 7a5a7563d552cf04ebe3f50ab6e34f0c, type: 3}
+  leverOn: {fileID: 6870501244369609453}
+  leverOff: {fileID: 6561076446339017659}
 --- !u!65 &8980651940828671851
 BoxCollider:
   m_ObjectHideFlags: 0

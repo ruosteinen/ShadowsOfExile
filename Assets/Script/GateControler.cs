@@ -25,9 +25,9 @@ public class GateControler : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Debug.Log(gateState);
-        Debug.Log(firstPos);
-        Debug.Log(nextPos);
+        //Debug.Log(gateState);
+        //Debug.Log(firstPos);
+        //Debug.Log(nextPos);
         if (gateState)
         {
             var current = Vector3.MoveTowards(transform.position, nextPos, 5 * Time.deltaTime);
