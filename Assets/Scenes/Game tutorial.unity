@@ -25829,7 +25829,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1662347294}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: 0, y: 0.7071068, z: 0, w: 0.7071068}
   m_LocalPosition: {x: -71.51, y: 0.95, z: -46.2}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -25838,7 +25838,7 @@ Transform:
   - {fileID: 1235014257}
   - {fileID: 55587531}
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
 --- !u!1001 &1664028889
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -33456,6 +33456,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Lever
       objectReference: {fileID: 0}
+    - target: {fileID: 6870501244369609453, guid: ee1f96dea9781474aaed3a50cbbfee49,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7677764894061611163, guid: ee1f96dea9781474aaed3a50cbbfee49,
         type: 3}
       propertyPath: leverOn
@@ -33496,6 +33501,11 @@ PrefabInstance:
       propertyPath: gateControler.Array.data[0]
       value: 
       objectReference: {fileID: 2107579016}
+    - target: {fileID: 7772531248353913145, guid: ee1f96dea9781474aaed3a50cbbfee49,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 5b43180e2650a5d428e01e070af06d9f, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

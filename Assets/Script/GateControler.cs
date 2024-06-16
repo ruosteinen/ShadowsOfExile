@@ -18,7 +18,7 @@ public class GateControler : MonoBehaviour
     void Start()
     {
         firstPos = GetComponentInChildren<Transform>().position;
-        nextPos = new Vector3(firstPos.x, firstPos.y - 11, firstPos.z);
+        nextPos = new Vector3(firstPos.x, firstPos.y - 3, firstPos.z);
         CheckLeversState();
     }
 
