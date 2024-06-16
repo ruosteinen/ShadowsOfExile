@@ -26435,9 +26435,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1662347300}
   - component: {fileID: 1662347299}
-  - component: {fileID: 1662347298}
   - component: {fileID: 1662347297}
-  - component: {fileID: 1662347296}
   - component: {fileID: 1662347295}
   m_Layer: 0
   m_Name: First Person Player
@@ -26466,18 +26464,6 @@ MonoBehaviour:
   lookSpeed: 2
   lookXLimit: 45
   canMove: 1
---- !u!114 &1662347296
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1662347294}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0c70182f970063b43bf259edd78abd4c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &1662347297
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -26505,18 +26491,6 @@ MonoBehaviour:
   ManaBar: {fileID: 2086683946}
   CrystalManager: {fileID: 482610647}
   Cross: {fileID: 1708202418}
---- !u!114 &1662347298
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1662347294}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dd2290d782e437d4e94f2018488d7bed, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!143 &1662347299
 CharacterController:
   m_ObjectHideFlags: 0

@@ -32,7 +32,6 @@ public class GateControler : MonoBehaviour
         {
             var current = Vector3.MoveTowards(transform.position, nextPos, 5 * Time.deltaTime);
             transform.position = current;
-
         }
         else
         {
@@ -46,7 +45,7 @@ public class GateControler : MonoBehaviour
         bool actvLever = true;
         bool deactvLever = false;
 
-        //Check is all the levers that need to be activated are
+        //Check if all the levers that need to be activated are
         foreach (GameObject lever in activatedLevers)
         {
             if (lever.GetComponent<LeverActions>().GetLeverState() != true)
@@ -55,7 +54,7 @@ public class GateControler : MonoBehaviour
             }
         }
 
-        //Check is all the levers that need to be deactivated are
+        //Check if all the levers that need to be deactivated are
         foreach (GameObject lever in deactivatedLevers)
         {
             if (lever.GetComponent<LeverActions>().GetLeverState() != false)
@@ -74,5 +73,10 @@ public class GateControler : MonoBehaviour
             gateState = false;
             //gameObject.GetComponent<AudioSource>().Play();
         }
+    }
+
+    public void SetGateState(bool state)
+    {
+        gateState = state;
     }
 }

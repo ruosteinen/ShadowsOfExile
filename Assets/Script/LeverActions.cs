@@ -15,6 +15,9 @@ public class LeverActions : MonoBehaviour
 
     private float playerActivateDistance = 10f;
 
+    // Static variable to track global gate state
+    private static bool globalGateState;
+
     void Update()
     {
         RaycastHit hit;
@@ -28,6 +31,13 @@ public class LeverActions : MonoBehaviour
             leverOn.SetActive(leverState);
             leverOff.SetActive(!leverState);
             // Debug.Log(leverState);
+        }
+
+        // Check for global gate toggle
+        if (Input.GetKeyDown(KeyCode.L))
+        {
+            globalGateState = !globalGateState;
+            ToggleAllGates(globalGateState);
         }
     }
 
@@ -44,5 +54,11 @@ public class LeverActions : MonoBehaviour
         }
     }
 
-
+    private void ToggleAllGates(bool state)
+    {
+        foreach (var gate in gateControler)
+        {
+            gate.SetGateState(state);
+        }
+    }
 }
