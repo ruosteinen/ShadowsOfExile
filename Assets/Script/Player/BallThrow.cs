@@ -30,8 +30,7 @@ public class BallThrow : MonoBehaviour
 
     void Update()
     {
-        if (!PauseMenuSingleton.Instance.IsPaused && playStats.currentMana >= manaCost)
-        {
+        
             HandleBallSelection();
 
             if (Input.GetButtonDown("Fire1") && Time.time > lastFireTime + fireRate)
@@ -39,7 +38,7 @@ public class BallThrow : MonoBehaviour
                 Shoot();
                 lastFireTime = Time.time;
             }
-        }
+        
     }
 
     private void HandleBallSelection()

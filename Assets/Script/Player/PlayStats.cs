@@ -104,7 +104,6 @@ public class PlayStats : MonoBehaviour
         ManaBar.SetActive(false);
         CrystalManager.SetActive(false);
         Cross.SetActive(false);
-        PauseMenuSingleton.Instance.IsPaused = true;
         yield return new WaitForSeconds(1f);
         OnDeathAnimationFinished();
     }

@@ -145,12 +145,11 @@ public class PlayerQ3LikeController : MonoBehaviour
 
     private void Update()
     {
-        if (!PauseMenuSingleton.Instance.IsPaused)
-        {
+        
             xMouseSensitivity = PlayerPrefs.GetFloat("MouseSensitivity");
             yMouseSensitivity = PlayerPrefs.GetFloat("MouseSensitivity");
             if (Crosshair != null) Crosshair.gameObject.SetActive(true);
-        }
+        
         else
         {
             if (Crosshair != null) Crosshair.gameObject.SetActive(false);

@@ -27,7 +27,7 @@ public class Console : MonoBehaviour
             {
                 consoleInputField.ActivateInputField();
                 Time.timeScale = 0f;
-                PauseMenuSingleton.Instance.IsPaused = true;
+                
             }
         }
     }
@@ -89,6 +89,6 @@ public class Console : MonoBehaviour
         consoleInputField.text = "";
         consoleInputField.gameObject.SetActive(false);
         Time.timeScale = 1f;
-        PauseMenuSingleton.Instance.IsPaused = false;
+        
     }
 }

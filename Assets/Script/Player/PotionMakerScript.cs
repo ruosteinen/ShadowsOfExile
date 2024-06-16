@@ -38,7 +38,7 @@ public class PotionMakerScript : MonoBehaviour
                 }
                 Cursor.lockState = CursorLockMode.None;
                 Cursor.visible = true;
-                PauseMenuSingleton.Instance.IsPaused = true;
+                
             }
         }
         
@@ -63,7 +63,7 @@ public class PotionMakerScript : MonoBehaviour
     public void ClosePotionMaker()
     {
         isPotionMaking = false; 
-        PauseMenuSingleton.Instance.Resume();
+        
         potionMakerScreen.SetActive(false);   
     }
 
