@@ -13,6 +13,14 @@ public class DarkCrystalManager : MonoBehaviour
 
     public AudioSource ambientAudioSource; // Reference to the ambient audio source
     public AudioSource objectiveAchievedAudioSource; // Reference to the objective achieved audio source
+    public AudioSource winAudioSource; // Reference to the win audio source
+
+    public GameObject winGameObject; // Reference to the GameObject to activate when the crystal is destroyed
+    public GameObject cross;
+    public GameObject health;
+    public GameObject mana;
+    public GameObject crystalCanvas;
+    public GameObject potion;
 
     private void Start()
     {
@@ -26,6 +34,12 @@ public class DarkCrystalManager : MonoBehaviour
         if (ambientAudioSource != null)
         {
             ambientAudioSource.Play();
+        }
+
+        // Ensure the win GameObject is initially inactive
+        if (winGameObject != null)
+        {
+            winGameObject.SetActive(false);
         }
     }
 
@@ -62,23 +76,54 @@ public class DarkCrystalManager : MonoBehaviour
         {
             objectiveAchievedAudioSource.Play();
             Debug.Log("Objective achieved audio is playing.");
-            StartCoroutine(DestroyAfterSound());
         }
         else
         {
             Debug.LogError("Objective achieved audio source is null.");
-            Destroy(gameObject);
         }
 
         // Display the second message when the crystal is destroyed
         message1Text.text = "";
         message2Text.text = "More in the next update";
+
+        // Activate the win GameObject and play the win sound
+        if (winGameObject != null)
+        {
+            winGameObject.SetActive(true);
+            cross.SetActive(false);
+            health.SetActive(false);
+            mana.SetActive(false);
+            crystalCanvas.SetActive(false);
+            potion.SetActive(false);
+            Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = true;
+            if (winAudioSource != null)
+            {
+                winAudioSource.Play();
+            }
+            StartCoroutine(DestroyAfterSound());
+        }
+        else
+        {
+            Debug.LogError("Win GameObject is null.");
+            Destroy(gameObject);
+        }
     }
 
     private IEnumerator DestroyAfterSound()
     {
-        // Wait until the audio has finished playing
-        yield return new WaitForSeconds(objectiveAchievedAudioSource.clip.length);
+        // Wait until the longer of the objective achieved or win audio has finished playing
+        float maxDuration = 0f;
+        if (objectiveAchievedAudioSource != null)
+        {
+            maxDuration = Mathf.Max(maxDuration, objectiveAchievedAudioSource.clip.length);
+        }
+        if (winAudioSource != null)
+        {
+            maxDuration = Mathf.Max(maxDuration, winAudioSource.clip.length);
+        }
+
+        yield return new WaitForSeconds(maxDuration);
         Destroy(gameObject);
     }
 }
