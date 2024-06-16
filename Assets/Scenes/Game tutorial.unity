@@ -8981,7 +8981,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   fireFX: {fileID: 3191664991863909830, guid: b6ad7ce082bcfa859bbb80aea7f69a54, type: 3}
   smokeFX: {fileID: 0}
+  elapsedIgnitionTime: 0
   isOnFire: 0
+  wasExtinguished: 0
   materials: []
   colorChangeSpeed: 0.3
 --- !u!1 &612168746
@@ -13667,10 +13669,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 912034198}
-  - component: {fileID: 912034201}
-  - component: {fileID: 912034200}
   - component: {fileID: 912034199}
-  - component: {fileID: 912034202}
   m_Layer: 0
   m_Name: StaffPlace
   m_TagString: Untagged
@@ -13715,57 +13714,6 @@ MonoBehaviour:
   manaCost: 15
   maxDistance: 50
   damage: 20
---- !u!114 &912034200
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 912034197}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cc99f79d6ec8dfa4f82af5fd97341d65, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &912034201
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 912034197}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0c70182f970063b43bf259edd78abd4c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  projectilePrefabLeft: {fileID: 8538030192118307365, guid: ead42e4c64760e14babde372758ee248,
-    type: 3}
-  projectilePrefabRight: {fileID: 5892622199663401342, guid: 7cac252ce1c56d140856e06b7ed34cf0,
-    type: 3}
-  shootForce: 20
-  manaCostLeft: 10
-  manaCostRight: 15
-  playerStats: {fileID: 1662347297}
---- !u!114 &912034202
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 912034197}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4b6efd9e8bb9b1b41a2faacfffd3f2c1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  cam: {fileID: 1235014257}
-  attackPoint: {fileID: 912034198}
-  projectilePrefab: {fileID: 2819493175751797466, guid: 24cab018887689247a170a80b048fa15,
-    type: 3}
-  shootForce: 50
-  shootKey: 323
-  shootCooldown: 1
 --- !u!1 &915845549
 GameObject:
   m_ObjectHideFlags: 0
@@ -15730,7 +15678,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   fireFX: {fileID: 760154061}
   smokeFX: {fileID: 0}
+  elapsedIgnitionTime: 0
   isOnFire: 0
+  wasExtinguished: 0
   materials:
   - {fileID: 2100000, guid: 2cb987137b739894682ccea9106cd69b, type: 2}
   colorChangeSpeed: 0.3
@@ -16673,7 +16623,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   fireFX: {fileID: 3191664991863909830, guid: b6ad7ce082bcfa859bbb80aea7f69a54, type: 3}
   smokeFX: {fileID: 0}
+  elapsedIgnitionTime: 0
   isOnFire: 0
+  wasExtinguished: 0
   materials: []
   colorChangeSpeed: 0.3
 --- !u!1001 &1138038955
@@ -21275,7 +21227,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   fireFX: {fileID: 3191664991863909830, guid: b6ad7ce082bcfa859bbb80aea7f69a54, type: 3}
   smokeFX: {fileID: 0}
+  elapsedIgnitionTime: 0
   isOnFire: 0
+  wasExtinguished: 0
   materials: []
   colorChangeSpeed: 0.3
 --- !u!1 &1351545119
@@ -22424,7 +22378,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   fireFX: {fileID: 3191664991863909830, guid: b6ad7ce082bcfa859bbb80aea7f69a54, type: 3}
   smokeFX: {fileID: 0}
+  elapsedIgnitionTime: 0
   isOnFire: 0
+  wasExtinguished: 0
   materials: []
   colorChangeSpeed: 0.3
 --- !u!1001 &1435550375
@@ -23950,7 +23906,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   fireFX: {fileID: 125406364}
   smokeFX: {fileID: 773920174}
+  elapsedIgnitionTime: 0
   isOnFire: 0
+  wasExtinguished: 0
   materials:
   - {fileID: 2100000, guid: 2cb987137b739894682ccea9106cd69b, type: 2}
   colorChangeSpeed: 0.3
@@ -24705,7 +24663,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   fireFX: {fileID: 3191664991863909830, guid: b6ad7ce082bcfa859bbb80aea7f69a54, type: 3}
   smokeFX: {fileID: 0}
+  elapsedIgnitionTime: 0
   isOnFire: 0
+  wasExtinguished: 0
   materials: []
   colorChangeSpeed: 0.3
 --- !u!1 &1589311590
@@ -26518,14 +26478,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0c70182f970063b43bf259edd78abd4c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  projectilePrefabLeft: {fileID: 8538030192118307365, guid: ead42e4c64760e14babde372758ee248,
-    type: 3}
-  projectilePrefabRight: {fileID: 5480537916082031540, guid: 1357f1175594246468b2ad7e37f1ad11,
-    type: 3}
-  shootForce: 10
-  manaCostLeft: 10
-  manaCostRight: 20
-  playerStats: {fileID: 1662347297}
 --- !u!114 &1662347297
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -26565,15 +26517,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dd2290d782e437d4e94f2018488d7bed, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  controller: {fileID: 1662347299}
-  speed: 10
-  gravity: -20
-  jumpHeight: 1
-  groundCheck: {fileID: 55587531}
-  groundDistance: 0.4
-  groundMask:
-    serializedVersion: 2
-    m_Bits: 0
 --- !u!143 &1662347299
 CharacterController:
   m_ObjectHideFlags: 0
@@ -28724,7 +28667,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   fireFX: {fileID: 3191664991863909830, guid: b6ad7ce082bcfa859bbb80aea7f69a54, type: 3}
   smokeFX: {fileID: 0}
+  elapsedIgnitionTime: 0
   isOnFire: 0
+  wasExtinguished: 0
   materials: []
   colorChangeSpeed: 0.3
 --- !u!1 &1812101515
@@ -29465,7 +29410,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   fireFX: {fileID: 3191664991863909830, guid: b6ad7ce082bcfa859bbb80aea7f69a54, type: 3}
   smokeFX: {fileID: 0}
+  elapsedIgnitionTime: 0
   isOnFire: 0
+  wasExtinguished: 0
   materials: []
   colorChangeSpeed: 0.3
 --- !u!1001 &1842149384
@@ -30020,7 +29967,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   fireFX: {fileID: 3191664991863909830, guid: b6ad7ce082bcfa859bbb80aea7f69a54, type: 3}
   smokeFX: {fileID: 0}
+  elapsedIgnitionTime: 0
   isOnFire: 0
+  wasExtinguished: 0
   materials: []
   colorChangeSpeed: 0.3
 --- !u!1 &1892087020 stripped
@@ -33487,7 +33436,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   fireFX: {fileID: 3191664991863909830, guid: b6ad7ce082bcfa859bbb80aea7f69a54, type: 3}
   smokeFX: {fileID: 0}
+  elapsedIgnitionTime: 0
   isOnFire: 0
+  wasExtinguished: 0
   materials: []
   colorChangeSpeed: 0.3
 --- !u!1 &2086683946
