@@ -36,18 +36,6 @@ public class SpellShooting : MonoBehaviour
             Vector3 shootDirection = playerCamera.transform.forward.normalized;
             rb.AddForce(shootDirection * bulletVelocity, ForceMode.Impulse);
 
-            WaterBall waterBall = bullet.GetComponent<WaterBall>();
-            if (waterBall != null)
-            {
-                waterBall.maxDistance = maxDistance;
-                waterBall.damage = damage;
-                waterBall.Initialize(bulletSpawn.position);
-            }
-            else
-            {
-                Debug.LogError("The bullet prefab does not have a WaterBall component.");
-            }
-
             StartCoroutine(DestroyBulletAfterTime(bullet, bulletPrefabLifeTime));
         }
         else

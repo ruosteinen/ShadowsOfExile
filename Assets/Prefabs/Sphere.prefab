@@ -12,9 +12,7 @@ GameObject:
   - component: {fileID: 6811514117211777328}
   - component: {fileID: 6494788655535744152}
   - component: {fileID: 8391012919245898909}
-  - component: {fileID: 1797347028723956647}
   - component: {fileID: -1812361267834911656}
-  - component: {fileID: -4313952722496019845}
   - component: {fileID: 6798283523580394573}
   m_Layer: 0
   m_Name: Sphere
@@ -109,20 +107,6 @@ SphereCollider:
   serializedVersion: 3
   m_Radius: 0.5
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &1797347028723956647
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2819493175751797466}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3c6c9fa5aa5159550b3fe8df248271ce, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  maxDistance: 60
-  damage: 20
 --- !u!54 &-1812361267834911656
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -150,18 +134,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 112
   m_CollisionDetection: 0
---- !u!114 &-4313952722496019845
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2819493175751797466}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cc99f79d6ec8dfa4f82af5fd97341d65, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &6798283523580394573
 MonoBehaviour:
   m_ObjectHideFlags: 0

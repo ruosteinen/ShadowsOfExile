@@ -24,23 +24,6 @@ public class PotionMakerScript : MonoBehaviour
 
     private void Update()
     {
-        if (playerInRange)
-        {
-            if (Input.GetKeyDown(KeyCode.U))
-            {
-                isPotionMaking = true;
-                potionMakerScreen.SetActive(true);
-                Time.timeScale = 0f;
-                PlayerQ3LikeController playerController = FindObjectOfType<PlayerQ3LikeController>();
-                if (playerController != null && playerController.Crosshair != null)
-                {
-                    playerController.Crosshair.gameObject.SetActive(false);
-                }
-                Cursor.lockState = CursorLockMode.None;
-                Cursor.visible = true;
-                
-            }
-        }
         
         LootHandler lootHandler = FindObjectOfType<LootHandler>();
 

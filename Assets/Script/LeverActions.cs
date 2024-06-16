@@ -43,4 +43,6 @@ public class LeverActions : MonoBehaviour
             gateControler[i].CheckLeversState();
         }
     }
+
+
 }
