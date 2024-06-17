@@ -14,20 +14,20 @@ public class GateControler : MonoBehaviour
     [Header("Deactivated Levers")]
     [SerializeField] private List<GameObject> deactivatedLevers = new List<GameObject>();
 
+    private AudioSource audioSource;
+
     // Start is called before the first frame update
     void Start()
     {
         firstPos = GetComponentInChildren<Transform>().position;
         nextPos = new Vector3(firstPos.x, firstPos.y - 3, firstPos.z);
+        audioSource = GetComponent<AudioSource>();
         CheckLeversState();
     }
 
     // Update is called once per frame
     void Update()
     {
-        //Debug.Log(gateState);
-        //Debug.Log(firstPos);
-        //Debug.Log(nextPos);
         if (gateState)
         {
             var current = Vector3.MoveTowards(transform.position, nextPos, 5 * Time.deltaTime);
@@ -45,7 +45,7 @@ public class GateControler : MonoBehaviour
         bool actvLever = true;
         bool deactvLever = false;
 
-        //Check if all the levers that need to be activated are
+        // Check if all the levers that need to be activated are
         foreach (GameObject lever in activatedLevers)
         {
             if (lever.GetComponent<LeverActions>().GetLeverState() != true)
@@ -54,7 +54,7 @@ public class GateControler : MonoBehaviour
             }
         }
 
-        //Check if all the levers that need to be deactivated are
+        // Check if all the levers that need to be deactivated are
         foreach (GameObject lever in deactivatedLevers)
         {
             if (lever.GetComponent<LeverActions>().GetLeverState() != false)
@@ -63,15 +63,13 @@ public class GateControler : MonoBehaviour
             }
         }
 
-        if (actvLever && !deactvLever)
+        bool newGateState = actvLever && !deactvLever;
+
+        // Play sound only if gate state has changed
+        if (newGateState != gateState)
         {
-            gateState = true;
-            gameObject.GetComponent<AudioSource>().Play();
-        }
-        else
-        {
-            gateState = false;
-            gameObject.GetComponent<AudioSource>().Play();
+            gateState = newGateState;
+            audioSource.Play();
         }
     }
 

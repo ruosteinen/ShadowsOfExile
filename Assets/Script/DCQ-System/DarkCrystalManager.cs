@@ -21,6 +21,7 @@ public class DarkCrystalManager : MonoBehaviour
     public GameObject mana;
     public GameObject crystalCanvas;
     public GameObject potion;
+    public GameObject background;
 
     private void Start()
     {
@@ -97,6 +98,7 @@ public class DarkCrystalManager : MonoBehaviour
             potion.SetActive(false);
             Cursor.lockState = CursorLockMode.None;
             Cursor.visible = true;
+            background.SetActive(false);
             if (winAudioSource != null)
             {
                 winAudioSource.Play();

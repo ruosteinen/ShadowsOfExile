@@ -8,6 +8,7 @@ public class PauseMenu : MonoBehaviour
     public static bool GameIsPaused = false;
     public GameObject pauseMenuUI;
     public MouseView mouseView; // Reference to the MouseView script
+    public SpellShooting playerShooting; // Reference to the PlayerShooting script
     public GameObject crosshairUI;
     public GameObject healthUI;
     public GameObject manaUI;
@@ -35,6 +36,7 @@ public class PauseMenu : MonoBehaviour
         Time.timeScale = 1f;
         GameIsPaused = false;
         mouseView.enabled = true; // Enable camera movement
+        playerShooting.enabled = true; // Enable shooting
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
         crosshairUI.SetActive(true);
@@ -44,12 +46,20 @@ public class PauseMenu : MonoBehaviour
         potionUI.SetActive(true);
     }
 
+    public void Restart()
+    {
+        // Assuming Restart should reset the scene
+        Time.timeScale = 1f;
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+    }
+
     void Pause()
     {
         pauseMenuUI.SetActive(true);
         Time.timeScale = 0f;
         GameIsPaused = true;
         mouseView.enabled = false; // Disable camera movement
+        playerShooting.enabled = false; // Disable shooting
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
         crosshairUI.SetActive(false);

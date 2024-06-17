@@ -14,6 +14,8 @@ public class FPSController : MonoBehaviour
 
     public float lookSpeed = 2f;
     public float lookXLimit = 45f;
+    public AudioSource walkSound;
+    public AudioSource jumpSound;
 
     Vector3 moveDirection = Vector3.zero;
     float rotationX = 0;
@@ -36,7 +38,6 @@ public class FPSController : MonoBehaviour
         #region Handles Movement
         Vector3 forward = transform.TransformDirection(Vector3.forward);
         Vector3 right = transform.TransformDirection(Vector3.right);
-
         // Press Left SHift to run
         bool isRunning = Input.GetKey(KeyCode.LeftShift);
         float curSpeedX = canMove ? (isRunning ? runSpeed : walkSpeed) * Input.GetAxis("Vertical") : 0;
@@ -44,12 +45,28 @@ public class FPSController : MonoBehaviour
         float movementDirectionY = moveDirection.y;
         moveDirection = (forward * curSpeedX) + (right * curSpeedY);
 
+        if (canMove && characterController.isGrounded && (curSpeedX != 0 || curSpeedY != 0))
+        {
+            if (!walkSound.isPlaying)
+            {
+                walkSound.Play();
+            }
+        }
+        else
+        {
+            walkSound.Stop();
+        }
+
         #endregion
 
         #region Handles Jumping
         if (Input.GetButton("Jump") && canMove && characterController.isGrounded)
         {
             moveDirection.y = jumpPower;
+            if (jumpSound != null)
+            {
+                jumpSound.Play();
+            }
         }
         else
         {

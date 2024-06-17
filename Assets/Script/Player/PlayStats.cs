@@ -24,6 +24,10 @@ public class PlayStats : MonoBehaviour
     public GameObject ManaBar;
     public GameObject CrystalManager;
     public GameObject Cross;
+    public GameObject potion;
+    public MouseView mouseView;
+
+    public bool isAlive = true; // Add this line
 
     void Start()
     {
@@ -95,8 +99,13 @@ public class PlayStats : MonoBehaviour
     }
 
     private void UpdateManaText() => manaValue.text = $"{(int)currentMana} / {(int)maxMana}";
-    private void Die() => StartCoroutine(DeathCoroutine());
-    
+
+    private void Die()
+    {
+        isAlive = false; // Set isAlive to false
+        StartCoroutine(DeathCoroutine());
+    }
+
     private IEnumerator DeathCoroutine()
     {
         GameOverScreen.SetActive(true);
@@ -106,8 +115,12 @@ public class PlayStats : MonoBehaviour
         Cross.SetActive(false);
         yield return new WaitForSeconds(1f);
         OnDeathAnimationFinished();
+        potion.SetActive(false);
+        mouseView.enabled = false;
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
     }
-    
+
     public void OnDeathAnimationFinished()
     {
         Cursor.lockState = CursorLockMode.None;

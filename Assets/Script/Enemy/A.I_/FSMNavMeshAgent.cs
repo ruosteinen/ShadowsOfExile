@@ -9,6 +9,7 @@ public class FSMNavMeshAgent : MonoBehaviour
     private HealthSystem healthSystem;
 
     private Animator animator;
+    public AudioSource swordSound;
 
     public Transform[] patrolWaypoints;
     public Transform target;
