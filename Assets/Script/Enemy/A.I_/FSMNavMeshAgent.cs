@@ -203,6 +203,7 @@ public class FSMNavMeshAgent : MonoBehaviour
                     DealMeleeDamage();
                     lastMeleeTime = Time.time;
                     animator.SetTrigger("Attack");
+                    gameObject.GetComponent<AudioSource>().Play();
                 }
             }
         }

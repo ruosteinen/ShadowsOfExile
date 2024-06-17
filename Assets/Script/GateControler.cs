@@ -66,12 +66,12 @@ public class GateControler : MonoBehaviour
         if (actvLever && !deactvLever)
         {
             gateState = true;
-            //gameObject.GetComponent<AudioSource>().Play();
+            gameObject.GetComponent<AudioSource>().Play();
         }
         else
         {
             gateState = false;
-            //gameObject.GetComponent<AudioSource>().Play();
+            gameObject.GetComponent<AudioSource>().Play();
         }
     }
 
