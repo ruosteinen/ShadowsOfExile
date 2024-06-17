@@ -24,7 +24,7 @@ public class FSMNavMeshAgent : MonoBehaviour
     public int health = 100;
     public float tdcHealthHolder;
 
-    private int meleeDamage = -20;
+    private int meleeDamage = -10;
     public int contactDamage = 10; 
     public int meleeTimeInterval = 2;
     private bool doMeleeBool = false;
@@ -199,6 +199,7 @@ public class FSMNavMeshAgent : MonoBehaviour
             {
                 if (hit.collider.CompareTag("Player"))
                 {
+                    Debug.Log("hit");
                     DealMeleeDamage();
                     lastMeleeTime = Time.time;
                     animator.SetTrigger("Attack");

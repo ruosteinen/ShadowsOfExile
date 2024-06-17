@@ -102,6 +102,16 @@ PrefabInstance:
       propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7076410989971673595, guid: 8303ecc284049144182724ccba8181bd,
+        type: 3}
+      propertyPath: meleeCooldown
+      value: 2.7
+      objectReference: {fileID: 0}
+    - target: {fileID: 7076410989971673595, guid: 8303ecc284049144182724ccba8181bd,
+        type: 3}
+      propertyPath: meleeDistanceThreshold
+      value: 4
+      objectReference: {fileID: 0}
     - target: {fileID: 7488854860131220065, guid: 8303ecc284049144182724ccba8181bd,
         type: 3}
       propertyPath: m_Radius

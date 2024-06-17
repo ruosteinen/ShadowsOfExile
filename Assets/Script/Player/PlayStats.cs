@@ -24,7 +24,6 @@ public class PlayStats : MonoBehaviour
     public GameObject ManaBar;
     public GameObject CrystalManager;
     public GameObject Cross;
-    private Animator animator;
 
     void Start()
     {
@@ -34,7 +33,6 @@ public class PlayStats : MonoBehaviour
         UpdateManaText();
         healthBar.SetSliderMax(maxHealth);
         manaBar.SetSliderMax(maxMana);
-        animator = GetComponent<Animator>();
     }
 
     void Update()
@@ -65,7 +63,6 @@ public class PlayStats : MonoBehaviour
         currentHealth += (amount - defense);
         healthBar.SetSlider(currentHealth);
         UpdateHealthText();
-        animator.SetTrigger("TakeDamage");
 
         if (currentHealth <= 0) Die();
     }
@@ -102,7 +99,6 @@ public class PlayStats : MonoBehaviour
     
     private IEnumerator DeathCoroutine()
     {
-        animator.SetTrigger("Deth");
         GameOverScreen.SetActive(true);
         HealthBar.SetActive(false);
         ManaBar.SetActive(false);

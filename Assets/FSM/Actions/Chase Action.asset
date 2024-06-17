@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 495937e3b170b85469cbfae62a97e3c1, type: 3}
   m_Name: Chase Action
   m_EditorClassIdentifier: 
-  meleeStoppingDistance: 1
+  meleeStoppingDistance: 0.5
   rangedStoppingDistance: 10
